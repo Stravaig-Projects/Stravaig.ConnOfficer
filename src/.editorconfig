@@ -145,6 +145,10 @@ dotnet_diagnostic.ide0020.severity = suggestion
 dotnet_diagnostic.ide0038.severity = suggestion
 dotnet_diagnostic.ide0044.severity = warning
 
+dotnet_diagnostic.sa0001.severity = silent # XML comment analysis
+dotnet_diagnostic.sa1101.severity = silent # Prefix local calls with this
+dotnet_diagnostic.sa1633.severity = silent # File header
+
 ###############################
 # C# Coding Conventions       #
 ###############################
