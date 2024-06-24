@@ -26,9 +26,14 @@
                         </Image.Source>
                     </Image>
                     <TextBlock Grid.Column="1"
+                               TextTrimming="CharacterEllipsis"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
-                               Text="{Binding Name}" />
+                               Text="{Binding Name}">
+                        <ToolTip.Tip>
+                            <TextBlock Text="{Binding Name}"/>
+                        </ToolTip.Tip>
+                    </TextBlock>
                 </Grid>
             </TreeDataTemplate>
         </TreeView.ItemTemplate>

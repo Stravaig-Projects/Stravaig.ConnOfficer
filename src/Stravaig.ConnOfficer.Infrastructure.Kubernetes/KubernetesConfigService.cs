@@ -14,13 +14,13 @@ public class KubernetesConfigService : IKubernetesConfigService
         WriteIndented = true,
     };
 
-    public async Task<string[]> GetDefaultKubernetesConfigAsync(CancellationToken ct)
+    public async Task<KubernetesConfigData> GetDefaultKubernetesConfigAsync(CancellationToken ct)
     {
         var configFilePath = KubernetesClientConfiguration.KubeConfigDefaultLocation;
         return await GetKubernetesConfigAsync(configFilePath, ct);
     }
 
-    public async Task<string[]> GetKubernetesConfigAsync(string configFilePath, CancellationToken ct)
+    public async Task<KubernetesConfigData> GetKubernetesConfigAsync(string configFilePath, CancellationToken ct)
     {
         var configFileContent = await File.ReadAllTextAsync(configFilePath, ct);
 
@@ -32,6 +32,6 @@ public class KubernetesConfigService : IKubernetesConfigService
         var json = JsonSerializer.Serialize(config, JsonOptions);
         Trace.WriteLine(json);
 
-        return config.Contexts.Select(c => c.Name).ToArray();
+        return config.ToDomain(configFilePath);
     }
 }

@@ -3,6 +3,7 @@ using ReactiveUI;
 using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Concurrency;
 using System.Threading;
 
@@ -28,15 +29,20 @@ public class SideBarViewModel : ViewModelBase
     {
         var info = await _mediator.Send(new GetKubernetesInfoQuery(), CancellationToken.None);
         Nodes.Clear();
-        foreach (var context in info.Contexts)
+        Nodes.Add(new SideBarNode()
         {
-            Nodes.Add(new SideBarNode()
-            {
-                Name = context,
-                Type = "Context",
-                Icon = "context-icon",
-                LoadedSubNodes = false,
-            });
-        }
+            Name = info.ConfigPath,
+            Icon = "config-icon",
+            Type = "Config",
+            LoadedSubNodes = true,
+            SubNodes = new ObservableCollection<SideBarNode>(
+                info.Contexts.Select(c => new SideBarNode()
+                {
+                    Name = c.Name,
+                    Type = "Context",
+                    Icon = "context-icon",
+                    LoadedSubNodes = false,
+                })),
+        });
     }
 }
