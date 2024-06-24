@@ -3,38 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Stravaig.ConnOfficer.ViewModels"
+             xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Stravaig.ConnOfficer.Views.SideBarView"
              x:DataType="vm:SideBarViewModel">
 
-    <!-- <TextBlock VerticalAlignment="Center" -->
-    <!--            HorizontalAlignment="Center" -->
-    <!--            Text="{Binding Message}"/> -->
     <TreeView Margin="10"
               ItemsSource="{Binding Nodes}"
               SelectedItems="{Binding SelectedNode}"
               SelectionMode="Single">
         <TreeView.ItemTemplate>
             <TreeDataTemplate ItemsSource="{Binding SubNodes}">
-                <Grid ColumnDefinitions="24 *">
-                    <Image Grid.Column="0"
-                           Margin="0 0 10 0"
-                           Width="24"
-                           Height="24">
-                        <Image.Source>
-                            <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/cluster-icon.svg"/>
-                        </Image.Source>
-                    </Image>
-                    <TextBlock Grid.Column="1"
-                               TextTrimming="CharacterEllipsis"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Text="{Binding Name}">
-                        <ToolTip.Tip>
-                            <TextBlock Text="{Binding Name}"/>
-                        </ToolTip.Tip>
-                    </TextBlock>
-                </Grid>
+                <views:SideBarNodeView />
             </TreeDataTemplate>
         </TreeView.ItemTemplate>
     </TreeView>

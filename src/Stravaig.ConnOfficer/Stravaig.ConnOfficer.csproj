@@ -10,8 +10,6 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**"/>
-    <None Remove="Assets\Icons\cluster-icon.svg" />
-    <AvaloniaResource Include="Assets\Icons\cluster-icon.svg" />
   </ItemGroup>
 
   <ItemGroup>

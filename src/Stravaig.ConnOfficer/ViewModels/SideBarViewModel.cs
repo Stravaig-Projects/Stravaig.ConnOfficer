@@ -21,27 +21,35 @@ public class SideBarViewModel : ViewModelBase
 
     public string Message => "This is the ViewModel's message.";
 
-    public ObservableCollection<SideBarNode> Nodes { get; } = [];
+    public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 
-    public SideBarNode? SelectedNode { get; set; }
+    public SideBarNodeViewModel? SelectedNode { get; set; }
 
     public async void LoadContexts()
     {
         var info = await _mediator.Send(new GetKubernetesInfoQuery(), CancellationToken.None);
         Nodes.Clear();
-        Nodes.Add(new SideBarNode()
+        Nodes.Add(new SideBarNodeViewModel()
         {
             Name = info.ConfigPath,
-            Icon = "config-icon",
-            Type = "Config",
+            NodeType = SideBarNodeType.Config,
             LoadedSubNodes = true,
-            SubNodes = new ObservableCollection<SideBarNode>(
-                info.Contexts.Select(c => new SideBarNode()
+            SubNodes = new ObservableCollection<SideBarNodeViewModel>(
+                info.Contexts.Select(c => new SideBarNodeViewModel()
                 {
                     Name = c.Name,
-                    Type = "Context",
-                    Icon = "context-icon",
+                    NodeType = SideBarNodeType.Context,
                     LoadedSubNodes = false,
+                    SubNodes = new ObservableCollection<SideBarNodeViewModel>(
+                    [
+                        new SideBarNodeViewModel()
+                        {
+                            Name = "... loading ...",
+                            NodeType = SideBarNodeType.Namespace,
+                            IsPlaceholder = true,
+                            LoadedSubNodes = false,
+                        },
+                    ]),
                 })),
         });
     }

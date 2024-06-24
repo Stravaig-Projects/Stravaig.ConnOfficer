@@ -22,10 +22,6 @@
 
         <SplitView IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="300">
             <SplitView.Pane>
-                <!-- <TextBlock Grid.Row="1" -->
-                <!--            Text="This is the Side bar" -->
-                <!--            VerticalAlignment="Center" -->
-                <!--            HorizontalAlignment="Center" /> -->
                 <views:SideBarView DataContext="{Binding SideBar}" />
             </SplitView.Pane>
             <Grid RowDefinitions="32 *">
