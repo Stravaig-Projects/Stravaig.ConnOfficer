@@ -27,7 +27,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__Linting", "__Linting", "{D8AE1190-EA24-40DD-9E9D-903EA4F1B2A9}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		..\.gitattributes = ..\.gitattributes
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stravaig.ConnOfficer.Infrastructure.Kubernetes", "Stravaig.ConnOfficer.Infrastructure.Kubernetes\Stravaig.ConnOfficer.Infrastructure.Kubernetes.csproj", "{3D00357D-1CAF-4243-951C-7569FFC25896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stravaig.ConnOfficer.Domain", "Stravaig.ConnOfficer.Domain\Stravaig.ConnOfficer.Domain.csproj", "{49508DBF-7554-4EC9-8CDA-5AB7008FC847}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
@@ -41,6 +46,14 @@ Global
 		{17E3D713-A158-4500-BA1E-E79F19D44524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17E3D713-A158-4500-BA1E-E79F19D44524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17E3D713-A158-4500-BA1E-E79F19D44524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D00357D-1CAF-4243-951C-7569FFC25896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D00357D-1CAF-4243-951C-7569FFC25896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D00357D-1CAF-4243-951C-7569FFC25896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D00357D-1CAF-4243-951C-7569FFC25896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49508DBF-7554-4EC9-8CDA-5AB7008FC847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49508DBF-7554-4EC9-8CDA-5AB7008FC847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49508DBF-7554-4EC9-8CDA-5AB7008FC847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49508DBF-7554-4EC9-8CDA-5AB7008FC847}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

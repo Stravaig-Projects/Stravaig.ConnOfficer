@@ -3,6 +3,8 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="Stravaig.ConnOfficer/App.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/MainWindow.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/SideBarView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
       </map>
     </option>
