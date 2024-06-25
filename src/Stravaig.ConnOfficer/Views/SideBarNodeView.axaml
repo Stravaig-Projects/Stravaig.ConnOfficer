@@ -21,11 +21,22 @@
                    TextTrimming="CharacterEllipsis"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"
-                   Text="{Binding Name}">
+                   Text="{Binding Name}"
+                   IsVisible="{Binding !IsPlaceholder}">
             <ToolTip.Tip>
                 <TextBlock Text="{Binding Name}"/>
             </ToolTip.Tip>
         </TextBlock>
+        <ProgressBar Grid.Column="1"
+                     IsIndeterminate="True"
+                     Height="16"
+                     VerticalAlignment="Center"
+                     Width="100"
+                     IsVisible="{Binding IsPlaceholder}">
+            <ToolTip.Tip>
+                <TextBlock Text="Loading..."/>
+            </ToolTip.Tip>
+        </ProgressBar>
     </Grid>
     
 </UserControl>

@@ -1,5 +1,6 @@
 using MediatR;
 using ReactiveUI;
+using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
@@ -11,23 +12,21 @@ namespace Stravaig.ConnOfficer.ViewModels;
 
 public class SideBarViewModel : ViewModelBase
 {
-    private readonly IMediator _mediator;
+    private readonly ApplicationState _appState;
 
-    public SideBarViewModel(IMediator mediator)
+    public SideBarViewModel(ApplicationState appState)
     {
-        _mediator = mediator;
+        _appState = appState;
         RxApp.MainThreadScheduler.Schedule(LoadContexts);
     }
-
-    public string Message => "This is the ViewModel's message.";
 
     public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 
     public SideBarNodeViewModel? SelectedNode { get; set; }
 
-    public async void LoadContexts()
+    private async void LoadContexts()
     {
-        var info = await _mediator.Send(new GetKubernetesInfoQuery(), CancellationToken.None);
+        var info = await _appState.GetConfigDataAsync(CancellationToken.None);
         Nodes.Clear();
         Nodes.Add(new SideBarNodeViewModel()
         {

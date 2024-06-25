@@ -26,6 +26,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Stravaig.ConnOfficer.Domain\Stravaig.ConnOfficer.Domain.csproj"/>
-    <ProjectReference Include="..\Stravaig.ConnOfficer.Infrastructure.Kubernetes\Stravaig.ConnOfficer.Infrastructure.Kubernetes.csproj" />
   </ItemGroup>
 </Project>

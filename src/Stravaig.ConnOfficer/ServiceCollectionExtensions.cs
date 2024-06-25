@@ -1,7 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Domain.Ports.Kubernetes;
 using Stravaig.ConnOfficer.Domain.Queries;
-using Stravaig.ConnOfficer.Infrastructure;
+using Stravaig.ConnOfficer.Domain.Services;
 using Stravaig.ConnOfficer.ViewModels;
 
 namespace Stravaig.ConnOfficer;
@@ -12,7 +13,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<SideBarViewModel>();
-        services.AddTransient<IKubernetesConfigService, KubernetesConfigService>();
+        services.AddSingleton<IKubernetestClientFactory, KubernetesClientFactory>();
+        services.AddSingleton<ApplicationState>();
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblyContaining<GetKubernetesInfoQueryHandler>();
