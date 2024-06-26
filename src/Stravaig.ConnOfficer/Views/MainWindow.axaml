@@ -25,7 +25,9 @@
                 <views:SideBarView DataContext="{Binding SideBar}" />
             </SplitView.Pane>
             <Grid RowDefinitions="32 *">
-                <Panel DockPanel.Dock="Top" Height="32" />
+                <Panel Height="32">
+                    <views:BreadcrumbsView DataContext="{Binding Breadcrumbs}"/>
+                </Panel>
                 <TextBlock Grid.Row="1" Text="This is the main view" VerticalAlignment="Center"
                            HorizontalAlignment="Center" />
             </Grid>

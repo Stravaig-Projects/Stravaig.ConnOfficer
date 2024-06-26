@@ -39,7 +39,6 @@ public class GetKubernetesPodsHandler : IRequestHandler<GetKubernetesPodsQuery, 
     {
         var client = await _clientFactory.GetClientAsync(request.Config, request.Context, ct);
         var pods = await client.ListAsync<V1Pod>(@namespace: request.NamespaceName, cancellationToken: ct);
-//        var pods = client.List<V1Pod>(request.NamespaceName);
 
         pods.WriteTrace($"Pods for {request.Config}::{request.Context}::{request.NamespaceName}");
 

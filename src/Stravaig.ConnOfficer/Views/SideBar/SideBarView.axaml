@@ -2,17 +2,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:Stravaig.ConnOfficer.ViewModels"
              xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
-             xmlns:sideBar="clr-namespace:Stravaig.ConnOfficer.ViewModels.SideBar"
+             xmlns:vm="clr-namespace:Stravaig.ConnOfficer.ViewModels.SideBar"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Stravaig.ConnOfficer.Views.SideBarView"
-             x:DataType="sideBar:SideBarViewModel">
+             x:DataType="vm:SideBarViewModel">
 
     <TreeView Margin="10"
               Name="SideBarTree"
               ItemsSource="{Binding Nodes}"
-              SelectedItems="{Binding SelectedNode}"
+              SelectedItem="{Binding SelectedNode}"
               SelectionMode="Single">
         <!-- <TreeView.Styles> -->
         <!--     <Style Selector="TreeViewItem"> -->

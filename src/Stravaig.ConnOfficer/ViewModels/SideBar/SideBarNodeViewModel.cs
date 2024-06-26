@@ -3,6 +3,7 @@ using ReactiveUI;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -13,9 +14,40 @@ namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 public class SideBarNodeViewModel : ViewModelBase
 {
     private bool _isExpanded;
+    private readonly ObservableCollection<SideBarNodeViewModel> _subNodes = new();
 
+    public SideBarNodeViewModel()
+    {
+        _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
+    }
 
-    public ObservableCollection<SideBarNodeViewModel> SubNodes { get; set; } = new();
+    private void SubNodesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        foreach (var oldItem in e.OldItems?.Cast<SideBarNodeViewModel>() ?? [])
+        {
+            oldItem.Parent = null;
+        }
+
+        foreach (var newItem in e.NewItems?.Cast<SideBarNodeViewModel>() ?? [])
+        {
+            newItem.Parent = this;
+        }
+    }
+
+    public ObservableCollection<SideBarNodeViewModel> SubNodes
+    {
+        get => _subNodes;
+        init
+        {
+            _subNodes = value;
+            foreach (var item in _subNodes)
+            {
+                item.Parent = this;
+            }
+
+            _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
+        }
+    }
 
     public required string Name { get; init; }
 
@@ -46,6 +78,8 @@ public class SideBarNodeViewModel : ViewModelBase
             }
         }
     }
+
+    public SideBarNodeViewModel? Parent { get; private set; }
 
     private async void ExpandNode()
     {
@@ -110,7 +144,7 @@ public class SideBarNodeViewModel : ViewModelBase
             };
             podsNode.SubNodes.Add(new SideBarNodeViewModel()
             {
-                Name = "Pod", NodeType = SideBarNodeType.Pod, IsPlaceholder = true,
+                Name = "... loading ...", NodeType = SideBarNodeType.Pod, IsPlaceholder = true,
             });
             namespaceNode.SubNodes.Add(podsNode);
             SubNodes.Add(namespaceNode);

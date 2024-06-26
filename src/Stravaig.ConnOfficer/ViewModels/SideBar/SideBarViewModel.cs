@@ -2,6 +2,7 @@ using ReactiveUI;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Threading;
@@ -10,7 +11,13 @@ namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 
 public class SideBarViewModel : ViewModelBase
 {
+
     private readonly ApplicationState _appState;
+    private SideBarNodeViewModel? _selectedNode;
+
+    public delegate void TreeNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
+
+    public event TreeNodeSelectedHandler SelectedTreeNodeChanged;
 
     public SideBarViewModel(ApplicationState appState)
     {
@@ -20,7 +27,16 @@ public class SideBarViewModel : ViewModelBase
 
     public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 
-    public SideBarNodeViewModel? SelectedNode { get; set; }
+    public SideBarNodeViewModel? SelectedNode
+    {
+        get => _selectedNode;
+        set
+        {
+            Trace.WriteLine($"Selected node {value?.Name}.");
+            this.RaiseAndSetIfChanged(ref _selectedNode, value);
+            SelectedTreeNodeChanged?.Invoke(_selectedNode);
+        }
+    }
 
     private async void LoadContexts()
     {

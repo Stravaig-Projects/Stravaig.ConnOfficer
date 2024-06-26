@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<MainWindowViewModel>();
         services.AddTransient<SideBarViewModel>();
+        services.AddTransient<BreadcrumbsViewModel>();
         services.AddSingleton<IKubernetestClientFactory, KubernetesClientFactory>();
         services.AddSingleton<ApplicationState>();
         services.AddMediatR(cfg =>
