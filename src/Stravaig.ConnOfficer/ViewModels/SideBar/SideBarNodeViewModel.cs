@@ -36,9 +36,9 @@ public class SideBarNodeViewModel : ViewModelBase
         get => _isExpanded;
         set
         {
+            Trace.WriteLine($"{Type}:{Name}:IsExpanded = {value}");
             if (this.RaiseAndSetIfChanged(ref _isExpanded, value))
             {
-                Trace.WriteLine($"{Type}:{Name}:IsExpanded = {value}");
                 if (!LoadedSubNodes)
                 {
                     ExpandNode();
@@ -52,7 +52,10 @@ public class SideBarNodeViewModel : ViewModelBase
         switch (Type)
         {
             case nameof(SideBarNodeType.Context):
-                await ExpandContextAsync();
+                await ExpandContextAsync(CancellationToken.None);
+                break;
+            case nameof(SideBarNodeType.Pods):
+                await ExpandPodsAsync(CancellationToken.None);
                 break;
             default:
                 // Nothing to do
@@ -60,7 +63,29 @@ public class SideBarNodeViewModel : ViewModelBase
         }
     }
 
-    private async Task ExpandContextAsync()
+    private async Task ExpandPodsAsync(CancellationToken ct)
+    {
+        var ns = AppNode as KubernetesNamespace;
+        if (ns == null)
+        {
+            return;
+        }
+
+        var pods = await ns.GetPodsAsync(ct);
+        SubNodes.Clear();
+        foreach (var pod in pods)
+        {
+            var podNode = new SideBarNodeViewModel
+            {
+                Name = pod.Name, NodeType = SideBarNodeType.Pod, AppNode = pod, IsPlaceholder = false,
+            };
+            SubNodes.Add(podNode);
+        }
+
+        LoadedSubNodes = true;
+    }
+
+    private async Task ExpandContextAsync(CancellationToken ct)
     {
         var context = AppNode as KubernetesContext;
         if (context == null)
@@ -68,20 +93,29 @@ public class SideBarNodeViewModel : ViewModelBase
             return;
         }
 
-        var namespaces = await context.GetNamespacesAsync(CancellationToken.None);
+        var namespaces = await context.GetNamespacesAsync(ct);
         SubNodes.Clear();
         foreach (var ns in namespaces)
         {
-            var node = new SideBarNodeViewModel
+            var namespaceNode = new SideBarNodeViewModel
             {
                 Name = ns.Name,
                 NodeType = SideBarNodeType.Namespace,
                 AppNode = ns,
                 IsPlaceholder = false,
             };
-            SubNodes.Add(node);
+            var podsNode = new SideBarNodeViewModel
+            {
+                Name = "Pods", NodeType = SideBarNodeType.Pods, AppNode = ns, IsPlaceholder = false,
+            };
+            podsNode.SubNodes.Add(new SideBarNodeViewModel()
+            {
+                Name = "Pod", NodeType = SideBarNodeType.Pod, IsPlaceholder = true,
+            });
+            namespaceNode.SubNodes.Add(podsNode);
+            SubNodes.Add(namespaceNode);
         }
+
         LoadedSubNodes = true;
     }
 }
-

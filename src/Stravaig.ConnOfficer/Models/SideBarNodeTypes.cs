@@ -22,8 +22,14 @@ public class SideBarNodeType
 
     public static readonly SideBarNodeType Pod = new()
     {
-        Name = "Pod",
+        Name = nameof(Pod),
         IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/pod.svg",
+    };
+
+    public static readonly SideBarNodeType Pods = new()
+    {
+        Name = nameof(Pods),
+        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/pods.svg",
     };
 
     public static readonly SideBarNodeType Null = new()

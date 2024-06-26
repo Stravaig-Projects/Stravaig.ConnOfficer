@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class KubernetesContext : IApplicationLocator
+public class KubernetesContext
 
 {
     public required KubernetesConfigData Config { get; init; }
@@ -17,7 +17,7 @@ public class KubernetesContext : IApplicationLocator
 
     public ObservableCollection<KubernetesNamespace> Namespaces { get; } = [];
 
-    public ApplicationState? Application { get; private set; }
+    public required ApplicationState Application { get; init; }
 
     public async Task<KubernetesNamespace[]> GetNamespacesAsync(CancellationToken ct)
     {
@@ -28,10 +28,5 @@ public class KubernetesContext : IApplicationLocator
         Namespaces.Clear();
         Namespaces.AddRange(result.Namespaces);
         return result.Namespaces;
-    }
-
-    public void AttachApplication(ApplicationState app)
-    {
-        Application = app;
     }
 }

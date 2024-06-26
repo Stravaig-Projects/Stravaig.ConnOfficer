@@ -10,6 +10,7 @@ namespace Stravaig.ConnOfficer.Domain.Queries;
 
 public class GetKubernetesInfoQuery : IRequest<KubernetesConfigData>
 {
+    public required ApplicationState Application { get; init; }
     public string? ConfigLocation { get; init; }
 }
 
@@ -17,17 +18,12 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
 {
     public async Task<KubernetesConfigData> Handle(GetKubernetesInfoQuery request, CancellationToken cancellationToken)
     {
-        var data = await GetDefaultKubernetesConfigAsync(cancellationToken);
+        var configFilePath = request.ConfigLocation ?? KubernetesClientConfiguration.KubeConfigDefaultLocation;
+        var data = await GetKubernetesConfigAsync(request.Application, configFilePath, cancellationToken);
         return data;
     }
 
-    public async Task<KubernetesConfigData> GetDefaultKubernetesConfigAsync(CancellationToken ct)
-    {
-        var configFilePath = KubernetesClientConfiguration.KubeConfigDefaultLocation;
-        return await GetKubernetesConfigAsync(configFilePath, ct);
-    }
-
-    public async Task<KubernetesConfigData> GetKubernetesConfigAsync(string configFilePath, CancellationToken ct)
+    public async Task<KubernetesConfigData> GetKubernetesConfigAsync(ApplicationState application, string configFilePath, CancellationToken ct)
     {
         var configFileContent = await File.ReadAllTextAsync(configFilePath, ct);
 
@@ -37,19 +33,21 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
         var config = deserializer.Deserialize<KubeFileDto>(configFileContent);
         config.WriteTrace("Kubernetes Configuration from " + configFilePath);
 
-        return ToDomain(configFilePath, config);
+        return ToDomain(application, configFilePath, config);
     }
 
-    private KubernetesConfigData ToDomain(string configFilePath, KubeFileDto file)
+    private KubernetesConfigData ToDomain(ApplicationState app, string configFilePath, KubeFileDto file)
     {
-        var result = new KubernetesConfigData()
+        var result = new KubernetesConfigData
         {
             ConfigPath = configFilePath,
             CurrentContext = file.CurrentContext,
+            Application = app,
         };
         result.Contexts.AddRange(
-            file.Contexts.Select(c => new KubernetesContext()
+            file.Contexts.Select(c => new KubernetesContext
             {
+                Application = app,
                 Config = result,
                 Name = c.Name,
                 Cluster = file.Clusters.First(cluster => cluster.Name == c.Context.Cluster).ToDomain(),

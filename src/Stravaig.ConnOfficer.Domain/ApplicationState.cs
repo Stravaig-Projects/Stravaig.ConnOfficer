@@ -36,13 +36,17 @@ public class ApplicationState : IAppServices, IApplicationLocator
     public async Task<KubernetesConfigData> GetConfigDataAsync(string? configFile, CancellationToken ct)
     {
         var result = await _mediator.Send(
-            new GetKubernetesInfoQuery { ConfigLocation = configFile, },
+            new GetKubernetesInfoQuery
+            {
+                Application = this,
+                ConfigLocation = configFile,
+            },
             ct);
 
         ConfigurationFiles.Remove(
             ConfigurationFiles
                 .Where(cf => cf.ConfigPath.Equals(configFile, StringComparison.Ordinal)));
-        result.AttachApplication(this);
+        ConfigurationFiles.Add(result);
         return result;
     }
 }

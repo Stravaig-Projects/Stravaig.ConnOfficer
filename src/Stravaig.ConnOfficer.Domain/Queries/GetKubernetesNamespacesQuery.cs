@@ -44,6 +44,7 @@ public class GetKubernetesNamespacesQueryHandler : IRequestHandler<GetKubernetes
             {
                 Context = request.Context,
                 Name = ns.Metadata.Name,
+                Application = request.Context.Application,
             }).ToArray(),
         };
     }
