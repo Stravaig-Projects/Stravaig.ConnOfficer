@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Stravaig.ConnOfficer.Domain;
-using Stravaig.ConnOfficer.Domain.Ports.Kubernetes;
 using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Domain.Services;
 using Stravaig.ConnOfficer.ViewModels;
+using Stravaig.ConnOfficer.ViewModels.SideBar;
 
 namespace Stravaig.ConnOfficer;
 

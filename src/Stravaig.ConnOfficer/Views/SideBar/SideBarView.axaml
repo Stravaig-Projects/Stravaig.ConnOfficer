@@ -4,14 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Stravaig.ConnOfficer.ViewModels"
              xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
+             xmlns:sideBar="clr-namespace:Stravaig.ConnOfficer.ViewModels.SideBar"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Stravaig.ConnOfficer.Views.SideBarView"
-             x:DataType="vm:SideBarViewModel">
+             x:DataType="sideBar:SideBarViewModel">
 
     <TreeView Margin="10"
+              Name="SideBarTree"
               ItemsSource="{Binding Nodes}"
               SelectedItems="{Binding SelectedNode}"
               SelectionMode="Single">
+        <!-- <TreeView.Styles> -->
+        <!--     <Style Selector="TreeViewItem"> -->
+        <!--         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" /> -->
+        <!--     </Style> -->
+        <!-- </TreeView.Styles> -->
         <TreeView.ItemTemplate>
             <TreeDataTemplate ItemsSource="{Binding SubNodes}">
                 <views:SideBarNodeView />

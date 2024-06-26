@@ -1,4 +1,6 @@
-﻿namespace Stravaig.ConnOfficer.ViewModels;
+﻿using Stravaig.ConnOfficer.ViewModels.SideBar;
+
+namespace Stravaig.ConnOfficer.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {

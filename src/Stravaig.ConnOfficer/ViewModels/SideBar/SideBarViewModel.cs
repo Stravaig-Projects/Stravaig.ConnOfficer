@@ -1,14 +1,12 @@
-using MediatR;
 using ReactiveUI;
 using Stravaig.ConnOfficer.Domain;
-using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Threading;
 
-namespace Stravaig.ConnOfficer.ViewModels;
+namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 
 public class SideBarViewModel : ViewModelBase
 {
@@ -33,12 +31,14 @@ public class SideBarViewModel : ViewModelBase
             Name = info.ConfigPath,
             NodeType = SideBarNodeType.Config,
             LoadedSubNodes = true,
+            AppNode = info,
             SubNodes = new ObservableCollection<SideBarNodeViewModel>(
                 info.Contexts.Select(c => new SideBarNodeViewModel()
                 {
                     Name = c.Name,
                     NodeType = SideBarNodeType.Context,
                     LoadedSubNodes = false,
+                    AppNode = c,
                     SubNodes = new ObservableCollection<SideBarNodeViewModel>(
                     [
                         new SideBarNodeViewModel()

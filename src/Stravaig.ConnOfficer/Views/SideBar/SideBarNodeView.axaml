@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Stravaig.ConnOfficer.ViewModels"
              xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
+             xmlns:sideBar="clr-namespace:Stravaig.ConnOfficer.ViewModels.SideBar"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Stravaig.ConnOfficer.Views.SideBarNodeView"
-             x:DataType="vm:SideBarNodeViewModel">
+             x:DataType="sideBar:SideBarNodeViewModel">
     
     <Grid ColumnDefinitions="24 *">
         <Image Grid.Column="0"

@@ -5,7 +5,7 @@ namespace Stravaig.ConnOfficer.Domain.Services;
 
 public interface IKubernetestClientFactory
 {
-    Task<IKubernetesClient> GetClientAsync(string configFile, string context);
+    Task<IKubernetesClient> GetClientAsync(string configFile, string context, CancellationToken ct);
 }
 
 public class KubernetesClientFactory : IKubernetestClientFactory
@@ -13,7 +13,7 @@ public class KubernetesClientFactory : IKubernetestClientFactory
     private readonly SemaphoreSlim _lock = new(1, 1);
     private readonly Dictionary<string, IKubernetesClient> _clientCache = new(StringComparer.Ordinal);
 
-    public async Task<IKubernetesClient> GetClientAsync(string configFile, string context)
+    public async Task<IKubernetesClient> GetClientAsync(string configFile, string context, CancellationToken ct)
     {
         var key = $"{configFile}::{context}";
 
@@ -24,7 +24,7 @@ public class KubernetesClientFactory : IKubernetestClientFactory
         }
 
         // If it wasn't in the cache wait until we can write to the cache
-        await _lock.WaitAsync();
+        await _lock.WaitAsync(ct);
         try
         {
             // Try to get it again as the cache may have changed while we were waiting.
@@ -35,8 +35,8 @@ public class KubernetesClientFactory : IKubernetestClientFactory
 
             // Definitely not in the cache, we'll have to create it and add it to the cache.
             FileInfo file = new FileInfo(configFile);
-            await KubernetesClientConfiguration.BuildConfigFromConfigFileAsync(file, context);
-            result = new KubernetesClient() as IKubernetesClient;
+            var config = await KubernetesClientConfiguration.BuildConfigFromConfigFileAsync(file, context);
+            result = new KubernetesClient(config);
             _clientCache.Add(key, result);
             return result;
         }

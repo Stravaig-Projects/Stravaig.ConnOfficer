@@ -5,13 +5,27 @@ using System.Collections.ObjectModel;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class ApplicationState
+public interface IAppServices
+{
+    IMediator Mediator { get; }
+}
+
+public class ApplicationState : IAppServices, IApplicationLocator
 {
     private readonly IMediator _mediator;
 
     public ApplicationState(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    public IMediator Mediator => _mediator;
+
+    ApplicationState IApplicationLocator.Application => this;
+
+    public void AttachApplication(ApplicationState app)
+    {
+        // Do nothing - We are already the application.
     }
 
     public ObservableCollection<KubernetesConfigData> ConfigurationFiles { get; init; } = [];

@@ -1,7 +1,7 @@
 using DynamicData;
 using k8s;
 using MediatR;
-using Stravaig.ConnOfficer.Domain.Ports.Kubernetes;
+using Stravaig.ConnOfficer.Domain.Glue;
 using System.Diagnostics;
 using System.Text.Json;
 using YamlDotNet.Serialization;
@@ -15,11 +15,6 @@ public class GetKubernetesInfoQuery : IRequest<KubernetesConfigData>
 
 public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQuery, KubernetesConfigData>
 {
-    private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions()
-    {
-        WriteIndented = true,
-    };
-    
     public async Task<KubernetesConfigData> Handle(GetKubernetesInfoQuery request, CancellationToken cancellationToken)
     {
         var data = await GetDefaultKubernetesConfigAsync(cancellationToken);
@@ -40,9 +35,7 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
             .IgnoreUnmatchedProperties()
             .Build();
         var config = deserializer.Deserialize<KubeFileDto>(configFileContent);
-
-        var json = JsonSerializer.Serialize(config, JsonOptions);
-        Trace.WriteLine(json);
+        config.WriteTrace("Kubernetes Configuration from " + configFilePath);
 
         return ToDomain(configFilePath, config);
     }

@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class KubernetesConfigData
+public class KubernetesConfigData : IApplicationLocator
 {
     public string ConfigPath { get; init; }
 
@@ -17,5 +17,9 @@ public class KubernetesConfigData
     {
         Application = app;
         app.ConfigurationFiles.Add(this);
+        foreach (var context in Contexts)
+        {
+            context.AttachApplication(app);
+        }
     }
 }
