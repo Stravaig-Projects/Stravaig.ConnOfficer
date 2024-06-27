@@ -8,24 +8,27 @@ namespace Stravaig.ConnOfficer.Domain.Queries;
 
 public class GetKubernetesPodsQuery : IRequest<GetKubernetesPodsResponse>
 {
-    public KubernetesNamespace Namespace { get; }
-
-    public string Config => Namespace.Context.Config.ConfigPath;
-    public string Context => Namespace.Context.Name;
-    public string NamespaceName => Namespace.Name;
-
     public GetKubernetesPodsQuery(KubernetesNamespace ns)
     {
         Namespace = ns;
     }
+
+    public KubernetesNamespace Namespace { get; }
+
+    public string Config => Namespace.Context.Config.ConfigPath;
+
+    public string Context => Namespace.Context.Name;
+
+    public string NamespaceName => Namespace.Name;
 }
 
 public class GetKubernetesPodsResponse
 {
-    public KubernetesPod[] Pods { get; init; }
+    public required KubernetesPod[] Pods { get; init; }
 }
 
-
+// Instantiated by Mediator
+// ReSharper disable once UnusedType.Global
 public class GetKubernetesPodsHandler : IRequestHandler<GetKubernetesPodsQuery, GetKubernetesPodsResponse>
 {
     private readonly IKubernetestClientFactory _clientFactory;

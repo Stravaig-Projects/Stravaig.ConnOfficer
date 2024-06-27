@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 namespace Stravaig.ConnOfficer.Domain;
 
 public class KubernetesContext
-
 {
     public required KubernetesConfigData Config { get; init; }
 

@@ -11,6 +11,7 @@ namespace Stravaig.ConnOfficer.Domain.Queries;
 public class GetKubernetesInfoQuery : IRequest<KubernetesConfigData>
 {
     public required ApplicationState Application { get; init; }
+
     public string? ConfigLocation { get; init; }
 }
 
@@ -41,7 +42,7 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
         var result = new KubernetesConfigData
         {
             ConfigPath = configFilePath,
-            CurrentContext = file.CurrentContext,
+            CurrentContext = file.CurrentContext ?? "*** MISSING INFORMATION ***",
             Application = app,
         };
         result.Contexts.AddRange(
@@ -49,63 +50,74 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
             {
                 Application = app,
                 Config = result,
-                Name = c.Name,
-                Cluster = file.Clusters.First(cluster => cluster.Name == c.Context.Cluster).ToDomain(),
-                User = c.Context.User,
+                Name = c.Name ?? "*** MISSING NAME ***",
+                Cluster = file.Clusters.First(cluster => cluster.Name == c.Context?.Cluster).ToDomain(),
+                User = c.Context?.User ?? "*** MISSING USER ***",
             }));
         return result;
     }
 
     private class KubeFileDto
     {
+        private readonly KubeClusterDataDto[] _clusters = [];
+        private readonly KubeContextDataDto[] _contexts = [];
+
         [YamlMember(Alias="apiVersion")]
-        public string ApiVersion { get; init; }
+        public string? ApiVersion { get; init; }
 
         [YamlMember(Alias = "current-context")]
-        public string CurrentContext { get; init; }
+        public string? CurrentContext { get; init; }
 
         [YamlMember(Alias = "kind")]
-        public string Kind { get; init; }
+        public string? Kind { get; init; }
 
         [YamlMember(Alias = "clusters")]
-        public KubeClusterDataDto[] Clusters { get; init; }
+        public KubeClusterDataDto[] Clusters
+        {
+            get => _clusters;
+            init => _clusters = value ?? [];
+        }
 
         [YamlMember(Alias = "contexts")]
-        public KubeContextDataDto[] Contexts { get; init; }
+        public KubeContextDataDto[] Contexts
+        {
+            get => _contexts;
+            init => _contexts = value ?? [];
+        }
     }
 
     private class KubeContextDataDto
     {
         [YamlMember(Alias = "context")]
-        public KubeContextMetadataDto Context { get; init; }
+        public KubeContextMetadataDto? Context { get; init; }
 
         [YamlMember(Alias = "name")]
-        public string Name { get; init; }
+        public string? Name { get; init; }
     }
 
     private class KubeContextMetadataDto
     {
         [YamlMember(Alias = "cluster")]
-        public string Cluster { get; init; }
+        public string? Cluster { get; init; }
 
         [YamlMember(Alias = "user")]
-        public string User { get; init; }
+        public string? User { get; init; }
     }
 
     private class KubeClusterDataDto
     {
         [YamlMember(Alias = "cluster")]
-        public KubeClusterAuthDto Cluster { get; init; }
+        public KubeClusterAuthDto? Cluster { get; init; }
 
         [YamlMember(Alias = "name")]
-        public string Name { get; init; }
+        public string? Name { get; init; }
 
         public KubernetesCluster ToDomain()
         {
             return new KubernetesCluster
             {
-                Name = Name,
-                Server = Cluster.Server,
+                Name = Name ?? "*** MISSING INFORMATION ***",
+                Server = Cluster?.Server ?? "*** MISSING INFORMATION ***",
             };
         }
     }
@@ -113,9 +125,9 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
     private class KubeClusterAuthDto
     {
         [YamlMember(Alias = "certificate-authority-data")]
-        public string CertificateAuthorityData { get; init; }
+        public string? CertificateAuthorityData { get; init; }
 
         [YamlMember(Alias = "server")]
-        public string Server { get; init; }
+        public string? Server { get; init; }
     }
 }

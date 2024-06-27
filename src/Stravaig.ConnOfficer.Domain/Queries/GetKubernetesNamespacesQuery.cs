@@ -7,16 +7,16 @@ namespace Stravaig.ConnOfficer.Domain.Queries;
 
 public class GetKubernetesNamespacesQuery : IRequest<GetKubernetesNamespacesResult>
 {
+    public GetKubernetesNamespacesQuery(KubernetesContext context)
+    {
+        Context = context;
+    }
+
     public KubernetesContext Context { get; }
 
     public string ConfigFile => Context.Config.ConfigPath;
 
     public string ContextName => Context.Name;
-
-    public GetKubernetesNamespacesQuery(KubernetesContext context)
-    {
-        Context = context;
-    }
 }
 
 public class GetKubernetesNamespacesResult
@@ -24,6 +24,8 @@ public class GetKubernetesNamespacesResult
     public required KubernetesNamespace[] Namespaces { get; init; }
 }
 
+// Instantiated by Mediator
+// ReSharper disable once UnusedType.Global
 public class GetKubernetesNamespacesQueryHandler : IRequestHandler<GetKubernetesNamespacesQuery, GetKubernetesNamespacesResult>
 {
     private readonly IKubernetestClientFactory _clientFactory;
