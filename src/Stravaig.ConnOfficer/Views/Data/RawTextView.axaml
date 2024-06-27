@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Stravaig.ConnOfficer.ViewModels.Data"
+             xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views.Data"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Stravaig.ConnOfficer.Views.Data.RawTextView"
+             x:DataType="vm:RawTextViewModel">
+
+    <TextBlock Text="{Binding RawText}"
+               FontSize="14"
+               FontFamily="{StaticResource FiraCode}"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"/>
+</UserControl>

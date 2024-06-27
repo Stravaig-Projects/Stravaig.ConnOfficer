@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.Text.Json;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class KubernetesConfigData
+public class KubernetesConfigData : IRawData
 {
     public required string ConfigPath { get; init; }
 
@@ -12,4 +12,8 @@ public class KubernetesConfigData
     public required ApplicationState Application { get; init; }
 
     public ObservableCollection<KubernetesContext> Contexts { get; } = [];
+
+    public string RawData { get; init; }
+
+    public Lazy<JsonDocument> JsonData { get; init; }
 }

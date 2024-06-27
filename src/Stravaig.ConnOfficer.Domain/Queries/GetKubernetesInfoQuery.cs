@@ -28,22 +28,47 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
     {
         var configFileContent = await File.ReadAllTextAsync(configFilePath, ct);
 
+        var config = GetConfigData(configFilePath, configFileContent);
+
+        return ToDomain(application, configFilePath, config, configFileContent);
+    }
+
+    private static KubeFileDto GetConfigData(string configFilePath, string configFileContent)
+    {
         var deserializer = new DeserializerBuilder()
             .IgnoreUnmatchedProperties()
             .Build();
         var config = deserializer.Deserialize<KubeFileDto>(configFileContent);
-        config.WriteTrace("Kubernetes Configuration from " + configFilePath);
 
-        return ToDomain(application, configFilePath, config);
+        config.WriteTrace("Kubernetes Configuration from " + configFilePath);
+        return config;
     }
 
-    private KubernetesConfigData ToDomain(ApplicationState app, string configFilePath, KubeFileDto file)
+    private static Lazy<JsonDocument> BuildJsonDoc(string configFileContent)
+    {
+        return new Lazy<JsonDocument>(() =>
+        {
+            var deserializer = new DeserializerBuilder().Build();
+            var yamlObject = deserializer.Deserialize(configFileContent);
+            var serializer = new SerializerBuilder()
+                .JsonCompatible()
+                .Build();
+
+            var json = serializer.Serialize(yamlObject);
+            var jsonDoc = JsonDocument.Parse(json);
+            return jsonDoc;
+        });
+    }
+
+    private KubernetesConfigData ToDomain(ApplicationState app, string configFilePath, KubeFileDto file, string rawContent)
     {
         var result = new KubernetesConfigData
         {
             ConfigPath = configFilePath,
             CurrentContext = file.CurrentContext ?? "*** MISSING INFORMATION ***",
             Application = app,
+            RawData = rawContent,
+            JsonData = BuildJsonDoc(rawContent),
         };
         result.Contexts.AddRange(
             file.Contexts.Select(c => new KubernetesContext
