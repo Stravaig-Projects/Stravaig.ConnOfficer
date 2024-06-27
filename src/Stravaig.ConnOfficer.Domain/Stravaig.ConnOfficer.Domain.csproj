@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DynamicData" Version="7.9.5" />
+    <PackageReference Include="KubeOps.KubernetesClient" Version="9.1.2" />
+    <PackageReference Include="KubernetesClient" Version="14.0.2"/>
+    <PackageReference Include="MediatR" Version="12.3.0" />
+    <PackageReference Include="YamlDotNet" Version="15.1.4"/>
+  </ItemGroup>
+
+</Project>

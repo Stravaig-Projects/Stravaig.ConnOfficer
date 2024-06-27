@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Stravaig.ConnOfficer.ViewModels"
+             xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
+             xmlns:sideBar="clr-namespace:Stravaig.ConnOfficer.ViewModels.SideBar"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Stravaig.ConnOfficer.Views.SideBarNodeView"
+             x:DataType="sideBar:SideBarNodeViewModel">
+    
+    <Grid ColumnDefinitions="24 *">
+        <Image Grid.Column="0"
+               Margin="0 2 10 2"
+               Width="24"
+               Height="24">
+            <Image.Source>
+                <SvgImage Source="{Binding Icon}"/>
+            </Image.Source>
+        </Image>
+        <TextBlock Grid.Column="1"
+                   TextTrimming="CharacterEllipsis"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Text="{Binding Name}"
+                   IsVisible="{Binding !IsPlaceholder}">
+            <ToolTip.Tip>
+                <TextBlock Text="{Binding Name}"/>
+            </ToolTip.Tip>
+        </TextBlock>
+        <ProgressBar Grid.Column="1"
+                     IsIndeterminate="True"
+                     Height="16"
+                     VerticalAlignment="Center"
+                     Width="100"
+                     IsVisible="{Binding IsPlaceholder}">
+            <ToolTip.Tip>
+                <TextBlock Text="Loading..."/>
+            </ToolTip.Tip>
+        </ProgressBar>
+    </Grid>
+    
+</UserControl>

@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
+             xmlns:vm="clr-namespace:Stravaig.ConnOfficer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="50"
+             x:Class="Stravaig.ConnOfficer.Views.BreadcrumbsView"
+             x:DataType="vm:BreadcrumbsViewModel">
+
+    <Border>
+        <ItemsRepeater ItemsSource="{Binding Fragments}" HorizontalAlignment="Stretch">
+        <ItemsRepeater.Layout>
+            <StackLayout Spacing="0"
+                         Orientation="Horizontal" />
+        </ItemsRepeater.Layout>
+        <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="»" Padding="10 0" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+    </ItemsRepeater>
+    </Border>
+</UserControl>

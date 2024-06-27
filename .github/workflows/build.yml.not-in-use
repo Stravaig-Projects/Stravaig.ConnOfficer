@@ -1,4 +1,4 @@
-name: Stravaig PROJECT NAME HERE
+name: Stravaig Conn Officer
 on: 
   push:
     branches: 

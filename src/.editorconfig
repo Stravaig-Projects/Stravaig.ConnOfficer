@@ -7,6 +7,8 @@
 # All files
 [*]
 indent_style = space
+charset = utf-8
+
 
 # Microsoft .NET properties
 csharp_new_line_before_members_in_object_initializers = false
@@ -28,6 +30,13 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggest
 
 # ReSharper properties
 resharper_trailing_comma_in_multiline_lists = true
+resharper_wrap_long_lines = true
+resharper_csharp_line_breaks_and_wrapping_indexer_declaration_style = chop_if_long
+resharper_csharp_method_declaration_parameter_wrapping_style = chop_if_long
+resharper_csharp_align_multiline_parameters = true
+resharper_csharp_align_multiline_parameters_in_calls = true
+resharper_csharp_wrap_after_declaration_lpar = true
+resharper_csharp_wrap_object_and_collection_initializer_style = chop_always
 
 # ReSharper inspection severities
 resharper_arrange_redundant_parentheses_highlighting = hint
@@ -45,19 +54,14 @@ resharper_suggest_var_or_type_simple_types_highlighting = hint
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
-indent_style = space
-charset = utf-8
 
 # XML config files
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
 indent_size = 2
-indent_style = space
-charset = utf-8
 
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
-charset = utf-8
 
 ###############################
 # .NET Coding Conventions     #
@@ -98,7 +102,7 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-# Use PascalCase for constant fields  
+# Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
@@ -106,8 +110,6 @@ dotnet_naming_symbols.constant_fields.applicable_kinds = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities = *
 dotnet_naming_symbols.constant_fields.required_modifiers = const
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
-tab_width = 4
-end_of_line = crlf
 dotnet_code_quality_unused_parameters = all:suggestion
 dotnet_style_allow_multiple_blank_lines_experimental = true:warning
 
@@ -144,6 +146,13 @@ dotnet_diagnostic.ide0019.severity = suggestion
 dotnet_diagnostic.ide0020.severity = suggestion
 dotnet_diagnostic.ide0038.severity = suggestion
 dotnet_diagnostic.ide0044.severity = warning
+
+dotnet_diagnostic.sa0001.severity = silent # XML comment analysis
+dotnet_diagnostic.sa1101.severity = silent # Prefix local calls with this
+dotnet_diagnostic.sa1309.severity = silent # Field names must not begin with an underscore.
+dotnet_diagnostic.sa1402.severity = silent # File may only contain a single type.
+dotnet_diagnostic.sa1600.severity = silent # Document
+dotnet_diagnostic.sa1633.severity = silent # File header
 
 ###############################
 # C# Coding Conventions       #
@@ -218,11 +227,9 @@ indent_size = tab
 tab_width = 4
 
 [*.{asax,ascx,aspx,axaml,cs,cshtml,css,htm,html,js,jsx,master,paml,razor,skin,ts,tsx,vb,xaml,xamlx,xoml}]
-indent_style = space
 indent_size = 4
 tab_width = 4
 
 [*.{json,resjson}]
-indent_style = space
 indent_size = 2
 tab_width = 2
