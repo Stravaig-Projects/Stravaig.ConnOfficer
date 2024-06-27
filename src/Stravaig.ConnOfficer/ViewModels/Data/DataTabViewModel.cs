@@ -23,10 +23,15 @@ public class DataTabViewModel : ViewModelBase
         get => _sideBarNode;
         private set
         {
+            if (_sideBarNode == value)
+            {
+                return;
+            }
+
             _sideBarNode = value;
+            TabItems.Clear();
             if (_sideBarNode == null)
             {
-                TabItems.Clear();
                 IsTabVisible = false;
                 NoTabsMessage = "There is no selected item in the side bar." +
                                 Environment.NewLine +
