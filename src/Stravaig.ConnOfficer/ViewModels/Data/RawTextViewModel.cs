@@ -7,7 +7,7 @@ public class RawTextViewModel : DataTabItemViewModelBase
     public RawTextViewModel(IRawData data)
         : base("Raw Text")
     {
-        RawText = data.RawData;
+        RawText = data.RawData.Value;
     }
 
     public string RawText { get; }

@@ -4,7 +4,7 @@ namespace Stravaig.ConnOfficer.Domain;
 
 public interface IRawData
 {
-    public string RawData { get; }
+    public Lazy<string> RawData { get; }
 
     public Lazy<JsonDocument> JsonData { get; }
 }

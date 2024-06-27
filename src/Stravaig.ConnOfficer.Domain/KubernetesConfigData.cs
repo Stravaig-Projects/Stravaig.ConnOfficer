@@ -13,7 +13,7 @@ public class KubernetesConfigData : IRawData
 
     public ObservableCollection<KubernetesContext> Contexts { get; } = [];
 
-    public string RawData { get; init; }
+    public Lazy<string> RawData { get; init; }
 
     public Lazy<JsonDocument> JsonData { get; init; }
 }

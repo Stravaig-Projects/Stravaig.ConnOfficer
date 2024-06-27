@@ -1,10 +1,11 @@
 using DynamicData;
 using Stravaig.ConnOfficer.Domain.Queries;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class KubernetesContext
+public class KubernetesContext : IRawData
 {
     public required KubernetesConfigData Config { get; init; }
 
@@ -15,6 +16,10 @@ public class KubernetesContext
     public required KubernetesCluster Cluster { get; init; }
 
     public ObservableCollection<KubernetesNamespace> Namespaces { get; } = [];
+
+    public required Lazy<string> RawData { get; init; }
+
+    public required Lazy<JsonDocument> JsonData { get; init; }
 
     public required ApplicationState Application { get; init; }
 
@@ -28,4 +33,5 @@ public class KubernetesContext
         Namespaces.AddRange(result.Namespaces);
         return result.Namespaces;
     }
+
 }

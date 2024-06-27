@@ -7,5 +7,5 @@ namespace Stravaig.ConnOfficer.Glue;
 public static class RawDataExtensions
 {
     public static Lazy<JsonDocument> BuildStandardJsonDoc(this IRawData rawData)
-        => new(() => JsonDocument.Parse(rawData.RawData));
+        => new(() => JsonDocument.Parse(rawData.RawData.Value));
 }

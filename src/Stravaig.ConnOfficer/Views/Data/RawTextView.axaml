@@ -8,9 +8,12 @@
              x:Class="Stravaig.ConnOfficer.Views.Data.RawTextView"
              x:DataType="vm:RawTextViewModel">
 
-    <TextBlock Text="{Binding RawText}"
-               FontSize="14"
-               FontFamily="{StaticResource FiraCode}"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top"/>
+    <TextBox Text="{Binding RawText}"
+             FontSize="14"
+             Margin="5"
+             FontFamily="{StaticResource FiraCode}"
+             HorizontalAlignment="Left"
+             TextWrapping="WrapWithOverflow"
+             IsReadOnly="True"
+             VerticalAlignment="Top"/>
 </UserControl>
