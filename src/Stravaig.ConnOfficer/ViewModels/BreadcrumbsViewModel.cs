@@ -20,6 +20,8 @@ public class BreadcrumbsViewModel : ViewModelBase
         _sidebar.SelectedTreeNodeChanged += SidebarOnSelectedTreeNodeChanged;
     }
 
+    public ObservableCollection<BreadcrumbFragment> Fragments { get; } = [];
+
     private void SidebarOnSelectedTreeNodeChanged(SideBarNodeViewModel? selectedNode)
     {
         Stack<BreadcrumbFragment> stack = new();
@@ -56,8 +58,6 @@ public class BreadcrumbsViewModel : ViewModelBase
             fragment.IsLast = i == lastIndex;
         }
     }
-
-    public ObservableCollection<BreadcrumbFragment> Fragments { get; } = [];
 }
 
 public class BreadcrumbFragment : ViewModelBase
@@ -70,6 +70,8 @@ public class BreadcrumbFragment : ViewModelBase
     public string Name => Node.Name;
 
     public SideBarNodeViewModel Node { get; }
+
     public bool IsFirst { get; set; }
+
     public bool IsLast { get; set; }
 }

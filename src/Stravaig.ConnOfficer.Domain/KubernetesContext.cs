@@ -9,11 +9,11 @@ public class KubernetesContext
 {
     public required KubernetesConfigData Config { get; init; }
 
-    public string Name { get; init; }
+    public required string Name { get; init; }
 
-    public string User { get; init; }
+    public required string User { get; init; }
 
-    public KubernetesCluster Cluster { get; init; }
+    public required KubernetesCluster Cluster { get; init; }
 
     public ObservableCollection<KubernetesNamespace> Namespaces { get; } = [];
 
@@ -21,7 +21,7 @@ public class KubernetesContext
 
     public async Task<KubernetesNamespace[]> GetNamespacesAsync(CancellationToken ct)
     {
-        var result = await Application!.Mediator.Send(
+        var result = await Application.Mediator.Send(
             new GetKubernetesNamespacesQuery(this),
             ct);
 

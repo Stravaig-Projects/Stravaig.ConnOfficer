@@ -11,19 +11,18 @@ namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 
 public class SideBarViewModel : ViewModelBase
 {
-
     private readonly ApplicationState _appState;
     private SideBarNodeViewModel? _selectedNode;
-
-    public delegate void TreeNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
-
-    public event TreeNodeSelectedHandler SelectedTreeNodeChanged;
 
     public SideBarViewModel(ApplicationState appState)
     {
         _appState = appState;
         RxApp.MainThreadScheduler.Schedule(LoadContexts);
     }
+
+    public delegate void TreeNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
+
+    public event TreeNodeSelectedHandler? SelectedTreeNodeChanged;
 
     public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 

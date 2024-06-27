@@ -7,7 +7,7 @@ namespace Stravaig.ConnOfficer.Glue;
 
 public class DesignLocator : MarkupExtension
 {
-    public Type Type { get; init; }
+    public required Type Type { get; init; }
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {

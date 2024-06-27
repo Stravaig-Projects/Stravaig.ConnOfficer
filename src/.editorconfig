@@ -102,7 +102,7 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-# Use PascalCase for constant fields  
+# Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
@@ -150,7 +150,8 @@ dotnet_diagnostic.ide0044.severity = warning
 dotnet_diagnostic.sa0001.severity = silent # XML comment analysis
 dotnet_diagnostic.sa1101.severity = silent # Prefix local calls with this
 dotnet_diagnostic.sa1309.severity = silent # Field names must not begin with an underscore.
-dotnet_diagnostic.sa1600.severity = silent # Document 
+dotnet_diagnostic.sa1402.severity = silent # File may only contain a single type.
+dotnet_diagnostic.sa1600.severity = silent # Document
 dotnet_diagnostic.sa1633.severity = silent # File header
 
 ###############################

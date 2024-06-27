@@ -5,9 +5,9 @@ namespace Stravaig.ConnOfficer.Domain;
 
 public class KubernetesConfigData
 {
-    public string ConfigPath { get; init; }
+    public required string ConfigPath { get; init; }
 
-    public string CurrentContext { get; init; }
+    public required string CurrentContext { get; init; }
 
     public required ApplicationState Application { get; init; }
 

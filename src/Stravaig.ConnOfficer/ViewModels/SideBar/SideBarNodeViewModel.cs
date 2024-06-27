@@ -13,25 +13,12 @@ namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 
 public class SideBarNodeViewModel : ViewModelBase
 {
+    private readonly ObservableCollection<SideBarNodeViewModel> _subNodes = [];
     private bool _isExpanded;
-    private readonly ObservableCollection<SideBarNodeViewModel> _subNodes = new();
 
     public SideBarNodeViewModel()
     {
         _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
-    }
-
-    private void SubNodesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        foreach (var oldItem in e.OldItems?.Cast<SideBarNodeViewModel>() ?? [])
-        {
-            oldItem.Parent = null;
-        }
-
-        foreach (var newItem in e.NewItems?.Cast<SideBarNodeViewModel>() ?? [])
-        {
-            newItem.Parent = this;
-        }
     }
 
     public ObservableCollection<SideBarNodeViewModel> SubNodes
@@ -63,6 +50,8 @@ public class SideBarNodeViewModel : ViewModelBase
 
     public bool IsPlaceholder { get; set; }
 
+    public SideBarNodeViewModel? Parent { get; private set; }
+
     public bool IsExpanded
     {
         get => _isExpanded;
@@ -79,7 +68,18 @@ public class SideBarNodeViewModel : ViewModelBase
         }
     }
 
-    public SideBarNodeViewModel? Parent { get; private set; }
+    private void SubNodesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        foreach (var oldItem in e.OldItems?.Cast<SideBarNodeViewModel>() ?? [])
+        {
+            oldItem.Parent = null;
+        }
+
+        foreach (var newItem in e.NewItems?.Cast<SideBarNodeViewModel>() ?? [])
+        {
+            newItem.Parent = this;
+        }
+    }
 
     private async void ExpandNode()
     {

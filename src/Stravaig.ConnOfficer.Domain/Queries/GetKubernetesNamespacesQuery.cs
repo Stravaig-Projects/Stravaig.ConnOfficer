@@ -21,7 +21,7 @@ public class GetKubernetesNamespacesQuery : IRequest<GetKubernetesNamespacesResu
 
 public class GetKubernetesNamespacesResult
 {
-    public KubernetesNamespace[] Namespaces { get; init; }
+    public required KubernetesNamespace[] Namespaces { get; init; }
 }
 
 public class GetKubernetesNamespacesQueryHandler : IRequestHandler<GetKubernetesNamespacesQuery, GetKubernetesNamespacesResult>
