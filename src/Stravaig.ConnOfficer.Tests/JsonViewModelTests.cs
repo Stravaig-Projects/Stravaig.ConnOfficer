@@ -1,5 +1,6 @@
 using Shouldly;
 using Stravaig.ConnOfficer.Domain;
+using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels.Data;
 using System.Text.Json;
@@ -110,12 +111,12 @@ public class JsonViewModelTests
     {
         public TestData(string json)
         {
-            RawData = json.ToLazy();
+            RawData = new ResettableLazy<string>(json);
             JsonData = new(() => JsonDocument.Parse(this.RawData.Value));
         }
 
-        public Lazy<string> RawData { get; }
+        public ResettableLazy<string> RawData { get; }
 
-        public Lazy<JsonDocument> JsonData { get; }
+        public ResettableLazy<JsonDocument> JsonData { get; }
     }
 }

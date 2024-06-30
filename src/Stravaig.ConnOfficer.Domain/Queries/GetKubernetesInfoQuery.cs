@@ -46,97 +46,6 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
         return config;
     }
 
-    private static Lazy<JsonDocument> BuildJsonDoc(string configFileContent)
-    {
-        return new Lazy<JsonDocument>(() =>
-        {
-            var deserializer = new DeserializerBuilder().Build();
-            var yamlObject = deserializer.Deserialize(configFileContent);
-            var serializer = new SerializerBuilder()
-                .JsonCompatible()
-                .Build();
-
-            var json = serializer.Serialize(yamlObject);
-            var jsonDoc = JsonDocument.Parse(json);
-            return jsonDoc;
-        });
-    }
-
-    private static Lazy<string> BuildRawFragment(string? contextName, KubernetesConfigData config)
-    {
-        if (contextName == null)
-        {
-            return new Lazy<string>("{}");
-        }
-
-        return new Lazy<string>(() =>
-        {
-            var initCapacity = config.RawData.Value.Length;
-            var fullJsonDoc = config.JsonData.Value;
-            fullJsonDoc.WriteTrace("Full JSON Object:");
-            var contextsArray = fullJsonDoc.RootElement.GetProperty("contexts");
-            var contextElement = contextsArray.EnumerateArray().First(c => c.GetProperty("name").ValueEquals(contextName));
-            var clusterName = contextElement.GetProperty("context").TryGetString("cluster");
-            var userName = contextElement.GetProperty("context").TryGetString("user");
-
-            var clustersArray = fullJsonDoc.RootElement.GetProperty("clusters");
-            var clusterElement = clustersArray.EnumerateArray().First(c => c.GetProperty("name")
-                .ValueEquals(clusterName))
-                .GetProperty("cluster");
-            clusterElement.WriteTrace("Cluster Element:");
-
-            var usersArray = fullJsonDoc.RootElement.GetProperty("users");
-            var userElement = usersArray.EnumerateArray()
-                .First(u => u.GetProperty("name").ValueEquals(userName))
-                .GetProperty("user");
-            userElement.WriteTrace("User Element:");
-
-            using MemoryStream ms = new MemoryStream(initCapacity);
-            using Utf8JsonWriter writer = new Utf8JsonWriter(
-                ms,
-                new JsonWriterOptions()
-                {
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    Indented = true,
-                });
-            writer.WriteCommentValue($"This is a fragment extracted from the Kube Config file specific to the '{contextName}' context.");
-            writer.WriteStartObject();
-            writer.WriteString("context", contextName);
-            writer.WritePropertyName("cluster");
-            writer.WriteStartObject();
-            writer.WriteString("name", clusterName);
-            foreach (var jsonProperty in clusterElement.EnumerateObject())
-            {
-                jsonProperty.WriteTo(writer);
-            }
-
-            writer.WriteEndObject();
-            writer.WritePropertyName("user");
-            writer.WriteStartObject();
-            writer.WriteString("name", userName);
-            foreach (var jsonProperty in userElement.EnumerateObject())
-            {
-                jsonProperty.WriteTo(writer);
-            }
-
-            writer.WriteEndObject();
-
-            writer.Flush();
-            var json = Encoding.UTF8.GetString(ms.ToArray());
-            return json;
-        });
-    }
-
-    private static Lazy<JsonDocument> BuildJsonFragment(string? contextName, KubernetesConfigData config)
-    {
-        return new Lazy<JsonDocument>(() =>
-        {
-            var context = config.Contexts.First(c => c.Name == contextName);
-            var json = context.RawData.Value;
-            return JsonDocument.Parse(json);
-        });
-    }
-
     private KubernetesConfigData ToDomain(ApplicationState app, string configFilePath, KubeFileDto file, string rawContent)
     {
         var result = new KubernetesConfigData
@@ -144,8 +53,7 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
             ConfigPath = configFilePath,
             CurrentContext = file.CurrentContext ?? "*** MISSING INFORMATION ***",
             Application = app,
-            RawData = new Lazy<string>(rawContent),
-            JsonData = BuildJsonDoc(rawContent),
+            RawData = new ResettableLazy<string>(rawContent),
         };
         result.Contexts.AddRange(
             file.Contexts.Select(c => new KubernetesContext
@@ -155,9 +63,8 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
                 Name = c.Name ?? "*** MISSING NAME ***",
                 Cluster = file.Clusters.First(cluster => cluster.Name == c.Context?.Cluster).ToDomain(),
                 User = c.Context?.User ?? "*** MISSING USER ***",
-                RawData = BuildRawFragment(c.Name, result),
-                JsonData = BuildJsonFragment(c.Name, result),
             }));
+
         return result;
     }
 
