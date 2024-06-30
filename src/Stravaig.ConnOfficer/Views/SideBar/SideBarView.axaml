@@ -13,11 +13,6 @@
               ItemsSource="{Binding Nodes}"
               SelectedItem="{Binding SelectedNode}"
               SelectionMode="Single">
-        <!-- <TreeView.Styles> -->
-        <!--     <Style Selector="TreeViewItem"> -->
-        <!--         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" /> -->
-        <!--     </Style> -->
-        <!-- </TreeView.Styles> -->
         <TreeView.ItemTemplate>
             <TreeDataTemplate ItemsSource="{Binding SubNodes}">
                 <views:SideBarNodeView />

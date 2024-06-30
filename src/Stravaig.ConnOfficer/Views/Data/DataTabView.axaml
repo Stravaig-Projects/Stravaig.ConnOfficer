@@ -15,6 +15,9 @@
                 <DataTemplate DataType="{x:Type vm:RawTextViewModel}">
                     <views:RawTextView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:JsonViewModel}">
+                    <views:JsonView/>
+                </DataTemplate>
             </TabControl.DataTemplates>
             <TabControl.ItemTemplate>
                 <DataTemplate>

@@ -6,6 +6,10 @@
         <entry key="Stravaig.ConnOfficer/App.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/BreadcrumbsView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/Data/DataTabView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/Data/JsonValueView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/Data/RawDataHierarchicalItemView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/Data/RawDataHierarchicalObjectView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/Data/RawDataHierarchicalView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/Data/RawTextView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/DataViews/RawTextView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/InfoPages/InfoPageView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />

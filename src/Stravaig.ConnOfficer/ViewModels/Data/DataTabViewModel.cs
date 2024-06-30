@@ -42,7 +42,7 @@ public class DataTabViewModel : ViewModelBase
             if (_sideBarNode.AppNode is IRawData rawData)
             {
                 TabItems.Add(new RawTextViewModel(rawData));
-                //TabItems.Add(new RawDataHierarchicalViewModel(rawData));
+                TabItems.Add(new JsonViewModel(rawData));
             }
 
             // TODO: Add specific tabs for various data types.
