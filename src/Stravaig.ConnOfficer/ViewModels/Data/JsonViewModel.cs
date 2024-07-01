@@ -1,4 +1,6 @@
+using ReactiveUI;
 using Stravaig.ConnOfficer.Domain;
+using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Glue;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,18 +11,34 @@ namespace Stravaig.ConnOfficer.ViewModels.Data;
 
 public class JsonViewModel : DataTabItemViewModelBase
 {
+    private JsonDocument _rawData;
+
     public JsonViewModel(IRawData data)
         : base("Data Hierarchy")
     {
         RawData = data.JsonData.Value;
         Tree = BuildTree();
+        data.JsonData.LazyValueMaybeChanged += JsonDataOnLazyValueMaybeChanged;
     }
 
-    public JsonDocument RawData { get; }
+    private void JsonDataOnLazyValueMaybeChanged(object? sender, LazyValueMaybeChangedEventArgs e)
+    {
+        if (sender is ResettableLazy<JsonDocument> lazy)
+        {
+            RawData = lazy.Value;
+            Tree.ReplaceAll(BuildTree());
+        }
+    }
 
-    public ObservableCollection<JsonItemViewModel> Tree { get; }
+    public JsonDocument RawData
+    {
+        get => _rawData;
+        set => this.RaiseAndSetIfChanged(ref _rawData, value);
+    }
 
-    private ObservableCollection<JsonItemViewModel> BuildTree()
+    public EnhancedObservableCollection<JsonItemViewModel> Tree { get; }
+
+    private EnhancedObservableCollection<JsonItemViewModel> BuildTree()
     {
         var root = BuildElements(null, RawData.RootElement);
         return root.SubNodes;
@@ -36,7 +54,7 @@ public class JsonViewModel : DataTabItemViewModelBase
                     Name = name,
                     SubNodes = jsonElement.EnumerateObject()
                         .Select(p => BuildElements(p.Name, p.Value))
-                        .ToObservableCollection(),
+                        .ToEnhancedObservableCollection(),
                 };
             case JsonValueKind.Array:
                 return new JsonArrayViewModel()
@@ -44,7 +62,7 @@ public class JsonViewModel : DataTabItemViewModelBase
                     Name = name,
                     SubNodes = jsonElement.EnumerateArray()
                         .Select(o => BuildElements(null, o))
-                        .ToObservableCollection(),
+                        .ToEnhancedObservableCollection(),
                 };
             case JsonValueKind.String:
                 return new JsonValueViewModel()
@@ -96,7 +114,7 @@ public class JsonItemViewModel
 
     public bool IsProperty => !string.IsNullOrWhiteSpace(Name);
 
-    public ObservableCollection<JsonItemViewModel> SubNodes { get; init; } = [];
+    public EnhancedObservableCollection<JsonItemViewModel> SubNodes { get; init; } = [];
 
 #if DEBUG
     public string DebugDisplay => $"JsonItem: {Name ?? "--no name--"} {SubNodes.Count}";

@@ -21,6 +21,8 @@ public class SideBarNodeViewModel : ViewModelBase
         _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
     }
 
+    public required SideBarViewModel Container { get; init; }
+
     public ObservableCollection<SideBarNodeViewModel> SubNodes
     {
         get => _subNodes;
@@ -111,7 +113,11 @@ public class SideBarNodeViewModel : ViewModelBase
         {
             var podNode = new SideBarNodeViewModel
             {
-                Name = pod.Name, NodeType = SideBarNodeType.Pod, AppNode = pod, IsPlaceholder = false,
+                Name = pod.Name,
+                Container = Container,
+                NodeType = SideBarNodeType.Pod,
+                AppNode = pod,
+                IsPlaceholder = false,
             };
             SubNodes.Add(podNode);
         }
@@ -134,17 +140,25 @@ public class SideBarNodeViewModel : ViewModelBase
             var namespaceNode = new SideBarNodeViewModel
             {
                 Name = ns.Name,
+                Container = Container,
                 NodeType = SideBarNodeType.Namespace,
                 AppNode = ns,
                 IsPlaceholder = false,
             };
             var podsNode = new SideBarNodeViewModel
             {
-                Name = "Pods", NodeType = SideBarNodeType.Pods, AppNode = ns, IsPlaceholder = false,
+                Name = "Pods",
+                Container = Container,
+                NodeType = SideBarNodeType.Pods,
+                AppNode = ns,
+                IsPlaceholder = false,
             };
             podsNode.SubNodes.Add(new SideBarNodeViewModel()
             {
-                Name = "... loading ...", NodeType = SideBarNodeType.Pod, IsPlaceholder = true,
+                Name = "... loading ...",
+                Container = Container,
+                NodeType = SideBarNodeType.Pod,
+                IsPlaceholder = true,
             });
             namespaceNode.SubNodes.Add(podsNode);
             SubNodes.Add(namespaceNode);

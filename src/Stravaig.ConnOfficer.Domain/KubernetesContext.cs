@@ -27,7 +27,7 @@ public class KubernetesContext : IRawData
 
     public required KubernetesCluster Cluster { get; init; }
 
-    public ObservableCollection<KubernetesNamespace> Namespaces { get; } = [];
+    public EnhancedObservableCollection<KubernetesNamespace> Namespaces { get; } = [];
 
     public ResettableLazy<string> RawData { get; }
 
@@ -41,8 +41,7 @@ public class KubernetesContext : IRawData
             new GetKubernetesNamespacesQuery(this),
             ct);
 
-        Namespaces.Clear();
-        Namespaces.AddRange(result.Namespaces);
+        Namespaces.ReplaceAll(result.Namespaces);
         return result.Namespaces;
     }
 
@@ -56,11 +55,6 @@ public class KubernetesContext : IRawData
     {
         return new ResettableLazy<string>(() =>
         {
-            if (Name == null)
-            {
-                return "{}";
-            }
-
             var initCapacity = Config.RawData.Value.Length;
             var fullJsonDoc = Config.JsonData.Value;
             fullJsonDoc.WriteTrace("Full JSON Object:");
@@ -110,6 +104,22 @@ public class KubernetesContext : IRawData
             }
 
             writer.WriteEndObject();
+
+            if (Namespaces.Count == 0)
+            {
+                writer.WriteCommentValue("Expand out the cluster node in the side bar to load the namespaces.");
+            }
+            else
+            {
+                writer.WriteStartArray("namespaces");
+                foreach (var ns in Namespaces)
+                {
+                    writer.WriteStringValue(ns.Name);
+                }
+
+                writer.WriteEndArray();
+            }
+
             writer.WriteEndObject();
 
             writer.Flush();

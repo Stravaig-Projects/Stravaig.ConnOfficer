@@ -8,6 +8,8 @@ public class ResettableLazy<T>
     private readonly LazyThreadSafetyMode _threadSafetyMode;
     private Lazy<T> _lazy;
 
+    public event LazyValueMaybeChangedEventHandler? LazyValueMaybeChanged;
+
     public ResettableLazy(T obj)
     {
         _lazy = new Lazy<T>(obj);
@@ -40,11 +42,27 @@ public class ResettableLazy<T>
 
     public void Reset()
     {
-        _lazy = _valueFactory == null ? _lazy : BuildLazy();
+        if (_valueFactory != null)
+        {
+            _lazy = BuildLazy();
+            OnLazyValueMaybeChanged();
+        }
     }
 
     private Lazy<T> BuildLazy()
     {
         return new Lazy<T>(_valueFactory, _threadSafetyMode);
     }
+
+    protected virtual void OnLazyValueMaybeChanged()
+    {
+        LazyValueMaybeChanged?.Invoke(this, LazyValueMaybeChangedEventArgs.Instance);
+    }
+}
+
+public delegate void LazyValueMaybeChangedEventHandler(object? sender, LazyValueMaybeChangedEventArgs e);
+
+public class LazyValueMaybeChangedEventArgs
+{
+    internal static readonly LazyValueMaybeChangedEventArgs Instance = new();
 }

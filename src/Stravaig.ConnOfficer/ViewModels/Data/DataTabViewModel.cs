@@ -15,7 +15,7 @@ public class DataTabViewModel : ViewModelBase
 
     public DataTabViewModel(SideBarViewModel sideBar)
     {
-        sideBar.SelectedTreeNodeChanged += SideBarOnSelectedTreeNodeChanged;
+        sideBar.SelectedSideBarNodeChanged += SideBarOnSelectedSideBarNodeChanged;
     }
 
     public SideBarNodeViewModel? SideBarNode
@@ -46,11 +46,14 @@ public class DataTabViewModel : ViewModelBase
             }
 
             // TODO: Add specific tabs for various data types.
-            // switch (_sideBarNode.Type)
-            // {
+            switch (_sideBarNode.Type)
+            {
+                case nameof(SideBarNodeType.Context):
+
+                    break;
             //     case nameof(SideBarNodeType.Config):
             //         break;
-            // }
+            }
 
             if (TabItems.Count == 0)
             {
@@ -78,7 +81,7 @@ public class DataTabViewModel : ViewModelBase
 
     public ObservableCollection<DataTabItemViewModelBase> TabItems { get; } = [];
 
-    private void SideBarOnSelectedTreeNodeChanged(SideBarNodeViewModel? selectedNode)
+    private void SideBarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
     {
         SideBarNode = selectedNode;
     }
