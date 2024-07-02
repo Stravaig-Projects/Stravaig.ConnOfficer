@@ -118,5 +118,11 @@ public class JsonViewModelTests
         public ResettableLazy<string> RawData { get; }
 
         public ResettableLazy<JsonDocument> JsonData { get; }
+
+        public void Dispose()
+        {
+            RawData.Dispose();
+            JsonData.Dispose();
+        }
     }
 }

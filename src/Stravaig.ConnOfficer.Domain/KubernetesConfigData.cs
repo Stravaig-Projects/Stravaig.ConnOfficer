@@ -25,6 +25,12 @@ public class KubernetesConfigData : IRawData
 
     public ResettableLazy<JsonDocument> JsonData { get; }
 
+    public void Dispose()
+    {
+        RawData.Dispose();
+        JsonData.Dispose();
+    }
+
     private ResettableLazy<JsonDocument> BuildJsonDoc()
     {
         return new ResettableLazy<JsonDocument>(() =>

@@ -33,8 +33,20 @@ public class SideBarViewModel : ViewModelBase
         {
             Trace.WriteLine($"Selected node {value?.Name}.");
             this.RaiseAndSetIfChanged(ref _selectedNode, value);
-            SelectedSideBarNodeChanged?.Invoke(_selectedNode);
+            OnSelectedNodeChanged();
         }
+    }
+
+    private void OnSelectedNodeChanged()
+    {
+        if (_selectedNode is ILoadable loadableData)
+        {
+            if (loadableData != null)
+            {
+
+            }
+        }
+        SelectedSideBarNodeChanged?.Invoke(_selectedNode);
     }
 
     private async void LoadContexts()

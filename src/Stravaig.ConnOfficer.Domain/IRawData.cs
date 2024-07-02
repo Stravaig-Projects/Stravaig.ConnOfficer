@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public interface IRawData
+public interface IRawData : IDisposable
 {
     public ResettableLazy<string> RawData { get; }
 

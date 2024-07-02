@@ -1,8 +1,6 @@
-using DynamicData;
 using IdentityModel.Client;
 using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Domain.Queries;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -140,5 +138,11 @@ public class KubernetesContext : IRawData
                 AllowTrailingCommas = true,
             });
         });
+    }
+
+    public void Dispose()
+    {
+        RawData.Dispose();
+        JsonData.Dispose();
     }
 }
