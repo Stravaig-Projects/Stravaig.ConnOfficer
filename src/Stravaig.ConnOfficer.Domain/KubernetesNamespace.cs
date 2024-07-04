@@ -9,10 +9,17 @@ namespace Stravaig.ConnOfficer.Domain;
 
 public class KubernetesNamespace : IRawDto<V1Namespace>
 {
+    private Lazy<KubernetesPodCollection> _podCollection;
+
     public KubernetesNamespace()
     {
         RawData = RawDataHelpers.BuildLazyRawDataFromDto(this);
         JsonData = RawDataHelpers.BuildLazyJsonDataFromDto(this);
+        _podCollection = new Lazy<KubernetesPodCollection>(() => new KubernetesPodCollection()
+        {
+            Application = this.Application!,
+            Namespace = this,
+        });
     }
 
     public required string Name { get; init; }
@@ -23,18 +30,7 @@ public class KubernetesNamespace : IRawDto<V1Namespace>
 
     public required KubernetesContext Context { get; init; }
 
-    public ObservableCollection<KubernetesPod> Pods { get; init; } = [];
-
-    public async Task<KubernetesPod[]> GetPodsAsync(CancellationToken ct)
-    {
-        var result = await Application!.Mediator.Send(
-            new GetKubernetesPodsQuery(this),
-            ct);
-
-        Pods.Clear();
-        Pods.AddRange(result.Pods);
-        return result.Pods;
-    }
+    public KubernetesPodCollection Pods => _podCollection.Value;
 
     public ResettableLazy<string> RawData { get; }
 

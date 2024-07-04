@@ -101,13 +101,13 @@ public class SideBarNodeViewModel : ViewModelBase
 
     private async Task ExpandPodsAsync(CancellationToken ct)
     {
-        var ns = AppNode as KubernetesNamespace;
-        if (ns == null)
+        var podCollection = AppNode as KubernetesPodCollection;
+        if (podCollection == null)
         {
             return;
         }
 
-        var pods = await ns.GetPodsAsync(ct);
+        var pods = await podCollection.GetPodsAsync(ct);
         SubNodes.Clear();
         foreach (var pod in pods)
         {
@@ -150,7 +150,7 @@ public class SideBarNodeViewModel : ViewModelBase
                 Name = "Pods",
                 Container = Container,
                 NodeType = SideBarNodeType.Pods,
-                AppNode = ns,
+                AppNode = ns.Pods,
                 IsPlaceholder = false,
             };
             podsNode.SubNodes.Add(new SideBarNodeViewModel()
