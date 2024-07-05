@@ -39,7 +39,7 @@ if ($nextVersion -notmatch "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$")
     Write-Error "The contents of $VersionFile (`"$nextVersion`") not recognised as a valid version number."
     Exit 2
 }
-"STRAVAIG_PACKAGE_VERSION=$nextVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
+"STRAVAIG_APP_VERSION=$nextVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
 $fullVersion = $nextVersion;
 
 # Work out the suffix (~ = no suffix)
@@ -57,15 +57,6 @@ else
     "STRAVAIG_IS_STABLE=true" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
     "STRAVAIG_IS_PREVIEW=false" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
 }
-"STRAVAIG_PACKAGE_VERSION_SUFFIX=$suffix" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
-"STRAVAIG_PACKAGE_FULL_VERSION=$fullVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
+"STRAVAIG_APP_VERSION_SUFFIX=$suffix" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
+"STRAVAIG_APP_FULL_VERSION=$fullVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
 "STRAVAIG_RELEASE_TAG=v$fullVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append 
-
-if ($IsPublicRelease)
-{
-    "STRAVAIG_PUBLISH_TO_NUGET=true" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
-}
-else 
-{
-    "STRAVAIG_PUBLISH_TO_NUGET=false" | Out-File -FilePath $Env:GITHUB_ENV -Encoding UTF8 -Append
-}
