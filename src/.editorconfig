@@ -152,6 +152,7 @@ dotnet_diagnostic.sa1101.severity = silent # Prefix local calls with this
 dotnet_diagnostic.sa1309.severity = silent # Field names must not begin with an underscore.
 dotnet_diagnostic.sa1402.severity = silent # File may only contain a single type.
 dotnet_diagnostic.sa1600.severity = silent # Document
+dotnet_diagnostic.sa1601.severity = silent # Partial elements should be documented
 dotnet_diagnostic.sa1633.severity = silent # File header
 
 ###############################
@@ -203,7 +204,6 @@ csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_between_method_call_parameter_list_parentheses = false
 csharp_space_between_method_declaration_parameter_list_parentheses = false
-csharp_space_between_parentheses = false
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_after_colon_in_inheritance_clause = true
 csharp_space_around_binary_operators = before_and_after

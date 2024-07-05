@@ -1,8 +1,10 @@
 using DynamicData;
+using IdentityModel.Client;
 using k8s;
 using MediatR;
 using Stravaig.ConnOfficer.Domain.Glue;
-using System.Diagnostics;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using YamlDotNet.Serialization;
 
@@ -28,22 +30,30 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
     {
         var configFileContent = await File.ReadAllTextAsync(configFilePath, ct);
 
+        var config = GetConfigData(configFilePath, configFileContent);
+
+        return ToDomain(application, configFilePath, config, configFileContent);
+    }
+
+    private static KubeFileDto GetConfigData(string configFilePath, string configFileContent)
+    {
         var deserializer = new DeserializerBuilder()
             .IgnoreUnmatchedProperties()
             .Build();
         var config = deserializer.Deserialize<KubeFileDto>(configFileContent);
-        config.WriteTrace("Kubernetes Configuration from " + configFilePath);
 
-        return ToDomain(application, configFilePath, config);
+        config.WriteTrace("Kubernetes Configuration from " + configFilePath);
+        return config;
     }
 
-    private KubernetesConfigData ToDomain(ApplicationState app, string configFilePath, KubeFileDto file)
+    private KubernetesConfigData ToDomain(ApplicationState app, string configFilePath, KubeFileDto file, string rawContent)
     {
         var result = new KubernetesConfigData
         {
             ConfigPath = configFilePath,
             CurrentContext = file.CurrentContext ?? "*** MISSING INFORMATION ***",
             Application = app,
+            RawData = new ResettableLazy<string>(rawContent),
         };
         result.Contexts.AddRange(
             file.Contexts.Select(c => new KubernetesContext
@@ -54,6 +64,7 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
                 Cluster = file.Clusters.First(cluster => cluster.Name == c.Context?.Cluster).ToDomain(),
                 User = c.Context?.User ?? "*** MISSING USER ***",
             }));
+
         return result;
     }
 

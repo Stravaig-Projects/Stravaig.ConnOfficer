@@ -21,6 +21,8 @@ public class SideBarNodeViewModel : ViewModelBase
         _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
     }
 
+    public required SideBarViewModel Container { get; init; }
+
     public ObservableCollection<SideBarNodeViewModel> SubNodes
     {
         get => _subNodes;
@@ -99,19 +101,23 @@ public class SideBarNodeViewModel : ViewModelBase
 
     private async Task ExpandPodsAsync(CancellationToken ct)
     {
-        var ns = AppNode as KubernetesNamespace;
-        if (ns == null)
+        var podCollection = AppNode as KubernetesPodCollection;
+        if (podCollection == null)
         {
             return;
         }
 
-        var pods = await ns.GetPodsAsync(ct);
+        var pods = await podCollection.GetPodsAsync(ct);
         SubNodes.Clear();
         foreach (var pod in pods)
         {
             var podNode = new SideBarNodeViewModel
             {
-                Name = pod.Name, NodeType = SideBarNodeType.Pod, AppNode = pod, IsPlaceholder = false,
+                Name = pod.Name,
+                Container = Container,
+                NodeType = SideBarNodeType.Pod,
+                AppNode = pod,
+                IsPlaceholder = false,
             };
             SubNodes.Add(podNode);
         }
@@ -134,17 +140,25 @@ public class SideBarNodeViewModel : ViewModelBase
             var namespaceNode = new SideBarNodeViewModel
             {
                 Name = ns.Name,
+                Container = Container,
                 NodeType = SideBarNodeType.Namespace,
                 AppNode = ns,
                 IsPlaceholder = false,
             };
             var podsNode = new SideBarNodeViewModel
             {
-                Name = "Pods", NodeType = SideBarNodeType.Pods, AppNode = ns, IsPlaceholder = false,
+                Name = "Pods",
+                Container = Container,
+                NodeType = SideBarNodeType.Pods,
+                AppNode = ns.Pods,
+                IsPlaceholder = false,
             };
             podsNode.SubNodes.Add(new SideBarNodeViewModel()
             {
-                Name = "... loading ...", NodeType = SideBarNodeType.Pod, IsPlaceholder = true,
+                Name = "... loading ...",
+                Container = Container,
+                NodeType = SideBarNodeType.Pod,
+                IsPlaceholder = true,
             });
             namespaceNode.SubNodes.Add(podsNode);
             SubNodes.Add(namespaceNode);

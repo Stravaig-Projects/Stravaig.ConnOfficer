@@ -13,4 +13,8 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+
+    <Application.Resources>
+        <FontFamily x:Key="FiraCode">avares://Stravaig.ConnOfficer/Assets/Fonts#Fira Code</FontFamily>
+    </Application.Resources>
 </Application>

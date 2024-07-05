@@ -50,6 +50,7 @@ public class GetKubernetesPodsHandler : IRequestHandler<GetKubernetesPodsQuery, 
             Pods = pods.Select(p => new KubernetesPod()
             {
                 Name = p.Name(),
+                RawDto = p,
                 Namespace = request.Namespace,
                 Application = request.Namespace.Application,
             }).ToArray(),

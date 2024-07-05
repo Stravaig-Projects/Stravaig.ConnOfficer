@@ -20,9 +20,9 @@ public class SideBarViewModel : ViewModelBase
         RxApp.MainThreadScheduler.Schedule(LoadContexts);
     }
 
-    public delegate void TreeNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
+    public delegate void SideBarNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
 
-    public event TreeNodeSelectedHandler? SelectedTreeNodeChanged;
+    public event SideBarNodeSelectedHandler? SelectedSideBarNodeChanged;
 
     public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 
@@ -33,8 +33,13 @@ public class SideBarViewModel : ViewModelBase
         {
             Trace.WriteLine($"Selected node {value?.Name}.");
             this.RaiseAndSetIfChanged(ref _selectedNode, value);
-            SelectedTreeNodeChanged?.Invoke(_selectedNode);
+            OnSelectedNodeChanged();
         }
+    }
+
+    private void OnSelectedNodeChanged()
+    {
+        SelectedSideBarNodeChanged?.Invoke(_selectedNode);
     }
 
     private async void LoadContexts()
@@ -44,6 +49,7 @@ public class SideBarViewModel : ViewModelBase
         Nodes.Add(new SideBarNodeViewModel()
         {
             Name = info.ConfigPath,
+            Container = this,
             NodeType = SideBarNodeType.Config,
             LoadedSubNodes = true,
             AppNode = info,
@@ -51,6 +57,7 @@ public class SideBarViewModel : ViewModelBase
                 info.Contexts.Select(c => new SideBarNodeViewModel()
                 {
                     Name = c.Name,
+                    Container = this,
                     NodeType = SideBarNodeType.Context,
                     LoadedSubNodes = false,
                     AppNode = c,
@@ -59,6 +66,7 @@ public class SideBarViewModel : ViewModelBase
                         new SideBarNodeViewModel()
                         {
                             Name = "... loading ...",
+                            Container = this,
                             NodeType = SideBarNodeType.Namespace,
                             IsPlaceholder = true,
                             LoadedSubNodes = false,

@@ -5,6 +5,7 @@
         xmlns:vm="using:Stravaig.ConnOfficer.ViewModels"
         xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
         xmlns:glue="clr-namespace:Stravaig.ConnOfficer.Glue"
+        xmlns:dataViews="clr-namespace:Stravaig.ConnOfficer.Views.Data"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Stravaig.ConnOfficer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -28,8 +29,7 @@
                 <Panel Height="32">
                     <views:BreadcrumbsView DataContext="{Binding Breadcrumbs}"/>
                 </Panel>
-                <TextBlock Grid.Row="1" Text="This is the main view" VerticalAlignment="Center"
-                           HorizontalAlignment="Center" />
+                <dataViews:DataTabView Grid.Row="1" DataContext="{Binding DataTabs}"/>
             </Grid>
         </SplitView>
     </DockPanel>

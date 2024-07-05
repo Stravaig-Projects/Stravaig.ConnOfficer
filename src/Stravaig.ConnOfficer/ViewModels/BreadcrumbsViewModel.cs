@@ -17,12 +17,12 @@ public class BreadcrumbsViewModel : ViewModelBase
     {
         _sidebar = sideBar;
         Fragments.CollectionChanged += FragmentsOnCollectionChanged;
-        _sidebar.SelectedTreeNodeChanged += SidebarOnSelectedTreeNodeChanged;
+        _sidebar.SelectedSideBarNodeChanged += SidebarOnSelectedSideBarNodeChanged;
     }
 
     public ObservableCollection<BreadcrumbFragment> Fragments { get; } = [];
 
-    private void SidebarOnSelectedTreeNodeChanged(SideBarNodeViewModel? selectedNode)
+    private void SidebarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
     {
         Stack<BreadcrumbFragment> stack = new();
         var currentNode = selectedNode;

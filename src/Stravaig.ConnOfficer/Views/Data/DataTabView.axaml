@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Stravaig.ConnOfficer.ViewModels.Data"
+             xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views.Data"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Stravaig.ConnOfficer.Views.Data.DataTabView"
+             x:DataType="vm:DataTabViewModel">
+    <Panel>
+        <TabControl IsVisible="{Binding IsTabVisible}"
+                    Margin="5"
+                    ItemsSource="{Binding TabItems}">
+            <TabControl.DataTemplates>
+                <DataTemplate DataType="{x:Type vm:RawTextViewModel}">
+                    <views:RawTextView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:JsonViewModel}">
+                    <views:JsonView/>
+                </DataTemplate>
+            </TabControl.DataTemplates>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding TabName}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+        <TextBlock Text="{Binding NoTabsMessage}"
+                   IsVisible="{Binding !IsTabVisible}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+        </Panel>
+</UserControl>
