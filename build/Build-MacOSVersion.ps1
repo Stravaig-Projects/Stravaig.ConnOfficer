@@ -12,7 +12,7 @@ $codeSignatureDir = "$contentsDir/_CodeSignature";
 $codeResourcesDir = "$codeSignatureDir/CodeResources";
 $macOSDir = "$contentsDir/MacOS";
 $resourcesDir = "$contentsDir/Resources";
-$iconResourcePath = "$resourceDir/ConnOfficerAppIcon.icns";
+$iconResourcePath = "$resourcesDir/ConnOfficerAppIcon.icns";
 
 Write-Host ""
 Write-Host "Creating application directory structure";
