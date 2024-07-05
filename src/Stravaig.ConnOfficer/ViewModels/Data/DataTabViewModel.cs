@@ -15,6 +15,7 @@ public class DataTabViewModel : ViewModelBase
 
     public DataTabViewModel(SideBarViewModel sideBar)
     {
+        _noTabsMessage = "This element has no views to show.";
         sideBar.SelectedSideBarNodeChanged += SideBarOnSelectedSideBarNodeChanged;
     }
 
@@ -39,20 +40,19 @@ public class DataTabViewModel : ViewModelBase
                 return;
             }
 
-            if (_sideBarNode.AppNode is IRawData rawData)
-            {
-                TabItems.Add(new RawTextViewModel(rawData));
-                TabItems.Add(new JsonViewModel(rawData));
-            }
-
             // TODO: Add specific tabs for various data types.
             switch (_sideBarNode.Type)
             {
                 case nameof(SideBarNodeType.Context):
-
                     break;
-            //     case nameof(SideBarNodeType.Config):
-            //         break;
+                case nameof(SideBarNodeType.Config):
+                    break;
+            }
+
+            if (_sideBarNode.AppNode is IRawData rawData)
+            {
+                TabItems.Add(new RawTextViewModel(rawData));
+                TabItems.Add(new JsonViewModel(rawData));
             }
 
             if (TabItems.Count == 0)
@@ -85,5 +85,4 @@ public class DataTabViewModel : ViewModelBase
     {
         SideBarNode = selectedNode;
     }
-
 }

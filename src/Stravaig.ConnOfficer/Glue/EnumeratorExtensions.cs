@@ -11,5 +11,4 @@ public static class EnumeratorExtensions
 
     public static EnhancedObservableCollection<T> ToEnhancedObservableCollection<T>(this IEnumerable<T> sequence)
         => new(sequence);
-
 }

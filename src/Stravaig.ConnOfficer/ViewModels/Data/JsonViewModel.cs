@@ -16,18 +16,9 @@ public class JsonViewModel : DataTabItemViewModelBase
     public JsonViewModel(IRawData data)
         : base("Data Hierarchy")
     {
-        RawData = data.JsonData.Value;
+        _rawData = data.JsonData.Value;
         Tree = BuildTree();
         data.JsonData.LazyValueMaybeChanged += JsonDataOnLazyValueMaybeChanged;
-    }
-
-    private void JsonDataOnLazyValueMaybeChanged(object? sender, LazyValueMaybeChangedEventArgs e)
-    {
-        if (sender is ResettableLazy<JsonDocument> lazy)
-        {
-            RawData = lazy.Value;
-            Tree.ReplaceAll(BuildTree());
-        }
     }
 
     public JsonDocument RawData
@@ -37,6 +28,15 @@ public class JsonViewModel : DataTabItemViewModelBase
     }
 
     public EnhancedObservableCollection<JsonItemViewModel> Tree { get; }
+
+    private void JsonDataOnLazyValueMaybeChanged(object? sender, LazyValueMaybeChangedEventArgs e)
+    {
+        if (sender is ResettableLazy<JsonDocument> lazy)
+        {
+            RawData = lazy.Value;
+            Tree.ReplaceAll(BuildTree());
+        }
+    }
 
     private EnhancedObservableCollection<JsonItemViewModel> BuildTree()
     {

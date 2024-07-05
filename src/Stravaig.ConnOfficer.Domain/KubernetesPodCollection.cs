@@ -54,7 +54,7 @@ public class KubernetesPodCollection : IRawDto<IDictionary<string, KubernetesPod
 
         public DateTimeOffset? StartTimeLocal { get; init; }
 
-        public string Phase { get; init; }
+        public required string Phase { get; init; }
 
         public static PodSummary Create(V1Pod pod)
         {

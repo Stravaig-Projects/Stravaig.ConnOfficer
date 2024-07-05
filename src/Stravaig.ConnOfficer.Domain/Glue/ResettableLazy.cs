@@ -1,5 +1,7 @@
 namespace Stravaig.ConnOfficer.Domain.Glue;
 
+public delegate void LazyValueMaybeChangedEventHandler(object? sender, LazyValueMaybeChangedEventArgs e);
+
 public class ResettableLazy<T> : IDisposable
 {
     #nullable disable
@@ -102,8 +104,6 @@ public class ResettableLazy<T> : IDisposable
         ObjectDisposedException.ThrowIf(_isDisposed, this);
     }
 }
-
-public delegate void LazyValueMaybeChangedEventHandler(object? sender, LazyValueMaybeChangedEventArgs e);
 
 public class LazyValueMaybeChangedEventArgs
 {

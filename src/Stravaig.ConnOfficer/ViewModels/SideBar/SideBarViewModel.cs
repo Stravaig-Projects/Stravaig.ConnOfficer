@@ -39,13 +39,6 @@ public class SideBarViewModel : ViewModelBase
 
     private void OnSelectedNodeChanged()
     {
-        if (_selectedNode is ILoadable loadableData)
-        {
-            if (loadableData != null)
-            {
-
-            }
-        }
         SelectedSideBarNodeChanged?.Invoke(_selectedNode);
     }
 

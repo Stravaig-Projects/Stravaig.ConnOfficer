@@ -152,6 +152,7 @@ dotnet_diagnostic.sa1101.severity = silent # Prefix local calls with this
 dotnet_diagnostic.sa1309.severity = silent # Field names must not begin with an underscore.
 dotnet_diagnostic.sa1402.severity = silent # File may only contain a single type.
 dotnet_diagnostic.sa1600.severity = silent # Document
+dotnet_diagnostic.sa1601.severity = silent # Partial elements should be documented
 dotnet_diagnostic.sa1633.severity = silent # File header
 
 ###############################

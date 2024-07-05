@@ -44,7 +44,6 @@ public class JsonViewModelTests
         number.RawValue.ShouldBe("2");
         number.Number.ShouldBe(2M);
 
-
         nodes[2].Name.ShouldBe("Affirmative");
         nodes[2].SubNodes.Count.ShouldBe(0);
         nodes[2].IsEmpty.ShouldBeTrue();

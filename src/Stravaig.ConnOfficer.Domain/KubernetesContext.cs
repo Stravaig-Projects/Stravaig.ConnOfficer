@@ -43,6 +43,12 @@ public class KubernetesContext : IRawData
         return result.Namespaces;
     }
 
+    public void Dispose()
+    {
+        RawData.Dispose();
+        JsonData.Dispose();
+    }
+
     private void NamespacesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         RawData.Reset();
@@ -138,11 +144,5 @@ public class KubernetesContext : IRawData
                 AllowTrailingCommas = true,
             });
         });
-    }
-
-    public void Dispose()
-    {
-        RawData.Dispose();
-        JsonData.Dispose();
     }
 }

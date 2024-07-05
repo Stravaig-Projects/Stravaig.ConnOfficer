@@ -11,19 +11,19 @@ public class RawTextViewModel : DataTabItemViewModelBase
     public RawTextViewModel(IRawData data)
         : base("Raw Text")
     {
-        RawText = data.RawData.Value;
+        _rawText = data.RawData.Value;
         data.RawData.LazyValueMaybeChanged += RawDataOnLazyValueMaybeChanged;
-    }
-
-    private void RawDataOnLazyValueMaybeChanged(object? sender, LazyValueMaybeChangedEventArgs e)
-    {
-        var lazyValue = sender as ResettableLazy<string>;
-        RawText = lazyValue?.Value ?? RawText;
     }
 
     public string RawText
     {
         get => _rawText;
         set => this.RaiseAndSetIfChanged(ref _rawText, value);
+    }
+
+    private void RawDataOnLazyValueMaybeChanged(object? sender, LazyValueMaybeChangedEventArgs e)
+    {
+        var lazyValue = sender as ResettableLazy<string>;
+        RawText = lazyValue?.Value ?? RawText;
     }
 }
