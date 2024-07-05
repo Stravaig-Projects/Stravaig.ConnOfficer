@@ -88,6 +88,13 @@ jobs:
         shell: pwsh
         run: ./build/Build-WindowsVersion.ps1
 
+      - name: Archive Application
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows-application
+          path: out/**
+          retention-days: 7
+
   build_macos:
     name: Build MacOS App
     needs: run_tests
@@ -110,9 +117,16 @@ jobs:
       - name: .NET State 
         run: dotnet --info 
 
-      - name: Build for Windows
+      - name: Build for MacOS
         shell: pwsh
         run: ./build/Build-MacOSVersion.ps1
+
+      - name: Archive Application
+        uses: actions/upload-artifact@v3
+        with:
+          name: MacOS-application
+          path: out/**
+          retention-days: 7
     
 
   # build:
