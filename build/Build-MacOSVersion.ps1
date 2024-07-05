@@ -1,5 +1,3 @@
-# TODO: Build the MacOS version
-
 Write-Host "This script builds the MacOS version of the application."
 
 $projectName = $ENV:STRAVAIG_PROJECT;
@@ -25,6 +23,11 @@ $null = New-Item -ItemType Directory -Force -Path $resourcesDir;
 Write-Host ""
 Write-Host "Converting $appIconSet to $iconResourcePath";
 iconutil -c icns --output "$iconResourcePath" "$appIconSet"
+if ($LASTEXITCODE -ne 0)
+{
+    Write-Error "Failed to convert the iconset to an icns file. Exit code $LASTEXITCODE"
+    Exit $LASTEXITCODE
+}
 
 
 Write-Host ""
