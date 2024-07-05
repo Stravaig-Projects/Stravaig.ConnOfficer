@@ -13,23 +13,16 @@ public class JsonViewModelTests
     public void EmptyObjectJustHasRootNodeTest()
     {
         var viewModel = BuildVM("{}");
-        var rootNode = viewModel.Tree.Single();
-        rootNode.SubNodes.Count.ShouldBe(0);
-        rootNode.Name.ShouldBe("$");
-        rootNode.ShouldBeOfType<JsonObjectViewModel>();
-        rootNode.IsEmpty.ShouldBeTrue();
+        var rootNode = viewModel.Tree;
+        rootNode.Count.ShouldBe(0);
     }
 
     [Fact]
     public void BasicObjectHasRootAndFirstLevelPropertiesTest()
     {
         var viewModel = BuildVM(@"{""First"":""One"",""Second"":2,""Affirmative"":true,""Negative"":false,""Nothing"":null}");
-        var rootNode = viewModel.Tree.Single();
-        var nodes = rootNode.SubNodes;
+        var nodes = viewModel.Tree;
         nodes.Count.ShouldBe(5);
-        rootNode.Name.ShouldBe("$");
-        rootNode.ShouldBeOfType<JsonObjectViewModel>();
-        rootNode.IsEmpty.ShouldBeFalse();
 
         nodes[0].Name.ShouldBe("First");
         nodes[0].SubNodes.Count.ShouldBe(0);
@@ -69,12 +62,8 @@ public class JsonViewModelTests
     public void ArrayAndEmptyObjectTests()
     {
         var viewModel = BuildVM(@"{""AnArray"":[false, true, 2,""Three"",null],""AnEmptyObject"":{},""AnEmptyArray"":[]}");
-        var rootNode = viewModel.Tree.Single();
-        var nodes = rootNode.SubNodes;
+        var nodes = viewModel.Tree;
         nodes.Count.ShouldBe(3);
-        rootNode.Name.ShouldBe("$");
-        rootNode.ShouldBeOfType<JsonObjectViewModel>();
-        rootNode.IsEmpty.ShouldBeFalse();
 
         nodes[0].Name.ShouldBe("AnArray");
         var arrayNodes = nodes[0].SubNodes;
