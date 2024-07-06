@@ -1,11 +1,26 @@
-Write-Host "This script builds the MacOS version of the application."
+function Log($message)
+{
+    Write-Host ""
+    Write-Host("[$((Get-Date).ToString("yyyy-MM-dd HH:mm:ss.fff zzz"))] => $message");
+}
 
-$projectName = $ENV:STRAVAIG_PROJECT;
-$projectPath = "./src/$projectName/$projectName.csproj";
+Log "This script builds the MacOS version of the application."
+
+$projectName = "Stravaig.ConnOfficer";
+$repoRoot = [System.IO.Path]::GetFullPath("$PSScriptRoot/..");
+$projectPath = "$repoRoot/src/$projectName/$projectName.csproj";
 $appIconSet = "$PSScriptRoot/MacOS/icon.iconset";
 $infoPListPath = "$PSScriptRoot/MacOS/Info.plist";
 
-$outputDir = "./out";
+$workingDir = Get-Location;
+$outputDir = "$workingDir/out";
+if (Test-Path $outputDir)
+{
+    Log("Cleaning up the output directory")
+    Remove-Item $outputDir -Recurse -Force
+}
+
+
 $programDir = "$outputDir/Stravaig Conn Officer.app";
 $contentsDir = "$programDir/Contents";
 $codeSignatureDir = "$contentsDir/_CodeSignature";
@@ -14,25 +29,26 @@ $macOSDir = "$contentsDir/MacOS";
 $resourcesDir = "$contentsDir/Resources";
 $iconResourcePath = "$resourcesDir/ConnOfficerAppIcon.icns";
 
-Write-Host ""
-Write-Host "Creating application directory structure";
+Log "Creating application directory structure";
 $null = New-Item -ItemType Directory -Force -Path $codeResourcesDir;
 $null = New-Item -ItemType Directory -Force -Path $MacOSDir;
 $null = New-Item -ItemType Directory -Force -Path $resourcesDir;
 
-Write-Host ""
-Write-Host "Converting $appIconSet to $iconResourcePath";
+Log "Building app icon. Converting`nFrom $appIconSet`n  To $iconResourcePath";
 iconutil -c icns --output "$iconResourcePath" "$appIconSet"
 if ($LASTEXITCODE -ne 0)
 {
-    Write-Error "Failed to convert the iconset to an icns file. Exit code $LASTEXITCODE"
+    Log "Failed to convert the iconset to an icns file. Exit code $LASTEXITCODE"
     Exit $LASTEXITCODE
 }
 
-Write-Host ""
-Write-Host "Publishing Info.plist file";
-Copy-Item -Path $infoPListPath -Destination $contentsDir;
-
-Write-Host ""
-Write-Host "Publishing application";
+Log "Publishing application`nFrom $projectPath`n  To $macOSDir";
 dotnet publish $projectPath --runtime osx-x64 --configuration Release -p:UseAppHost=true --output $macOSDir --self-contained true -p:PublishSingleFile=true
+if ($LASTEXITCODE -ne 0)
+{
+    Log "Failed to publish the application. Exit code $LASTEXITCODE"
+    Exit $LASTEXITCODE
+}
+
+Log "Publishing Info.plist file";
+Copy-Item -Path $infoPListPath -Destination $contentsDir;
