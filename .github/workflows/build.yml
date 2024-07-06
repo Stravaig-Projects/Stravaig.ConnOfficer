@@ -82,7 +82,15 @@ jobs:
           dotnet-version: 8.0.x
             
       - name: .NET State 
-        run: dotnet --info 
+        run: dotnet --info
+
+      - name: Create Application Icon from MacOS iconset
+        uses: jruipinto/ImageMagick-action@v1
+        env:
+          SOURCE: ./build/MacOS/icon.iconset
+          DESTINATION: ./src/Stravaig.ConnOfficer/Assets/Icons/app-icon.ico
+        with:
+          command: magick $SOURCE/icon_16x16.png $SOURCE/icon_32x32.png $SOURCE/icon_32x32@2x.png $SOURCE/icon_128x128.png $SOURCE/icon_256x256.png $DESTINATION
 
       - name: Build for Windows
         shell: pwsh
