@@ -2,8 +2,8 @@ Write-Host "This script builds the MacOS version of the application."
 
 $projectName = $ENV:STRAVAIG_PROJECT;
 $projectPath = "./src/$projectName/$projectName.csproj";
-$appIconSet = "./src/$projectName/MacOS/icon.iconset";
-$infoPListPath = "./src/$projectName/MacOS/Info.plist";
+$appIconSet = "$PSScriptRoot/MacOS/icon.iconset";
+$infoPListPath = "$PSScriptRoot/MacOS/Info.plist";
 
 $outputDir = "./out";
 $programDir = "$outputDir/Stravaig Conn Officer.app";
