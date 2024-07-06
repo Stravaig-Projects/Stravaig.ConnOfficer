@@ -29,6 +29,9 @@ if ($LASTEXITCODE -ne 0)
     Exit $LASTEXITCODE
 }
 
+Write-Host ""
+Write-Host "Publishing Info.plist file";
+Copy-Item -Path $infoPListPath -Destination $contentsDir;
 
 Write-Host ""
 Write-Host "Publishing application";
