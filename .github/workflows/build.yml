@@ -88,19 +88,19 @@ jobs:
         shell: pwsh
         run: ./build/Build-WindowsVersion.ps1
 
-      - name: Create Windows Setup file
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
-        with:
-          path: build/Windows/setup-script.iss
-
-      - name: Archive Application
+      - name: Archive Windows App Files
         uses: actions/upload-artifact@v4
         with:
           name: Windows-application-file
           path: out/**
           retention-days: 7
 
-      - name: Archive Application
+      - name: Create Windows Setup file
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: build/Windows/setup-script.iss
+
+      - name: Archive Windows Installer
         uses: actions/upload-artifact@v4
         with:
           name: Windows-application-installer
