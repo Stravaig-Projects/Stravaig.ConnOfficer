@@ -96,7 +96,7 @@ jobs:
           retention-days: 7
 
       - name: Create Windows Setup file
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        uses: Minionguyjpro/Inno-Setup-Action@v1
         with:
           path: build/Windows/setup-script.iss
 
