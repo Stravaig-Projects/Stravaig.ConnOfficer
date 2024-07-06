@@ -6,6 +6,9 @@
 # Mac files
 .DS_Store
 
+out/
+setup-out/
+
 # docs
 docs/_site/
 docs/Gemfile.lock
