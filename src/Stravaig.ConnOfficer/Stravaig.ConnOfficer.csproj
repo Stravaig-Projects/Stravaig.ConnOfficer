@@ -13,7 +13,11 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\**"/>
   </ItemGroup>
-
+  
+  <PropertyGroup>
+    <UseAppHost>true</UseAppHost>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.11" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.11" />
