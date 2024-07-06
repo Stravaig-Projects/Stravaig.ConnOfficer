@@ -41,10 +41,4 @@
     <ProjectReference Include="..\Stravaig.ConnOfficer.Domain\Stravaig.ConnOfficer.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\Icons\app-icon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AvaloniaResource>
-  </ItemGroup>
-
 </Project>
