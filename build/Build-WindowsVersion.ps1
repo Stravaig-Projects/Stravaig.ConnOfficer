@@ -10,6 +10,7 @@ $repoRoot = [System.IO.Path]::GetFullPath("$PSScriptRoot/..");
 $projectName = "Stravaig.ConnOfficer"
 $projectFolder = "$repoRoot/src/$projectName";
 $projectPath = "$projectFolder/$projectName.csproj"
+$iconFile = "$projectFolder/Assets/Icons/app-icon.ico"
 
 $workingDir = Get-Location;
 $outputDir = "$workingDir/out";
@@ -29,3 +30,6 @@ dotnet publish $projectPath --runtime win-x64 --configuration Release --output $
 Log "Cleaning up"
 Remove-Item "$outputDir/*.pdb" -Force
 Remove-Item "$outputDir/*.xml" -Force
+
+Log "Copying the Icon`nFrom $iconFile`n  To $outputDir"
+Copy-Item -Path "$iconFile" -Destination $outputDir
