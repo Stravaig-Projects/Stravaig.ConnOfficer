@@ -62,7 +62,7 @@ $repoRoot = [System.IO.Path]::GetFullPath("$PSScriptRoot/..");
 $projectPath = "$repoRoot/src/$projectName/$projectName.csproj";
 $appIconSet = "$PSScriptRoot/MacOS/icon.iconset";
 $infoPListPath = "$PSScriptRoot/MacOS/Info.plist";
-$versionFile = "$repoRoot/version.txt";
+$entitlementsFile = "$PSScriptRoot/MacOS/app.entitlements";
 
 $workingDir = Get-Location;
 $outputDir = "$workingDir/out";
