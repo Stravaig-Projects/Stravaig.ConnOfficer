@@ -4,18 +4,34 @@
 <dict>
 	<key>CFBundleIconFile</key>
 	<string>ConnOfficerAppIcon.icns</string>
-	<key>CFBundleShortVersionString</key>
-	<string>0.1.0</string>
-	<key>CFBundleVersion</key>
-	<string>0.1.0</string>
-	<key>CFBundleExecutable</key>
-	<string>Stravaig.ConnOfficer</string>
-	<key>CFBundleDisplayName</key>
-	<string>Stravaig Conn Officer</string>
-	<key>CFBundleName</key>
-	<string>Conn Officer</string>
+
 	<key>CFBundleIdentifier</key>
 	<string>scot.stravaig.conn-officer</string>
+
+	<key>CFBundleName</key>
+	<string>Conn Officer</string>
+
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+
+	<key>LSMinimumSystemVersion</key>
+	<string>10.12</string>
+
+	<key>CFBundleExecutable</key>
+	<string>Stravaig.ConnOfficer</string>
+
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+
+	<key>CFBundleDisplayName</key>
+	<string>Stravaig Conn Officer</string>
+
 	<key>NSHighResolutionCapable</key>
 	<true/>
 </dict>

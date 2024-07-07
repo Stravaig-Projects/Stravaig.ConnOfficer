@@ -1,7 +1,7 @@
 name: Stravaig Conn Officer
-on: 
+on:
   push:
-    branches: 
+    branches:
       - main
       - "#2/build-pipeline"
 
@@ -26,7 +26,7 @@ on:
   workflow_dispatch:
     inputs:
       isPublic:
-        description: 'Is Public Release'     
+        description: 'Is Public Release'
         required: false
         default: "false"
       isPreview:
@@ -56,10 +56,10 @@ jobs:
         name: Setup .NET 8.0
         with:
           dotnet-version: 8.0.x
-            
-      - name: .NET State 
-        run: dotnet --info 
-              
+
+      - name: .NET State
+        run: dotnet --info
+
       - name: Run Tests
         run: dotnet test src/$STRAVAIG_TESTS/$STRAVAIG_TESTS.csproj --configuration Release
 
@@ -80,8 +80,8 @@ jobs:
         name: Setup .NET 8.0
         with:
           dotnet-version: 8.0.x
-            
-      - name: .NET State 
+
+      - name: .NET State
         run: dotnet --info
 
       - name: Build for Windows
@@ -126,9 +126,13 @@ jobs:
         name: Setup .NET 8.0
         with:
           dotnet-version: 8.0.x
-            
-      - name: .NET State 
-        run: dotnet --info 
+
+      - name: .NET State
+        run: dotnet --info
+
+      - name: Set version number
+        shell: pwsh
+        run: ./Set-Version.ps1 -IsPublic "${{ github.event.inputs.isPublic }}" -IsPreview "${{ github.event.inputs.isPreview }}"
 
       - name: Build for MacOS
         shell: pwsh
@@ -140,7 +144,7 @@ jobs:
           name: MacOS-application
           path: out/**
           retention-days: 7
-    
+
 
   # build:
   #   name: Run Tests
@@ -149,7 +153,7 @@ jobs:
   #     STRAVAIG_SOLUTION: src/Stravaig.ConnOfficer.sln
   #     STRAVAIG_TESTS: Stravaig.ConnOfficer.Tests
   #     STRAVAIG_PROJECT: Stravaig.ConnOfficer
-    
+
   #   steps:
   #     - name: Check out code
   #       uses: actions/checkout@v4
@@ -164,7 +168,7 @@ jobs:
 
       # - name: Display workflow state
       #   run: |
-      #     echo "GITHUB_SHA: $GITHUB_SHA" 
+      #     echo "GITHUB_SHA: $GITHUB_SHA"
       #     echo "Solution: $STRAVAIG_SOLUTION"
       #     echo "Project: $STRAVAIG_PROJECT"
       #     echo "Tests: $STRAVAIG_TESTS"
@@ -174,18 +178,18 @@ jobs:
       #     echo "Publish To NuGet: $STRAVAIG_PUBLISH_TO_NUGET"
       #     echo "Is Preview: $STRAVAIG_IS_PREVIEW"
       #     echo "Is Stable: $STRAVAIG_IS_STABLE"
-          
+
       # - uses: actions/setup-dotnet@v4
       #   name: Setup .NET 8.0
       #   with:
       #     dotnet-version: 8.0.x
-            
-      # - name: .NET State 
-      #   run: dotnet --info 
-        
+
+      # - name: .NET State
+      #   run: dotnet --info
+
       # - name: Build Solution
       #   run: dotnet build $STRAVAIG_SOLUTION --configuration Release
-       
+
       # - name: Run Tests
       #   run: dotnet test src/$STRAVAIG_TESTS/$STRAVAIG_TESTS.csproj --configuration Release
 
@@ -200,7 +204,7 @@ jobs:
       # - name: Package Preview Release
       #   if: ${{ env.STRAVAIG_IS_PREVIEW == 'true' }}
       #   run: dotnet pack ./src/$STRAVAIG_PROJECT/$STRAVAIG_PROJECT.csproj --configuration Release --output ./out --include-symbols --include-source /p:VersionPrefix="$STRAVAIG_PACKAGE_VERSION" --version-suffix "$STRAVAIG_PACKAGE_VERSION_SUFFIX" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
-       
+
       # - name: Package Stable Release
       #   if: ${{ env.STRAVAIG_IS_STABLE == 'true' }}
       #   run: dotnet pack ./src/$STRAVAIG_PROJECT/$STRAVAIG_PROJECT.csproj --configuration Release --output ./out --include-symbols --include-source /p:VersionPrefix="$STRAVAIG_PACKAGE_VERSION" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
@@ -209,9 +213,9 @@ jobs:
       #   if: ${{ env.STRAVAIG_PUBLISH_TO_NUGET == 'true' }}
       #   shell: pwsh
       #   run: |
-      #     Get-ChildItem ./out/*.nupkg | ForEach-Object { 
-      #       $name = $_.FullName; 
-      #       Write-Output "Pushing $name"; 
+      #     Get-ChildItem ./out/*.nupkg | ForEach-Object {
+      #       $name = $_.FullName;
+      #       Write-Output "Pushing $name";
       #       dotnet nuget push "$name" --api-key ${{ secrets.STRAVAIG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
       #     }
 
@@ -245,22 +249,22 @@ jobs:
       #       release-notes/full-release-notes.md
       #       release-notes/release-notes-${{ env.STRAVAIG_PACKAGE_FULL_VERSION }}.md
       #       out/**
-        
+
       # - name: Create Release
       #   if: ${{ env.STRAVAIG_PUBLISH_TO_NUGET == 'true' }}
-      #   shell: pwsh 
-      #   env: 
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-      #   run: | 
-      #     $assets = @(); 
-      #     $assets += "./out/*.nupkg" 
-      #     $assets += "./out/*.snupkg" 
-      #     $assets += "LICENSE" 
-      #     $assets += "contributors.md" 
-      #     $assets += "README.md" 
-      #     $assets += "./release-notes/release-notes-${{ env.STRAVAIG_PACKAGE_FULL_VERSION }}.md" 
-      #     ./Create-Release.ps1 -NotesFile "./release-body.md" -Assets $assets 
-          
+      #   shell: pwsh
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     $assets = @();
+      #     $assets += "./out/*.nupkg"
+      #     $assets += "./out/*.snupkg"
+      #     $assets += "LICENSE"
+      #     $assets += "contributors.md"
+      #     $assets += "README.md"
+      #     $assets += "./release-notes/release-notes-${{ env.STRAVAIG_PACKAGE_FULL_VERSION }}.md"
+      #     ./Create-Release.ps1 -NotesFile "./release-body.md" -Assets $assets
+
       # - name: Bump version
       #   #IF Publishing & Stable release
       #   if: ${{ env.STRAVAIG_PUBLISH_TO_NUGET == 'true' && env.STRAVAIG_IS_STABLE == 'true' }}
@@ -277,7 +281,7 @@ jobs:
       #   #IF Publishing & Stable release
       #   if: ${{ env.STRAVAIG_PUBLISH_TO_NUGET == 'true' && env.STRAVAIG_IS_STABLE == 'true' }}
       #   shell: pwsh
-      #   run: ./Update-Docs.ps1 
+      #   run: ./Update-Docs.ps1
 
       # - name: Commit post release updates
       #   #IF Publishing & Stable release
