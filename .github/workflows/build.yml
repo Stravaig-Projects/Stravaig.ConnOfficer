@@ -96,7 +96,7 @@ jobs:
           retention-days: 7
 
       - name: Create Windows Setup file
-        uses: Minionguyjpro/Inno-Setup-Action@v1
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
           path: build/Windows/setup-script.iss
 
@@ -132,7 +132,7 @@ jobs:
 
       - name: Set version number
         shell: pwsh
-        run: ./Set-Version.ps1 -IsPublic "${{ github.event.inputs.isPublic }}" -IsPreview "${{ github.event.inputs.isPreview }}"
+        run: ./build/Set-Version.ps1 -IsPublic "${{ github.event.inputs.isPublic }}" -IsPreview "${{ github.event.inputs.isPreview }}"
 
       - name: Build for MacOS
         shell: pwsh
