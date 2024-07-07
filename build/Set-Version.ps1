@@ -20,7 +20,10 @@ function ConvertTo-Boolean([string]$Value, [bool]$EmptyDefault)
 [bool]$IsPreview = ConvertTo-Boolean -Value $IsPreview -EmptyDefault $true;
 [bool]$IsPublicRelease = ConvertTo-Boolean -Value $IsPublicRelease -EmptyDefault $false;
 
-$VersionFile = "$PSScriptRoot/version.txt";
+$repoRoot = [System.IO.Path]::GetFullPath("$PSScriptRoot/..");
+
+
+$VersionFile = "$repoRoot/version.txt";
 
 # Work out the version number
 $nextVersion = Get-Content $VersionFile -ErrorAction Stop
