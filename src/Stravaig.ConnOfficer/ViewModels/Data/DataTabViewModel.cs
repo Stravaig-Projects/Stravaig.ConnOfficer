@@ -45,7 +45,12 @@ public class DataTabViewModel : ViewModelBase
             {
                 case nameof(SideBarNodeType.Context):
                     break;
-                case nameof(SideBarNodeType.Config):
+                case nameof(SideBarNodeType.Pods):
+                    if (_sideBarNode.AppNode is KubernetesPodCollection podsCollection)
+                    {
+                        TabItems.Add(new PodsViewModel(podsCollection));
+                    }
+
                     break;
             }
 
