@@ -68,10 +68,15 @@ public class PodsViewModel : DataTabItemViewModelBase
         }
 
         public KubernetesPod Source { get; }
+
         public string Name { get; set; }
+
         public string Namespace { get; set; }
+
         public DateTime? StartTime { get; set; }
+
         public string Phase { get; set; }
+
         public int RestartCount { get; set; }
 
         public string RenderedStartTime => StartTime.HasValue
