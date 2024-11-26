@@ -31,7 +31,7 @@ public class PodsViewModel : DataTabItemViewModelBase
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Reset:
-                UpdatePodsViewModel (_pods.Pods);
+                UpdatePodsViewModel(_pods.Pods);
                 break;
             case NotifyCollectionChangedAction.Add:
                 var newItem = e.NewItems?.OfType<KubernetesPod>().FirstOrDefault();
