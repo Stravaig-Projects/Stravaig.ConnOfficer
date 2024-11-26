@@ -19,12 +19,12 @@ public class PodsViewModel : DataTabItemViewModelBase
         UpdatePodsViewModel(_pods.Pods);
     }
 
+    public EnhancedObservableCollection<PodOverviewViewModel> Pods { get; } = [];
+
     private void UpdatePodsViewModel(EnhancedObservableCollection<KubernetesPod> podData)
     {
         Pods.ReplaceAll(podData.Select(p => new PodOverviewViewModel(p)));
     }
-
-    public EnhancedObservableCollection<PodOverviewViewModel> Pods { get; } = [];
 
     private void PodsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {

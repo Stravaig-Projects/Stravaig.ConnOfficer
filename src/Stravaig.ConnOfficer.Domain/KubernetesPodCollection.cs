@@ -58,7 +58,6 @@ public class KubernetesPodCollection : IRawDto<IDictionary<string, KubernetesPod
 
         public static PodSummary Create(V1Pod pod)
         {
-
             return new()
             {
                 StartTimeUtc = pod.Status.StartTime,
