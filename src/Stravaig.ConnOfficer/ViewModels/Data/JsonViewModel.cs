@@ -1,3 +1,4 @@
+using Humanizer;
 using ReactiveUI;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Domain.Glue;
