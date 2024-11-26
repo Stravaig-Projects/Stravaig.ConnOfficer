@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - "#2/build-pipeline"
 
     paths-ignore:
       - 'README.md'
@@ -24,15 +23,6 @@ on:
       - '.gitignore'
 
   workflow_dispatch:
-    inputs:
-      isPublic:
-        description: 'Is Public Release'
-        required: false
-        default: "false"
-      isPreview:
-        description: 'Is Preview Release'
-        required: false
-        default: "true"
 
 env:
   STRAVAIG_SOLUTION: src/Stravaig.ConnOfficer.sln
@@ -53,9 +43,9 @@ jobs:
         run: env | sort
 
       - uses: actions/setup-dotnet@v4
-        name: Setup .NET 8.0
+        name: Setup .NET 9.0
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: .NET State
         run: dotnet --info
