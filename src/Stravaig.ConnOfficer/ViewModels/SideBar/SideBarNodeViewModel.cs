@@ -87,83 +87,9 @@ public class SideBarNodeViewModel : ViewModelBase
     {
         switch (Type)
         {
-            case nameof(SideBarNodeType.Context):
-                await ExpandContextAsync(CancellationToken.None);
-                break;
-            case nameof(SideBarNodeType.Pods):
-                await ExpandPodsAsync(CancellationToken.None);
-                break;
             default:
                 // Nothing to do
                 break;
         }
-    }
-
-    private async Task ExpandPodsAsync(CancellationToken ct)
-    {
-        var podCollection = AppNode as KubernetesPodCollection;
-        if (podCollection == null)
-        {
-            return;
-        }
-
-        var pods = await podCollection.GetPodsAsync(ct);
-        SubNodes.Clear();
-        foreach (var pod in pods)
-        {
-            var podNode = new SideBarNodeViewModel
-            {
-                Name = pod.Name,
-                Container = Container,
-                NodeType = SideBarNodeType.Pod,
-                AppNode = pod,
-                IsPlaceholder = false,
-            };
-            SubNodes.Add(podNode);
-        }
-
-        LoadedSubNodes = true;
-    }
-
-    private async Task ExpandContextAsync(CancellationToken ct)
-    {
-        var context = AppNode as KubernetesContext;
-        if (context == null)
-        {
-            return;
-        }
-
-        var namespaces = await context.GetNamespacesAsync(ct);
-        SubNodes.Clear();
-        foreach (var ns in namespaces)
-        {
-            var namespaceNode = new SideBarNodeViewModel
-            {
-                Name = ns.Name,
-                Container = Container,
-                NodeType = SideBarNodeType.Namespace,
-                AppNode = ns,
-                IsPlaceholder = false,
-            };
-            var podsNode = new SideBarNodeViewModel
-            {
-                Name = "Pods",
-                Container = Container,
-                NodeType = SideBarNodeType.Pods,
-                AppNode = ns.Pods,
-                IsPlaceholder = false,
-            };
-            podsNode.SubNodes.Add(new SideBarNodeViewModel()
-            {
-                Name = "... loading ...",
-                Container = Container,
-                NodeType = SideBarNodeType.Pod,
-                IsPlaceholder = true,
-            });
-            namespaceNode.SubNodes.Add(podsNode);
-            SubNodes.Add(namespaceNode);
-        }
-
-        LoadedSubNodes = true;
     }
 }

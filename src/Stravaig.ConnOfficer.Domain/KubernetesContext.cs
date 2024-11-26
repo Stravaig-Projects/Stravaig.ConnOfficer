@@ -14,7 +14,6 @@ public class KubernetesContext : IRawData
     {
         RawData = BuildRawFragment();
         JsonData = BuildJsonFragment();
-        Namespaces.CollectionChanged += NamespacesOnCollectionChanged;
     }
 
     public required KubernetesConfigData Config { get; init; }
@@ -25,23 +24,11 @@ public class KubernetesContext : IRawData
 
     public required KubernetesCluster Cluster { get; init; }
 
-    public EnhancedObservableCollection<KubernetesNamespace> Namespaces { get; } = [];
-
     public ResettableLazy<string> RawData { get; }
 
     public ResettableLazy<JsonDocument> JsonData { get; }
 
     public required ApplicationState Application { get; init; }
-
-    public async Task<KubernetesNamespace[]> GetNamespacesAsync(CancellationToken ct)
-    {
-        var result = await Application.Mediator.Send(
-            new GetKubernetesNamespacesQuery(this),
-            ct);
-
-        Namespaces.ReplaceAll(result.Namespaces);
-        return result.Namespaces;
-    }
 
     public void Dispose()
     {
@@ -108,24 +95,7 @@ public class KubernetesContext : IRawData
             }
 
             writer.WriteEndObject();
-
-            if (Namespaces.Count == 0)
-            {
-                writer.WriteCommentValue("Expand out the cluster node in the side bar to load the namespaces.");
-            }
-            else
-            {
-                writer.WriteStartArray("namespaces");
-                foreach (var ns in Namespaces)
-                {
-                    writer.WriteStringValue(ns.Name);
-                }
-
-                writer.WriteEndArray();
-            }
-
             writer.WriteEndObject();
-
             writer.Flush();
             var json = Encoding.UTF8.GetString(ms.ToArray());
             return json;
