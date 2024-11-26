@@ -21,7 +21,6 @@ public class PodsViewModel : DataTabItemViewModelBase
 
     public EnhancedObservableCollection<PodOverviewViewModel> Pods { get; } = [];
 
-
     private void UpdatePodsViewModel(EnhancedObservableCollection<KubernetesPod> podData)
     {
         Pods.ReplaceAll(podData.Select(p => new PodOverviewViewModel(p)));
