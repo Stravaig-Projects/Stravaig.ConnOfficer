@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Stravaig.ConnOfficer.Views.StatusBar">
+    <Border>
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Left" Text="This is the status bar" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <views:Zoom DockPanel.Dock="Right" />
+        </DockPanel>
+</Border>
+</UserControl>

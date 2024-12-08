@@ -44,35 +44,47 @@ public class SideBarViewModel : ViewModelBase
 
     private async void LoadContexts()
     {
-        var info = await _appState.GetConfigDataAsync(CancellationToken.None);
         Nodes.Clear();
         Nodes.Add(new SideBarNodeViewModel()
         {
-            Name = info.ConfigPath,
+            Name = "Welcome",
             Container = this,
-            NodeType = SideBarNodeType.Config,
+            NodeType = SideBarNodeType.Welcome,
             LoadedSubNodes = true,
-            AppNode = info,
-            SubNodes = new ObservableCollection<SideBarNodeViewModel>(
-                info.Contexts.Select(c => new SideBarNodeViewModel()
-                {
-                    Name = c.Name,
-                    Container = this,
-                    NodeType = SideBarNodeType.Context,
-                    LoadedSubNodes = false,
-                    AppNode = c,
-                    SubNodes = new ObservableCollection<SideBarNodeViewModel>(
-                    [
-                        new SideBarNodeViewModel()
-                        {
-                            Name = "... loading ...",
-                            Container = this,
-                            NodeType = SideBarNodeType.Namespace,
-                            IsPlaceholder = true,
-                            LoadedSubNodes = false,
-                        },
-                    ]),
-                })),
+            SubNodes = new ObservableCollection<SideBarNodeViewModel>(),
+            IsPlaceholder = false,
+            IsExpanded = false,
+            AppNode = _appState,
         });
+
+    //     var info = await _appState.GetConfigDataAsync(CancellationToken.None);
+    //     Nodes.Add(new SideBarNodeViewModel()
+    //     {
+    //         Name = info.ConfigPath,
+    //         Container = this,
+    //         NodeType = SideBarNodeType.Config,
+    //         LoadedSubNodes = true,
+    //         AppNode = info,
+    //         SubNodes = new ObservableCollection<SideBarNodeViewModel>(
+    //             info.Contexts.Select(c => new SideBarNodeViewModel()
+    //             {
+    //                 Name = c.Name,
+    //                 Container = this,
+    //                 NodeType = SideBarNodeType.Context,
+    //                 LoadedSubNodes = false,
+    //                 AppNode = c,
+    //                 SubNodes = new ObservableCollection<SideBarNodeViewModel>(
+    //                 [
+    //                     new SideBarNodeViewModel()
+    //                     {
+    //                         Name = "Namespaces",
+    //                         Container = this,
+    //                         NodeType = SideBarNodeType.Namespaces,
+    //                         IsPlaceholder = false,
+    //                         LoadedSubNodes = false,
+    //                     },
+    //                 ]),
+    //             })),
+    //     });
     }
 }

@@ -18,7 +18,7 @@
 
     <DockPanel>
         <Panel DockPanel.Dock="Bottom" Height="32">
-            <TextBlock Text="This is the status bar" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <views:StatusBar HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Panel>
 
         <SplitView IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="300">

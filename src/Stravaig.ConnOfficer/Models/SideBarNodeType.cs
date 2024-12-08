@@ -2,6 +2,12 @@ namespace Stravaig.ConnOfficer.Models;
 
 public class SideBarNodeType
 {
+    public static readonly SideBarNodeType Welcome = new()
+    {
+        Name = nameof(Welcome),
+        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/ic_fluent_home_48_regular.svg",
+    };
+
     public static readonly SideBarNodeType Config = new()
     {
         Name = nameof(Config),
@@ -14,9 +20,9 @@ public class SideBarNodeType
         IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/cluster-icon.svg",
     };
 
-    public static readonly SideBarNodeType Namespace = new()
+    public static readonly SideBarNodeType Namespaces = new()
     {
-        Name = nameof(Namespace),
+        Name = nameof(Namespaces),
         IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/namespace.svg",
     };
 

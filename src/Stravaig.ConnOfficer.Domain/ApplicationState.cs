@@ -7,14 +7,12 @@ namespace Stravaig.ConnOfficer.Domain;
 
 public class ApplicationState
 {
-    private readonly IMediator _mediator;
-
     public ApplicationState(IMediator mediator)
     {
-        _mediator = mediator;
+        Mediator = mediator;
     }
 
-    public IMediator Mediator => _mediator;
+    public IMediator Mediator { get; }
 
     public ObservableCollection<KubernetesConfigData> ConfigurationFiles { get; } = [];
 
@@ -23,7 +21,7 @@ public class ApplicationState
 
     public async Task<KubernetesConfigData> GetConfigDataAsync(string? configFile, CancellationToken ct)
     {
-        var result = await _mediator.Send(
+        var result = await Mediator.Send(
             new GetKubernetesInfoQuery
             {
                 Application = this,
