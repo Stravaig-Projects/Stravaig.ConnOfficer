@@ -10,13 +10,11 @@
     <Panel>
         <TabControl IsVisible="{Binding IsTabVisible}"
                     Margin="5"
-                    ItemsSource="{Binding TabItems}">
+                    ItemsSource="{Binding TabItems}"
+                    SelectedIndex="{Binding SelectedTabIndex}">
             <TabControl.DataTemplates>
-                <DataTemplate DataType="{x:Type vm:RawTextViewModel}">
-                    <views:RawTextView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vm:JsonViewModel}">
-                    <views:JsonView/>
+                <DataTemplate DataType="{x:Type vm:WelcomeTabViewModel}">
+                    <views:WelcomeTabView/>
                 </DataTemplate>
             </TabControl.DataTemplates>
             <TabControl.ItemTemplate>

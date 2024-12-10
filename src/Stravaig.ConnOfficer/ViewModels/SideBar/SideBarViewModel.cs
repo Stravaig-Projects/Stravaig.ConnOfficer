@@ -57,6 +57,18 @@ public class SideBarViewModel : ViewModelBase
             AppNode = _appState,
         });
 
+        Nodes.Add(new SideBarNodeViewModel()
+        {
+            Name = "Welcome 2",
+            Container = this,
+            NodeType = SideBarNodeType.Welcome,
+            LoadedSubNodes = true,
+            SubNodes = new ObservableCollection<SideBarNodeViewModel>(),
+            IsPlaceholder = false,
+            IsExpanded = false,
+            AppNode = _appState,
+        });
+
     //     var info = await _appState.GetConfigDataAsync(CancellationToken.None);
     //     Nodes.Add(new SideBarNodeViewModel()
     //     {

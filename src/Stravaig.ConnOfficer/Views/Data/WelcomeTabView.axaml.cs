@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Stravaig.ConnOfficer.Views.Data;
 
-public partial class WelcomeDocumentView : UserControl
+public partial class WelcomeTabView : UserControl
 {
-    public WelcomeDocumentView()
+    public WelcomeTabView()
     {
         InitializeComponent();
     }

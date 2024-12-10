@@ -1,3 +1,7 @@
+using Stravaig.ConnOfficer.ViewModels.Data;
+using Stravaig.ConnOfficer.ViewModels.SideBar;
+using System;
+
 namespace Stravaig.ConnOfficer.Models;
 
 public class SideBarNodeType
@@ -5,7 +9,8 @@ public class SideBarNodeType
     public static readonly SideBarNodeType Welcome = new()
     {
         Name = nameof(Welcome),
-        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/ic_fluent_home_48_regular.svg",
+        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/ic_fluent_home_48_purple.svg",
+        CreateTabItemViewModelFunc = static node => new WelcomeTabViewModel(node),
     };
 
     public static readonly SideBarNodeType Config = new()
@@ -47,4 +52,11 @@ public class SideBarNodeType
     public required string Name { get; init; }
 
     public required string IconResourceName { get; init; }
+
+    private Func<SideBarNodeViewModel, DataTabItemViewModelBase>? CreateTabItemViewModelFunc { get; init; }
+
+    public DataTabItemViewModelBase CreateTabItemViewModel(SideBarNodeViewModel node)
+        => CreateTabItemViewModelFunc == null
+            ? new WelcomeTabViewModel(node)
+            : CreateTabItemViewModelFunc(node);
 }
