@@ -9,7 +9,7 @@ public class SideBarNodeType
     public static readonly SideBarNodeType Welcome = new()
     {
         Name = nameof(Welcome),
-        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/ic_fluent_home_48_purple.svg",
+        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/ic_fluent_home_48_purple.svg",
         CreateTabItemViewModelFunc = static node => new WelcomeTabViewModel(node),
     };
 

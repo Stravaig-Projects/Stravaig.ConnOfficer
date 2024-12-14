@@ -8,6 +8,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel(ApplicationState appState)
     {
+        ApplicationState = appState;
         SideBar = new SideBarViewModel(this, appState);
         Breadcrumbs = new BreadcrumbsViewModel(SideBar);
         DataTabs = new DataTabViewModel(this, SideBar);
@@ -18,4 +19,6 @@ public class MainWindowViewModel : ViewModelBase
     public BreadcrumbsViewModel Breadcrumbs { get; init; }
 
     public DataTabViewModel DataTabs { get; init; }
+
+    public ApplicationState ApplicationState { get; }
 }

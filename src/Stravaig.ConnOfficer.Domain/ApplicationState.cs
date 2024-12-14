@@ -1,4 +1,5 @@
 using DynamicData;
+using k8s;
 using MediatR;
 using Stravaig.ConnOfficer.Domain.Queries;
 using System.Collections.ObjectModel;
@@ -13,6 +14,8 @@ public class ApplicationState
     }
 
     public IMediator Mediator { get; }
+
+    public string DefaultConfigFile => KubernetesClientConfiguration.KubeConfigDefaultLocation;
 
     public ObservableCollection<KubernetesConfigData> ConfigurationFiles { get; } = [];
 

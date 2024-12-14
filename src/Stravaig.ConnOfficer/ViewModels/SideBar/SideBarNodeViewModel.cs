@@ -1,13 +1,9 @@
-using DynamicData;
 using ReactiveUI;
-using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 

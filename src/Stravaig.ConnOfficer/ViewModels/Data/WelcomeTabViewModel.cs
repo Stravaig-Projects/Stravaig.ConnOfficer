@@ -8,4 +8,6 @@ public class WelcomeTabViewModel : DataTabItemViewModelBase
         : base("Welcome", sideBarNode)
     {
     }
+
+    public string DefaultKubeFileLocation => MainWindow.ApplicationState.DefaultConfigFile;
 }

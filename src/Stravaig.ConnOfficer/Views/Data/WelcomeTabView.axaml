@@ -7,7 +7,47 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Stravaig.ConnOfficer.Views.Data.WelcomeTabView"
              x:DataType="vm:WelcomeTabViewModel">
-    <Panel>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">This is the welcome panel</TextBlock>
+    <Panel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical">
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Image Width="75" Height="75" Source="avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/app-icon-welcome-260.png" Margin="-100 0 25 0"/>
+                <TextBlock VerticalAlignment="Center" FontSize="50">Stravaig Conn Officer</TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock FontSize="25">Start</TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="24" Height="24">
+                            <Image.Source>
+                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/ic_fluent_document_cube_24_regular.svg"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Margin="10 0" VerticalAlignment="Center">Open default Kube config file</TextBlock>
+                    </StackPanel>
+                </Button>
+                <TextBlock VerticalAlignment="Center">(</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding DefaultKubeFileLocation}"/>
+                <TextBlock VerticalAlignment="Center">)</TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="24" Height="24">
+                            <Image.Source>
+                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/ic_fluent_document_cube_24_regular.svg"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Margin="10 0" VerticalAlignment="Center">Open Kube config file...</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
     </Panel>
 </UserControl>
