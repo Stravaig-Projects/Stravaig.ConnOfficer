@@ -27,7 +27,15 @@
                                 <SvgImage Source="{Binding Icon}"/>
                             </Image.Source>
                         </Image>
-                    <TextBlock Text="{Binding TabName}"/>
+                    <TextBlock Text="{Binding TabName}" VerticalAlignment="Center"/>
+                    <Button Command="{Binding CloseTab}">
+                        <Image Width="24"
+                               Height="24">
+                            <Image.Source>
+                                <SvgImage Source="/Assets/Icons/ic_fluent_dismiss_square_24_purple.svg"/>
+                            </Image.Source>
+                        </Image>
+                    </Button>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

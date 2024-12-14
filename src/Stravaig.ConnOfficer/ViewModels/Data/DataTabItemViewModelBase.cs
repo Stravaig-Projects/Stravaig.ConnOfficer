@@ -1,4 +1,8 @@
+using ReactiveUI;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
+using System.Reactive;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Stravaig.ConnOfficer.ViewModels.Data;
 
@@ -8,6 +12,7 @@ public class DataTabItemViewModelBase : ViewModelBase
     {
         TabName = tabName;
         SideBarNode = sideBarNode;
+        CloseTab = ReactiveCommand.Create(PerformCloseTabAsync);
     }
 
     public string TabName { get; }
@@ -15,4 +20,11 @@ public class DataTabItemViewModelBase : ViewModelBase
     public string Icon => SideBarNode.Icon;
 
     public SideBarNodeViewModel SideBarNode { get; }
+
+    public ReactiveCommand<Unit, Unit> CloseTab { get; }
+
+    public virtual async void PerformCloseTabAsync()
+    {
+        // TODO: Get the tab container and remove self.
+    }
 }
