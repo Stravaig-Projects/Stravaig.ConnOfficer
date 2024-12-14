@@ -19,7 +19,16 @@
             </TabControl.DataTemplates>
             <TabControl.ItemTemplate>
                 <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="0 2 10 2"
+                               Width="24"
+                               Height="24">
+                            <Image.Source>
+                                <SvgImage Source="{Binding Icon}"/>
+                            </Image.Source>
+                        </Image>
                     <TextBlock Text="{Binding TabName}"/>
+                    </StackPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>

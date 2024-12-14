@@ -147,13 +147,13 @@ dotnet_diagnostic.ide0020.severity = suggestion
 dotnet_diagnostic.ide0038.severity = suggestion
 dotnet_diagnostic.ide0044.severity = warning
 
-dotnet_diagnostic.sa0001.severity = silent # XML comment analysis
-dotnet_diagnostic.sa1101.severity = silent # Prefix local calls with this
-dotnet_diagnostic.sa1309.severity = silent # Field names must not begin with an underscore.
-dotnet_diagnostic.sa1402.severity = silent # File may only contain a single type.
-dotnet_diagnostic.sa1600.severity = silent # Document
-dotnet_diagnostic.sa1601.severity = silent # Partial elements should be documented
-dotnet_diagnostic.sa1633.severity = silent # File header
+dotnet_diagnostic.sa0001.severity = none # XML comment analysis
+dotnet_diagnostic.sa1101.severity = none # Prefix local calls with this
+dotnet_diagnostic.sa1309.severity = none # Field names must not begin with an underscore.
+dotnet_diagnostic.sa1402.severity = none # File may only contain a single type.
+dotnet_diagnostic.sa1600.severity = none # Document
+dotnet_diagnostic.sa1601.severity = none # Partial elements should be documented
+dotnet_diagnostic.sa1633.severity = none # File header
 
 ###############################
 # C# Coding Conventions       #

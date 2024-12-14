@@ -4,13 +4,15 @@ namespace Stravaig.ConnOfficer.ViewModels.Data;
 
 public class DataTabItemViewModelBase : ViewModelBase
 {
-    public DataTabItemViewModelBase(string tabName, SideBarNodeViewModel sideBarNode)
+    protected DataTabItemViewModelBase(string tabName, SideBarNodeViewModel sideBarNode)
     {
         TabName = tabName;
         SideBarNode = sideBarNode;
     }
 
     public string TabName { get; }
+
+    public string Icon => SideBarNode.Icon;
 
     public SideBarNodeViewModel SideBarNode { get; }
 }
