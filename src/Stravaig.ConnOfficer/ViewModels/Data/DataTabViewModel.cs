@@ -15,11 +15,14 @@ public class DataTabViewModel : ViewModelBase
     private SideBarNodeViewModel? _sideBarNode;
     private int _selectedTabIndex;
 
-    public DataTabViewModel(SideBarViewModel sideBar)
+    public DataTabViewModel(MainWindowViewModel mainWindow, SideBarViewModel sideBar)
     {
+        MainWindow = mainWindow;
         _noTabsMessage = "This element has no views to show.";
         sideBar.SelectedSideBarNodeChanged += SideBarOnSelectedSideBarNodeChanged;
     }
+
+    public MainWindowViewModel MainWindow { get; }
 
     public SideBarNodeViewModel? SideBarNode
     {

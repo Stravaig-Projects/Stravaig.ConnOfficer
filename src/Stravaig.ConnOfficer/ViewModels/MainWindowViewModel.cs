@@ -1,15 +1,16 @@
-﻿using Stravaig.ConnOfficer.ViewModels.Data;
+﻿using Stravaig.ConnOfficer.Domain;
+using Stravaig.ConnOfficer.ViewModels.Data;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 
 namespace Stravaig.ConnOfficer.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public MainWindowViewModel(SideBarViewModel sideBar)
+    public MainWindowViewModel(ApplicationState appState)
     {
-        SideBar = sideBar;
-        Breadcrumbs = new BreadcrumbsViewModel(sideBar);
-        DataTabs = new DataTabViewModel(sideBar);
+        SideBar = new SideBarViewModel(this, appState);
+        Breadcrumbs = new BreadcrumbsViewModel(SideBar);
+        DataTabs = new DataTabViewModel(this, SideBar);
     }
 
     public SideBarViewModel SideBar { get; init; }

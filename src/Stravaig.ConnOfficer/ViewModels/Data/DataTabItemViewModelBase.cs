@@ -15,6 +15,8 @@ public class DataTabItemViewModelBase : ViewModelBase
         CloseTab = ReactiveCommand.Create(PerformCloseTabAsync);
     }
 
+    public MainWindowViewModel MainWindow => SideBarNode.Container.MainWindow;
+
     public string TabName { get; }
 
     public string Icon => SideBarNode.Icon;
@@ -25,6 +27,6 @@ public class DataTabItemViewModelBase : ViewModelBase
 
     public virtual async void PerformCloseTabAsync()
     {
-        // TODO: Get the tab container and remove self.
+        MainWindow.DataTabs.TabItems.Remove(this);
     }
 }

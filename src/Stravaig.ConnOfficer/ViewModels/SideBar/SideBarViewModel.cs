@@ -14,8 +14,9 @@ public class SideBarViewModel : ViewModelBase
     private readonly ApplicationState _appState;
     private SideBarNodeViewModel? _selectedNode;
 
-    public SideBarViewModel(ApplicationState appState)
+    public SideBarViewModel(MainWindowViewModel mainWindow, ApplicationState appState)
     {
+        MainWindow = mainWindow;
         _appState = appState;
         RxApp.MainThreadScheduler.Schedule(LoadContexts);
     }
@@ -23,6 +24,8 @@ public class SideBarViewModel : ViewModelBase
     public delegate void SideBarNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
 
     public event SideBarNodeSelectedHandler? SelectedSideBarNodeChanged;
+
+    public MainWindowViewModel MainWindow { get; }
 
     public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 
