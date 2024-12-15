@@ -24,7 +24,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Image Width="24" Height="24">
                             <Image.Source>
-                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/ic_fluent_document_cube_24_regular.svg"/>
+                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Menu/ic_fluent_document_cube_24_regular.svg"/>
                             </Image.Source>
                         </Image>
                         <TextBlock Margin="10 0" VerticalAlignment="Center">Open default Kube config file</TextBlock>
@@ -40,7 +40,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Image Width="24" Height="24">
                             <Image.Source>
-                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/ic_fluent_document_cube_24_regular.svg"/>
+                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Menu/ic_fluent_document_cube_24_regular.svg"/>
                             </Image.Source>
                         </Image>
                         <TextBlock Margin="10 0" VerticalAlignment="Center">Open Kube config file...</TextBlock>

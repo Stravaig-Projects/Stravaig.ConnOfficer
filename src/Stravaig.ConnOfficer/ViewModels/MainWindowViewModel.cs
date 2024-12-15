@@ -21,4 +21,6 @@ public class MainWindowViewModel : ViewModelBase
     public DataTabViewModel DataTabs { get; init; }
 
     public ApplicationState ApplicationState { get; }
+
+    public string OpenDefaultHeaderText => $"Open _Default ({ApplicationState.DefaultConfigFile})";
 }
