@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Stravaig.ConnOfficer.Views.About"
+        SizeToContent="WidthAndHeight"
+        Title="About Stravaig Conn Officer">
+    <StackPanel Orientation="Vertical">
+
+        <Image
+            Margin="10"
+            Width="100"
+            Height="100"
+            HorizontalAlignment="Center"
+            Source="avares://Stravaig.ConnOfficer/Assets/Icons/Welcome/app-icon-welcome-260.png"/>
+
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="24">
+            Stravaig Conn Officer
+        </TextBlock>
+
+        <TextBlock
+            Name="Version"
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="16"/>
+
+        <TextBlock
+            Name="CopyrightNotice"
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="16"/>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Margin="10">
+            <TextBlock
+                FontSize="16"
+                Text="Source Code: "/>
+            <TextBlock
+                FontSize="16"
+                Cursor="Hand"
+                TextDecorations="Underline"
+                PointerPressed="Button_OnClick"
+                Text="https://github.com/Stravaig-Projects/Stravaig.ConnOfficer"/>
+
+       </StackPanel>
+
+    </StackPanel>
+</Window>

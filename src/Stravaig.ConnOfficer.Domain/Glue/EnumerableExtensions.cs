@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Stravaig.ConnOfficer.Domain.Glue;
 
 public static class EnumerableExtensions
@@ -38,5 +40,11 @@ public static class EnumerableExtensions
     {
         index = IndexOf(source, predicate);
         return index >= 0;
+    }
+
+    public static bool TryGetFirst<T>(this IEnumerable<T> source, [NotNullWhen(true)] out T? item)
+    {
+        item = source.FirstOrDefault();
+        return item != null;
     }
 }

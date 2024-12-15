@@ -1,13 +1,16 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Dialogs;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels;
 using Stravaig.ConnOfficer.Views;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Stravaig.ConnOfficer;
 
@@ -42,8 +45,23 @@ public partial class App : Application
             {
                 DataContext = vm,
             };
+
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    public void OpenAboutDialogHandler(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            if (!desktop.Windows.OfType<About>().TryGetFirst(out var aboutDialog))
+            {
+                aboutDialog = new About();
+            }
+
+            aboutDialog.Show();
+        }
+
     }
 }

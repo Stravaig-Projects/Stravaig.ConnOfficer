@@ -7,7 +7,7 @@
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <NativeMenu.Menu>
         <NativeMenu>
-            <NativeMenuItem Header="About Stravaig Conn Officer"/>
+            <NativeMenuItem Header="About Stravaig Conn Officer" Click="OpenAboutDialogHandler"/>
         </NativeMenu>
     </NativeMenu.Menu>
 
