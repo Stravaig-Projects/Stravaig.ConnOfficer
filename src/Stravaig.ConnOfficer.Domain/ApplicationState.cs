@@ -8,14 +8,21 @@ namespace Stravaig.ConnOfficer.Domain;
 
 public class ApplicationState
 {
+    private string _kubeConfigDefaultLocation;
+
     public ApplicationState(IMediator mediator)
     {
         Mediator = mediator;
+        _kubeConfigDefaultLocation = KubernetesClientConfiguration.KubeConfigDefaultLocation;
     }
 
     public IMediator Mediator { get; }
 
-    public string DefaultConfigFile => KubernetesClientConfiguration.KubeConfigDefaultLocation;
+    public string DefaultConfigFile
+        => _kubeConfigDefaultLocation;
+
+    public bool IsDefaultKubeConfigOpen
+        => ConfigurationFiles.Any(cf => cf.ConfigPath.Equals(_kubeConfigDefaultLocation, StringComparison.OrdinalIgnoreCase));
 
     public ObservableCollection<KubernetesConfigData> ConfigurationFiles { get; } = [];
 
@@ -38,4 +45,5 @@ public class ApplicationState
         ConfigurationFiles.Add(result);
         return result;
     }
+
 }

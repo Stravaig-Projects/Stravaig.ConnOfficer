@@ -40,12 +40,8 @@ public partial class App : Application
         Locator = services.BuildServiceProvider();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var vm = Locator.GetRequiredService<MainWindowViewModel>();
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = vm,
-            };
-
+            var mainWindow = Locator.GetRequiredService<MainWindow>();
+            desktop.MainWindow = mainWindow;
         }
 
         base.OnFrameworkInitializationCompleted();
