@@ -1,39 +1,41 @@
+using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Glue;
 using System;
 using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Stravaig.ConnOfficer.Commands;
 
-public abstract class OpenKubeFileCommand : ICommand
+// public abstract class OpenKubeFileCommand : AsyncCommand
+// {
+//     protected OpenKubeFileCommand(ILogger logger, ApplicationState appState)
+//         : base(logger)
+//     {
+//         AppState = appState;
+//     }
+//
+//     protected ApplicationState AppState { get; }
+//
+//     public override bool CanExecute(object? parameter)
+//         => true;
+//
+//     public override void ExecuteAsync(object? parameter);
+//
+//     public event EventHandler? CanExecuteChanged;
+//
+// }
+
+public class OpenDefaultKubeFileCommand : AsyncCommand
 {
-    protected OpenKubeFileCommand(ApplicationState appState)
-    {
-        AppState = appState;
-    }
-
-    protected ApplicationState AppState { get; }
-
-    public virtual bool CanExecute(object? parameter)
-        => true;
-
-    public abstract void Execute(object? parameter);
-
-    public event EventHandler? CanExecuteChanged;
-
-    protected void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-}
-
-public class OpenDefaultKubeFileCommand : OpenKubeFileCommand
-{
+    private readonly ApplicationState _appState;
     private bool _canExecute;
 
-    public OpenDefaultKubeFileCommand(ApplicationState appState)
-        : base(appState)
+    public OpenDefaultKubeFileCommand(ILogger<OpenDefaultKubeFileCommand> logger, ApplicationState appState)
+        : base(logger)
     {
+        _appState = appState;
         _canExecute = !appState.IsDefaultKubeConfigOpen;
         appState.ConfigurationFiles.CollectionChanged += ConfigurationFilesOnCollectionChanged;
     }
@@ -44,14 +46,14 @@ public class OpenDefaultKubeFileCommand : OpenKubeFileCommand
         return _canExecute;
     }
 
-    public override async void Execute(object? parameter)
+    protected override async Task ExecuteAsync(object? parameter)
     {
-        await AppState.GetConfigDataAsync(CancellationToken.None);
+        await _appState.GetConfigDataAsync(CancellationToken.None);
     }
 
     private void ConfigurationFilesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        var canExecute = !AppState.IsDefaultKubeConfigOpen;
+        var canExecute = !_appState.IsDefaultKubeConfigOpen;
         if (canExecute != _canExecute)
         {
             _canExecute = canExecute;
@@ -60,17 +62,19 @@ public class OpenDefaultKubeFileCommand : OpenKubeFileCommand
     }
 }
 
-public class OpenCustomKubeFileCommand : OpenKubeFileCommand
+public class OpenCustomKubeFileCommand : AsyncCommand
 {
+    private readonly ApplicationState _appState;
     private readonly IFilePickerService _filePickerService;
 
-    public OpenCustomKubeFileCommand(ApplicationState appState, IFilePickerService filePickerService)
-        : base(appState)
+    public OpenCustomKubeFileCommand(ApplicationState appState, IFilePickerService filePickerService, ILogger<OpenCustomKubeFileCommand> logger)
+        : base(logger)
     {
+        _appState = appState;
         _filePickerService = filePickerService;
     }
 
-    public override async void Execute(object? parameter)
+    protected override async Task ExecuteAsync(object? parameter)
     {
         var file = await _filePickerService.OpenKubeConfigAsync();
         if (file == null)
@@ -79,6 +83,6 @@ public class OpenCustomKubeFileCommand : OpenKubeFileCommand
         }
 
         var filePath = file.Path.AbsolutePath;
-        await AppState.GetConfigDataAsync(filePath, CancellationToken.None);
+        await _appState.GetConfigDataAsync(filePath, CancellationToken.None);
     }
 }
