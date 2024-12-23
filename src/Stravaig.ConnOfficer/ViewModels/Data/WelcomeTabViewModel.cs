@@ -15,5 +15,5 @@ public class WelcomeTabViewModel : DataTabItemViewModelBase
         _appState = appState;
     }
 
-    public string DefaultKubeFileLocation =>  _appState.DefaultConfigFile;
+    public string DefaultKubeFileLocation => _appState.DefaultConfigFile;
 }

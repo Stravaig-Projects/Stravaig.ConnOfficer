@@ -3,6 +3,8 @@ using ReactiveUI;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.Models;
+using Stravaig.ConnOfficer.ViewModels.Data;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -54,6 +56,14 @@ public class SideBarViewModel : ViewModelBase
         var welcomeNode = CreateViewModel<SideBarNodeViewModel>(
             new SideBarNodeViewModel.InitContext("Welcome", SideBarNodeType.Welcome));
         Nodes.Add(welcomeNode);
+
+        var welcome2Node = CreateViewModel<SideBarNodeViewModel>(
+            new SideBarNodeViewModel.InitContext("Welcome 2", SideBarNodeType.Welcome));
+        Nodes.Add(welcome2Node);
+
+        var welcome3Node = CreateViewModel<SideBarNodeViewModel>(
+            new SideBarNodeViewModel.InitContext("Welcome 3", SideBarNodeType.Welcome));
+        Nodes.Add(welcome3Node);
 
         // Nodes.Add(new SideBarNodeViewModel()
         // {
@@ -108,5 +118,13 @@ public class SideBarViewModel : ViewModelBase
     //                 ]),
     //             })),
     //     });
+    }
+
+    public void SelectedTabChanged(object? sender, EventArgs e)
+    {
+        if (sender is DataTabViewModel tabContainer)
+        {
+            SelectedNode = tabContainer.SideBarNode;
+        }
     }
 }

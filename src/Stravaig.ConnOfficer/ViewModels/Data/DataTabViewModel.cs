@@ -18,11 +18,11 @@ public class DataTabViewModel : ViewModelBase
     private SideBarNodeViewModel? _sideBarNode;
     private int _selectedTabIndex;
 
-    public DataTabViewModel(IViewModelFactory viewModelFactory, ILogger<DataTabViewModel> logger,  SideBarViewModel sideBar)
+    public DataTabViewModel(IViewModelFactory viewModelFactory, ILogger<DataTabViewModel> logger)
         : base(viewModelFactory, logger)
     {
         _noTabsMessage = "This element has no views to show.";
-        sideBar.SelectedSideBarNodeChanged += SideBarOnSelectedSideBarNodeChanged;
+        //sideBar.SelectedSideBarNodeChanged += SideBarOnSelectedSideBarNodeChanged;
         TabItems.CollectionChanged += OnTabItemsChanged;
     }
 
@@ -77,7 +77,7 @@ public class DataTabViewModel : ViewModelBase
             }
             else
             {
-                var tabViewModel = (DataTabItemViewModelBase)CreateViewModel(value.NodeType.TabItemViewModelType); // value.NodeType.CreateTabItemViewModel(value);
+                var tabViewModel = (DataTabItemViewModelBase)CreateViewModel(value.NodeType.TabItemViewModelType, value); // value.NodeType.CreateTabItemViewModel(value);
                 TabItems.Add(tabViewModel);
                 IsTabVisible = true;
                 NoTabsMessage = string.Empty;
@@ -136,11 +136,18 @@ public class DataTabViewModel : ViewModelBase
     public int SelectedTabIndex
     {
         get => _selectedTabIndex;
-        set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
+            SideBarNode = TabItems[value].SideBarNode;
+            SelectedTabChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public void SideBarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
     {
         SideBarNode = selectedNode;
     }
+
+    public event EventHandler? SelectedTabChanged;
 }
