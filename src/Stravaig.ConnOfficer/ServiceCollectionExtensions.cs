@@ -6,6 +6,7 @@ using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Domain.Services;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels;
+using Stravaig.ConnOfficer.ViewModels.Data;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 using Stravaig.ConnOfficer.Views;
 
@@ -24,6 +25,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<SideBarViewModel>();
         services.AddTransient<BreadcrumbsViewModel>();
         services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<DataTabViewModel>();
+        services.AddTransient<SideBarNodeViewModel>();
+        services.AddTransient<WelcomeTabViewModel>();
 
         services.AddSingleton<MainWindow>(p =>
         {

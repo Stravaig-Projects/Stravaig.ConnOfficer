@@ -1,13 +1,19 @@
+using Microsoft.Extensions.Logging;
+using Stravaig.ConnOfficer.Domain;
+using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 
 namespace Stravaig.ConnOfficer.ViewModels.Data;
 
 public class WelcomeTabViewModel : DataTabItemViewModelBase
 {
-    public WelcomeTabViewModel(SideBarNodeViewModel sideBarNode)
-        : base("Welcome", sideBarNode)
+    private readonly ApplicationState _appState;
+
+    public WelcomeTabViewModel(IViewModelFactory factory, ILogger<WelcomeTabViewModel> logger, ApplicationState appState, SideBarNodeViewModel sideBarNode)
+        : base(factory, logger, "Welcome", sideBarNode)
     {
+        _appState = appState;
     }
 
-    public string DefaultKubeFileLocation => MainWindow.ApplicationState.DefaultConfigFile;
+    public string DefaultKubeFileLocation =>  _appState.DefaultConfigFile;
 }

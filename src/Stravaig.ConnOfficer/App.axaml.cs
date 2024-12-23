@@ -56,8 +56,8 @@ public partial class App : Application
                 aboutDialog = new About();
             }
 
+            // TODO: Bring to front if not already.
             aboutDialog.Show();
         }
-
     }
 }

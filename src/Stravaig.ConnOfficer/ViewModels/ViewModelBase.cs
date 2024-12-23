@@ -28,10 +28,16 @@ public class ViewModelBase : ReactiveObject
     protected ILogger Logger { get; }
 
     protected T CreateViewModel<T>()
-        where T : notnull
+        where T : notnull, ViewModelBase
         => _factory.CreateViewModel<T>();
 
+    protected ViewModelBase CreateViewModel(Type type)
+        => _factory.CreateViewModel(type);
+
     protected T CreateViewModel<T>(params object[] args)
-        where T : notnull
+        where T : notnull, ViewModelBase
         => _factory.CreateViewModel<T>(args);
+
+    protected ViewModelBase CreateViewModel(Type type, params object[] args)
+        => _factory.CreateViewModel(type, args);
 }

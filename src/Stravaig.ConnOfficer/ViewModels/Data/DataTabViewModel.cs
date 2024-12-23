@@ -1,9 +1,12 @@
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Stravaig.ConnOfficer.Domain.Glue;
+using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.Models;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace Stravaig.ConnOfficer.ViewModels.Data;
@@ -15,14 +18,40 @@ public class DataTabViewModel : ViewModelBase
     private SideBarNodeViewModel? _sideBarNode;
     private int _selectedTabIndex;
 
-    public DataTabViewModel(MainWindowViewModel mainWindow, SideBarViewModel sideBar)
+    public DataTabViewModel(IViewModelFactory viewModelFactory, ILogger<DataTabViewModel> logger,  SideBarViewModel sideBar)
+        : base(viewModelFactory, logger)
     {
-        MainWindow = mainWindow;
         _noTabsMessage = "This element has no views to show.";
         sideBar.SelectedSideBarNodeChanged += SideBarOnSelectedSideBarNodeChanged;
+        TabItems.CollectionChanged += OnTabItemsChanged;
     }
 
-    public MainWindowViewModel MainWindow { get; }
+    private void OnTabItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.NewItems?.Count > 0)
+        {
+            foreach (var newItem in e.NewItems.Cast<DataTabItemViewModelBase>())
+            {
+                newItem.TabClosing += OnTabClosing;
+            }
+        }
+
+        if (e.OldItems?.Count > 0)
+        {
+            foreach (var oldItem in e.OldItems.Cast<DataTabItemViewModelBase>())
+            {
+                oldItem.TabClosing -= OnTabClosing;
+            }
+        }
+    }
+
+    private void OnTabClosing(object? sender, EventArgs e)
+    {
+        if (sender is DataTabItemViewModelBase tab)
+        {
+            TabItems.Remove(tab);
+        }
+    }
 
     public SideBarNodeViewModel? SideBarNode
     {
@@ -48,7 +77,7 @@ public class DataTabViewModel : ViewModelBase
             }
             else
             {
-                var tabViewModel = value.NodeType.CreateTabItemViewModel(value);
+                var tabViewModel = (DataTabItemViewModelBase)CreateViewModel(value.NodeType.TabItemViewModelType); // value.NodeType.CreateTabItemViewModel(value);
                 TabItems.Add(tabViewModel);
                 IsTabVisible = true;
                 NoTabsMessage = string.Empty;
@@ -110,7 +139,7 @@ public class DataTabViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
     }
 
-    private void SideBarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
+    public void SideBarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
     {
         SideBarNode = selectedNode;
     }

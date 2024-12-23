@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
+using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -9,38 +11,27 @@ namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 
 public class SideBarNodeViewModel : ViewModelBase
 {
-    private readonly ObservableCollection<SideBarNodeViewModel> _subNodes = [];
     private bool _isExpanded;
 
-    public SideBarNodeViewModel()
+    public SideBarNodeViewModel(IViewModelFactory factory, ILogger<SideBarNodeViewModel> logger, InitContext context)
+        : base(factory, logger)
     {
-        _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
+        SubNodes.CollectionChanged += SubNodesOnCollectionChanged;
+        Name = context.Name;
+        NodeType = context.NodeType;
     }
 
-    public required SideBarViewModel Container { get; init; }
+    //public required SideBarViewModel Container { get; init; }
 
-    public ObservableCollection<SideBarNodeViewModel> SubNodes
-    {
-        get => _subNodes;
-        init
-        {
-            _subNodes = value;
-            foreach (var item in _subNodes)
-            {
-                item.Parent = this;
-            }
+    public ObservableCollection<SideBarNodeViewModel> SubNodes { get; } = [];
 
-            _subNodes.CollectionChanged += SubNodesOnCollectionChanged;
-        }
-    }
-
-    public required string Name { get; init; }
+    public string Name { get; }
 
     public string Icon => NodeType.IconResourceName;
 
     public string Type => NodeType.Name;
 
-    public required SideBarNodeType NodeType { get; init; }
+    public SideBarNodeType NodeType { get; }
 
     public object? AppNode { get; init; }
 
@@ -88,4 +79,6 @@ public class SideBarNodeViewModel : ViewModelBase
                 break;
         }
     }
+
+    public record struct InitContext(string Name, SideBarNodeType NodeType);
 }

@@ -11,13 +11,17 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(
         IViewModelFactory vmFactory,
         ILogger<MainWindowViewModel> logger,
-        ApplicationState appState)
+        ApplicationState appState,
+        SideBarViewModel sideBar,
+        BreadcrumbsViewModel breadcrumbs,
+        DataTabViewModel dataTabs)
         : base(vmFactory, logger)
     {
         ApplicationState = appState;
-        SideBar = new SideBarViewModel(this, appState);
-        Breadcrumbs = new BreadcrumbsViewModel(SideBar);
-        DataTabs = new DataTabViewModel(this, SideBar);
+        SideBar = sideBar; // new SideBarViewModel(this, appState);
+        Breadcrumbs = breadcrumbs; // new BreadcrumbsViewModel(SideBar);
+        DataTabs = dataTabs; // new DataTabViewModel(this, SideBar);
+        SideBar.SelectedSideBarNodeChanged += DataTabs.SideBarOnSelectedSideBarNodeChanged;
     }
 
     public SideBarViewModel SideBar { get; init; }
