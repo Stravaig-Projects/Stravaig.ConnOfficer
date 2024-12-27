@@ -22,8 +22,8 @@ public class MainWindowViewModel : ViewModelBase
         Breadcrumbs = breadcrumbs; // new BreadcrumbsViewModel(SideBar);
         DataTabs = dataTabs; // new DataTabViewModel(this, SideBar);
         SideBar.SelectedSideBarNodeChanged += DataTabs.SideBarOnSelectedSideBarNodeChanged;
+        SideBar.SelectedSideBarNodeChanged += Breadcrumbs.SidebarOnSelectedSideBarNodeChanged;
         DataTabs.SelectedTabChanged += SideBar.SelectedTabChanged;
-
     }
 
     public SideBarViewModel SideBar { get; init; }

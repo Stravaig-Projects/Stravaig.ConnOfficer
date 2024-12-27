@@ -1,4 +1,5 @@
 using DynamicData;
+using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 using System.Collections.Generic;
@@ -11,18 +12,17 @@ namespace Stravaig.ConnOfficer.ViewModels;
 
 public class BreadcrumbsViewModel : ViewModelBase
 {
-    private readonly SideBarViewModel _sidebar;
+    //private readonly SideBarViewModel _sidebar;
 
-    public BreadcrumbsViewModel(SideBarViewModel sideBar)
+    public BreadcrumbsViewModel(IViewModelFactory factory, ILogger<BreadcrumbsViewModel> logger)
+        : base(factory, logger)
     {
-        _sidebar = sideBar;
         Fragments.CollectionChanged += FragmentsOnCollectionChanged;
-        _sidebar.SelectedSideBarNodeChanged += SidebarOnSelectedSideBarNodeChanged;
     }
 
     public ObservableCollection<BreadcrumbFragment> Fragments { get; } = [];
 
-    private void SidebarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
+    public void SidebarOnSelectedSideBarNodeChanged(SideBarNodeViewModel? selectedNode)
     {
         Stack<BreadcrumbFragment> stack = new();
         var currentNode = selectedNode;

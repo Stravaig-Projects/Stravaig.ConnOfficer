@@ -149,6 +149,7 @@ dotnet_diagnostic.ide0044.severity = warning
 
 dotnet_diagnostic.sa0001.severity = none # XML comment analysis
 dotnet_diagnostic.sa1101.severity = none # Prefix local calls with this
+dotnet_diagnostic.sa1200.severity = none # Using directive should appear within a namespace declaration
 dotnet_diagnostic.sa1309.severity = none # Field names must not begin with an underscore.
 dotnet_diagnostic.sa1402.severity = none # File may only contain a single type.
 dotnet_diagnostic.sa1600.severity = none # Document

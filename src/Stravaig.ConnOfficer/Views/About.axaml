@@ -36,6 +36,7 @@
 
         <StackPanel
             Orientation="Horizontal"
+            HorizontalAlignment="Center"
             Margin="10">
             <TextBlock
                 FontSize="16"

@@ -20,7 +20,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Button>
+                <Button Classes="link">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="24" Height="24">
                             <Image.Source>
@@ -36,7 +36,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Button>
+                <Button Classes="link">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="24" Height="24">
                             <Image.Source>
@@ -47,7 +47,6 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-
         </StackPanel>
     </Panel>
 </UserControl>
