@@ -12,8 +12,6 @@ namespace Stravaig.ConnOfficer.ViewModels;
 
 public class BreadcrumbsViewModel : ViewModelBase
 {
-    //private readonly SideBarViewModel _sidebar;
-
     public BreadcrumbsViewModel(IViewModelFactory factory, ILogger<BreadcrumbsViewModel> logger)
         : base(factory, logger)
     {
