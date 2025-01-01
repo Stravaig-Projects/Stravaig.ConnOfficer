@@ -10,6 +10,7 @@ using Stravaig.ConnOfficer.ViewModels;
 using Stravaig.ConnOfficer.Views;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Stravaig.ConnOfficer;
@@ -25,26 +26,35 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        // Register the services
-        var services = new ServiceCollection();
-        services.RegisterGeneralServices();
-        if (Design.IsDesignMode)
+        try
         {
-            services.RegisterDesignServices();
-        }
-        else
-        {
-            services.RegisterRealServices();
-        }
+            // Register the services
+            var services = new ServiceCollection();
+            services.RegisterGeneralServices();
+            if (Design.IsDesignMode)
+            {
+                services.RegisterDesignServices();
+            }
+            else
+            {
+                services.RegisterRealServices();
+            }
 
-        Locator = services.BuildServiceProvider();
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            var mainWindow = Locator.GetRequiredService<MainWindow>();
-            desktop.MainWindow = mainWindow;
-        }
+            Locator = services.BuildServiceProvider();
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                var mainWindow = Locator.GetRequiredService<MainWindow>();
+                desktop.MainWindow = mainWindow;
+            }
 
-        base.OnFrameworkInitializationCompleted();
+            base.OnFrameworkInitializationCompleted();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
     public void OpenAboutDialogHandler(object? sender, EventArgs e)

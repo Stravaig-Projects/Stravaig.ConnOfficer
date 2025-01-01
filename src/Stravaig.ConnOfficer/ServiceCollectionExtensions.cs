@@ -31,11 +31,13 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<MainWindow>(p =>
         {
-            var vm = p.GetRequiredService<MainWindowViewModel>();
-            return new MainWindow { DataContext = vm, };
+            var mainWindow = new MainWindow();
+            var filePickerService = new FilePickerService(mainWindow);
+            var vm = p.GetRequiredService<IViewModelFactory>()
+                .CreateViewModel<MainWindowViewModel>(filePickerService);
+            mainWindow.DataContext = vm;
+            return mainWindow;
         });
-
-        services.AddSingleton<IFilePickerService, FilePickerService>();
 
         services.AddSingleton<IKubernetestClientFactory, KubernetesClientFactory>();
         services.AddSingleton<ApplicationState>();

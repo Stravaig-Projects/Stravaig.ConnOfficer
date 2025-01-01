@@ -21,8 +21,8 @@
             <NativeMenuItem Header="File">
                 <NativeMenuItem.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Gesture="" Header="Open Default"/>
-                        <NativeMenuItem Header="Open..."/>
+                        <NativeMenuItem Header="Open Default" Command="{Binding FileOpenDefaultKubeConfigCommand}"/>
+                        <NativeMenuItem Header="Open..." Command="{Binding FileOpenKubeConfigCommand}"/>
                     </NativeMenu>
                 </NativeMenuItem.Menu>
             </NativeMenuItem>
@@ -32,7 +32,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Open _Default">
+                <MenuItem Header="Open _Default" Command="{Binding FileOpenDefaultKubeConfigCommand}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16">
                             <Image.Source>
@@ -41,7 +41,7 @@
                         </Image>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Open...">
+                <MenuItem Header="_Open..." Command="{Binding FileOpenKubeConfigCommand}">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16">
                             <Image.Source>
