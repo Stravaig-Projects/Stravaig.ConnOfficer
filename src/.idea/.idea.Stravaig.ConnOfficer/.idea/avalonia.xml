@@ -9,6 +9,7 @@
         <entry key="Stravaig.ConnOfficer/Styles/Dark.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/About.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/BreadcrumbsView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/Data/ConfigFileTabView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/Data/DataTabView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/Data/DocumentView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/Data/JsonItemView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />

@@ -13,12 +13,13 @@ public class SideBarNodeType
         TabItemViewModelType = typeof(WelcomeTabViewModel),
     };
 
-    // public static readonly SideBarNodeType Config = new()
-    // {
-    //     Name = nameof(Config),
-    //     IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/config.svg",
-    // };
-    //
+    public static readonly SideBarNodeType Config = new()
+    {
+         Name = nameof(Config),
+         IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/ConfigFile/ic_fluent_document_cube_24_regular.svg",
+         TabItemViewModelType = typeof(ConfigFileTabViewModel),
+    };
+
     // public static readonly SideBarNodeType Context = new()
     // {
     //     Name = nameof(Context),

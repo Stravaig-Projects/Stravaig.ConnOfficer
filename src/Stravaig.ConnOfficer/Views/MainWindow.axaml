@@ -36,7 +36,7 @@
                     <MenuItem.Icon>
                         <Image Width="16" Height="16">
                             <Image.Source>
-                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Menu/ic_fluent_document_cube_24_regular.svg"/>
+                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/ConfigFile/ic_fluent_document_cube_24_regular.svg"/>
                             </Image.Source>
                         </Image>
                     </MenuItem.Icon>
@@ -45,7 +45,7 @@
                     <MenuItem.Icon>
                         <Image Width="16" Height="16">
                             <Image.Source>
-                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/Menu/ic_fluent_document_cube_24_regular.svg"/>
+                                <SvgImage Source="avares://Stravaig.ConnOfficer/Assets/Icons/ConfigFile/ic_fluent_document_cube_24_regular.svg"/>
                             </Image.Source>
                         </Image>
                     </MenuItem.Icon>

@@ -28,6 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<DataTabViewModel>();
         services.AddTransient<SideBarNodeViewModel>();
         services.AddTransient<WelcomeTabViewModel>();
+        services.AddTransient<ConfigFileTabViewModel>();
 
         services.AddSingleton<MainWindow>(p =>
         {

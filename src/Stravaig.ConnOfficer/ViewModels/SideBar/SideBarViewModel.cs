@@ -6,6 +6,7 @@ using Stravaig.ConnOfficer.Models;
 using Stravaig.ConnOfficer.ViewModels.Data;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -21,9 +22,29 @@ public class SideBarViewModel : ViewModelBase
     public SideBarViewModel(IViewModelFactory factory, ILogger<SideBarViewModel> logger,  ApplicationState appState)
         : base(factory, logger)
     {
-        //MainWindow = mainWindow;
         _appState = appState;
+        _appState.ConfigurationFiles.CollectionChanged += OnConfigFilesChanged;
         RxApp.MainThreadScheduler.Schedule(LoadContexts);
+    }
+
+    private void OnConfigFilesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.OldItems?.Count > 0)
+        {
+            foreach (var oldItem in e.OldItems)
+            {
+
+            }
+        }
+        if (e.NewItems?.Count > 0)
+        {
+            foreach (var newItem in e.NewItems.Cast<KubernetesConfigData>())
+            {
+                var node = CreateViewModel<SideBarNodeViewModel>(
+                    new SideBarNodeViewModel.InitContext(newItem.ConfigPath, SideBarNodeType.Config, AppNode: newItem));
+                Nodes.Add(node);
+            }
+        }
     }
 
     public delegate void SideBarNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
@@ -56,38 +77,6 @@ public class SideBarViewModel : ViewModelBase
         var welcomeNode = CreateViewModel<SideBarNodeViewModel>(
             new SideBarNodeViewModel.InitContext("Welcome", SideBarNodeType.Welcome));
         Nodes.Add(welcomeNode);
-
-        var welcome2Node = CreateViewModel<SideBarNodeViewModel>(
-            new SideBarNodeViewModel.InitContext("Welcome 2", SideBarNodeType.Welcome));
-        Nodes.Add(welcome2Node);
-
-        var welcome3Node = CreateViewModel<SideBarNodeViewModel>(
-            new SideBarNodeViewModel.InitContext("Welcome 3", SideBarNodeType.Welcome));
-        Nodes.Add(welcome3Node);
-
-        // Nodes.Add(new SideBarNodeViewModel()
-        // {
-        //     Name = "Welcome",
-        //     Container = this,
-        //     NodeType = SideBarNodeType.Welcome,
-        //     LoadedSubNodes = true,
-        //     SubNodes = new ObservableCollection<SideBarNodeViewModel>(),
-        //     IsPlaceholder = false,
-        //     IsExpanded = false,
-        //     AppNode = _appState,
-        // });
-        //
-        // Nodes.Add(new SideBarNodeViewModel()
-        // {
-        //     Name = "Welcome 2",
-        //     Container = this,
-        //     NodeType = SideBarNodeType.Welcome,
-        //     LoadedSubNodes = true,
-        //     SubNodes = new ObservableCollection<SideBarNodeViewModel>(),
-        //     IsPlaceholder = false,
-        //     IsExpanded = false,
-        //     AppNode = _appState,
-        // });
 
     //     var info = await _appState.GetConfigDataAsync(CancellationToken.None);
     //     Nodes.Add(new SideBarNodeViewModel()

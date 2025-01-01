@@ -19,9 +19,8 @@ public class SideBarNodeViewModel : ViewModelBase
         SubNodes.CollectionChanged += SubNodesOnCollectionChanged;
         Name = context.Name;
         NodeType = context.NodeType;
+        AppNode = context.AppNode;
     }
-
-    //public required SideBarViewModel Container { get; init; }
 
     public ObservableCollection<SideBarNodeViewModel> SubNodes { get; } = [];
 
@@ -80,5 +79,5 @@ public class SideBarNodeViewModel : ViewModelBase
         }
     }
 
-    public record struct InitContext(string Name, SideBarNodeType NodeType);
+    public record struct InitContext(string Name, SideBarNodeType NodeType, object? AppNode = null);
 }

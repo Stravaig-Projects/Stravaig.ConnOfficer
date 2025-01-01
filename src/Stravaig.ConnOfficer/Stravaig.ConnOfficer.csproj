@@ -47,4 +47,9 @@
     <ProjectReference Include="..\Stravaig.ConnOfficer.Domain\Stravaig.ConnOfficer.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\Icons\Context\" />
+    <Folder Include="Assets\Icons\Menu\" />
+  </ItemGroup>
+
 </Project>
