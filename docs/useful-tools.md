@@ -9,3 +9,7 @@
 # Videos
 
 * [Clean Architecture with .NET MAUI](https://www.youtube.com/live/K9ryHflmQJE) 📺
+
+# Docket
+
+* Running a Docker Registry in Docker: https://www.allisonthackston.com/articles/local-docker-registry.html

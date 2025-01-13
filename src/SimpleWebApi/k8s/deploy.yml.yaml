@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-web-api
+  labels:
+    app: simple-web-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-web-api
+  template:
+    metadata:
+      name: simple-web-api
+      labels:
+        app: simple-web-api
+    spec:
+      containers:
+        - name: simple-web-api
+          image: #{CONTAINER_REGISTRY}#/simple-web-api:#{BUILD_ID}#
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: BUILD_ID
+              value: "#{BUILD_ID}#"
+            - name: BUILD_DATE
+              value: "#{BUILD_DATE}#"
+            - name: CODE_VERSION
+              value: "#{CODE_BRANCH_NAME}#:#{CODE_COMMIT_SHA}#"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always

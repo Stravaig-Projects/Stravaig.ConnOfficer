@@ -41,6 +41,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mac", "Mac", "{CD35F5E2-F59
 		..\build\MacOS\Info.plist = ..\build\MacOS\Info.plist
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{FC389482-66AF-407F-9AC0-E8C8319B5601}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground", "Playground", "{DAE3EF78-89E8-41A0-B449-0E2B08390EA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWebApi", "SimpleWebApi\SimpleWebApi.csproj", "{E2D4E9CF-E41F-4BB0-930B-B3C30C13026F}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,10 @@ Global
 		{49DD81D1-1FB6-49D9-92E1-DB421F610407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49DD81D1-1FB6-49D9-92E1-DB421F610407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49DD81D1-1FB6-49D9-92E1-DB421F610407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D4E9CF-E41F-4BB0-930B-B3C30C13026F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D4E9CF-E41F-4BB0-930B-B3C30C13026F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D4E9CF-E41F-4BB0-930B-B3C30C13026F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D4E9CF-E41F-4BB0-930B-B3C30C13026F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,5 +78,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CD35F5E2-F59E-49C1-A9B0-CC8B11002A34} = {3D36916B-2367-4624-BDCF-864173796B30}
+		{17E3D713-A158-4500-BA1E-E79F19D44524} = {FC389482-66AF-407F-9AC0-E8C8319B5601}
+		{49508DBF-7554-4EC9-8CDA-5AB7008FC847} = {FC389482-66AF-407F-9AC0-E8C8319B5601}
+		{49DD81D1-1FB6-49D9-92E1-DB421F610407} = {FC389482-66AF-407F-9AC0-E8C8319B5601}
+		{E2D4E9CF-E41F-4BB0-930B-B3C30C13026F} = {DAE3EF78-89E8-41A0-B449-0E2B08390EA8}
 	EndGlobalSection
 EndGlobal
