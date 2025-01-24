@@ -9,7 +9,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["SimpleWebApi.csproj", "SimpleWebApi/"]
 RUN dotnet restore "SimpleWebApi/SimpleWebApi.csproj"
-COPY . .
+COPY [".", "SimpleWebApi/"]
 WORKDIR "/src/SimpleWebApi"
 RUN dotnet build "SimpleWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

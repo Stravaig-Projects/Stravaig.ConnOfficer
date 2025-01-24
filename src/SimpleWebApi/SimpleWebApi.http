@@ -4,3 +4,9 @@ GET {{SimpleWebApi_HostAddress}}/weather-forecast/
 Accept: application/json
 
 ###
+
+GET {{SimpleWebApi_HostAddress}}/health/live
+
+###
+
+GET {{SimpleWebApi_HostAddress}}/health/ready

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: conn-officer-test-apis
+  name: simple-web-api
+  labels:
+    app: simple-web-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-web-api
+  template:
+    metadata:
+      namespace: conn-officer-test-apis
+      name: simple-web-api
+      labels:
+        app: simple-web-api
+    spec:
+      containers:
+        - name: simple-web-api
+          image: conn-officer.stravaig.local:5050/simple-web-api:15
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: BUILD_ID
+              value: "15"
+            - name: BUILD_DATE
+              value: "2025-01-24T22:31:16Z"
+            - name: CODE_VERSION
+              value: "#16/redo-tree-view:eb417dddad217a486a33957045376a74d6568dbd"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+      restartPolicy: Always

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: conn-officer-test-apis
   name: simple-web-api
   labels:
     app: simple-web-api
@@ -11,6 +12,7 @@ spec:
       app: simple-web-api
   template:
     metadata:
+      namespace: conn-officer-test-apis
       name: simple-web-api
       labels:
         app: simple-web-api
@@ -29,6 +31,24 @@ spec:
               value: "#{CODE_BRANCH_NAME}#:#{CODE_COMMIT_SHA}#"
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 3000
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
       restartPolicy: Always

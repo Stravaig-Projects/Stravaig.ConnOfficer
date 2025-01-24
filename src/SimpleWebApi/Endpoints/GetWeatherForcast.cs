@@ -24,8 +24,9 @@ public static class GetWeatherForcast
     {
         app.MapGet(
                 "/weather-forecast",
-                (HttpContext httpContext) =>
+                async (HttpContext httpContext) =>
                 {
+                    await Task.Delay(Random.Shared.Next(100, 500), httpContext.RequestAborted);
                     httpContext.Response.Headers.Append("X-Response-Id", Guid.NewGuid().ToString());
                     int startTemp = Random.Shared.Next(-10, 45);
                     int temp = startTemp;
