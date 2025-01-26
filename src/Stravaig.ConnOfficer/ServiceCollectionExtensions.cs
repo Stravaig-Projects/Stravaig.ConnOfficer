@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Commands;
+using Stravaig.ConnOfficer.Commands.File;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Domain.Services;
@@ -34,19 +35,23 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ConfigFileTabViewModel>();
 
         // Commands
+        // File menu
         services.AddTransient<OpenDefaultKubeConfigCommand>();
+        services.AddTransient<OpenKubeConfigCommand>();
 
         services.AddSingleton<MainWindow>(p =>
         {
             var mainWindow = new MainWindow();
             var filePickerService = new FilePickerService(mainWindow);
+            var openKubeConfigCommand = ActivatorUtilities.CreateInstance<OpenKubeConfigCommand>(p, filePickerService);
             var vm = p.GetRequiredService<IViewModelFactory>()
-                .CreateViewModel<MainWindowViewModel>(filePickerService);
+                .CreateViewModel<MainWindowViewModel>(openKubeConfigCommand);
             mainWindow.DataContext = vm;
             return mainWindow;
         });
 
         services.AddSingleton<IKubernetestClientFactory, KubernetesClientFactory>();
+        services.AddSingleton<IFilePickerService, FilePickerService>();
         services.AddSingleton<ApplicationState>();
         services.AddMediatR(cfg =>
         {

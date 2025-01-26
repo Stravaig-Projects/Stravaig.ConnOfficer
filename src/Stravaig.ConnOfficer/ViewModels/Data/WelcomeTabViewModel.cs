@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Commands;
+using Stravaig.ConnOfficer.Commands.File;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
@@ -16,14 +17,18 @@ public class WelcomeTabViewModel : DataTabItemViewModelBase
         ILogger<WelcomeTabViewModel> logger,
         ApplicationState appState,
         SideBarNodeViewModel sideBarNode,
-        OpenDefaultKubeConfigCommand openDefaultKubeConfigCommand)
+        OpenDefaultKubeConfigCommand openDefaultKubeConfigCommand,
+        OpenKubeConfigCommand openKubeConfigCommand)
         : base(factory, logger, "Welcome", sideBarNode)
     {
         _appState = appState;
         OpenDefaultKubeConfigFileCommand = openDefaultKubeConfigCommand;
+        OpenKubeConfigFileCommand = openKubeConfigCommand;
     }
 
     public string DefaultKubeFileLocation => _appState.DefaultConfigFile;
 
     public AsyncRelayCommand OpenDefaultKubeConfigFileCommand { get; }
+
+    public AsyncRelayCommand OpenKubeConfigFileCommand { get; }
 }
