@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Stravaig.ConnOfficer.Commands;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Domain.Queries;
 using Stravaig.ConnOfficer.Domain.Services;
@@ -21,6 +22,8 @@ public static class ServiceCollectionExtensions
             builder.AddDebug();
             builder.AddConsole();
         });
+
+        // View Model
         services.AddSingleton<IViewModelFactory, ViewModelFactory>();
         services.AddTransient<SideBarViewModel>();
         services.AddTransient<BreadcrumbsViewModel>();
@@ -29,6 +32,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<SideBarNodeViewModel>();
         services.AddTransient<WelcomeTabViewModel>();
         services.AddTransient<ConfigFileTabViewModel>();
+
+        // Commands
+        services.AddTransient<OpenDefaultKubeConfigCommand>();
 
         services.AddSingleton<MainWindow>(p =>
         {

@@ -20,7 +20,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Button Classes="link">
+                <Button Classes="link" Command="{Binding OpenDefaultKubeConfigFileCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="24" Height="24">
                             <Image.Source>

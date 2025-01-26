@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Stravaig.ConnOfficer.Commands;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels.Data;
@@ -20,7 +21,8 @@ public class MainWindowViewModel : ViewModelBase
         SideBarViewModel sideBar,
         BreadcrumbsViewModel breadcrumbs,
         DataTabViewModel dataTabs,
-        IFilePickerService filePickerService)
+        IFilePickerService filePickerService,
+        OpenDefaultKubeConfigCommand openDefaultKubeConfigCommand)
         : base(vmFactory, logger)
     {
         ApplicationState = appState;
@@ -28,7 +30,7 @@ public class MainWindowViewModel : ViewModelBase
         Breadcrumbs = breadcrumbs;
         DataTabs = dataTabs;
         _filePickerService = filePickerService;
-        FileOpenDefaultKubeConfigCommand = new AsyncRelayCommand(OpenDefaultKubeConfigFileAsync, CanExecuteOpenDefaultKubeConfigFile);
+        FileOpenDefaultKubeConfigCommand = openDefaultKubeConfigCommand; // new AsyncRelayCommand(OpenDefaultKubeConfigFileAsync, CanExecuteOpenDefaultKubeConfigFile);
         FileOpenKubeConfigCommand = new AsyncRelayCommand(OpenKubeConfigFileAsync);
         SideBar.SelectedSideBarNodeChanged += DataTabs.SideBarOnSelectedSideBarNodeChanged;
         SideBar.SelectedSideBarNodeChanged += Breadcrumbs.SidebarOnSelectedSideBarNodeChanged;
@@ -49,14 +51,14 @@ public class MainWindowViewModel : ViewModelBase
 
     public AsyncRelayCommand FileOpenKubeConfigCommand { get; }
 
-    private async Task OpenDefaultKubeConfigFileAsync(CancellationToken ct)
-    {
-        var filePath = ApplicationState.DefaultConfigFile;
-        await ApplicationState.GetConfigDataAsync(filePath, ct);
-    }
-
-    private bool CanExecuteOpenDefaultKubeConfigFile()
-        => !ApplicationState.IsDefaultKubeConfigOpen;
+    // private async Task OpenDefaultKubeConfigFileAsync(CancellationToken ct)
+    // {
+    //     var filePath = ApplicationState.DefaultConfigFile;
+    //     await ApplicationState.GetConfigDataAsync(filePath, ct);
+    // }
+    //
+    // private bool CanExecuteOpenDefaultKubeConfigFile()
+    //     => !ApplicationState.IsDefaultKubeConfigOpen;
 
     private async Task OpenKubeConfigFileAsync(CancellationToken ct)
     {

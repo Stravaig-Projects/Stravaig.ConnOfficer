@@ -16,7 +16,6 @@ public class ConfigFileTabViewModel : DataTabItemViewModelBase
         : base(factory, logger, sideBarNode.Name, sideBarNode)
     {
         _configData = (KubernetesConfigData)sideBarNode.AppNode;
-        _configData.Contexts[0].
     }
 
     public string ConfigFilePath => _configData.ConfigPath;
