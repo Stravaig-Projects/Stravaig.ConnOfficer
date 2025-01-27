@@ -10,7 +10,6 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Concurrency;
-using System.Threading;
 
 namespace Stravaig.ConnOfficer.ViewModels.SideBar;
 

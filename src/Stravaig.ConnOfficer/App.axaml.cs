@@ -1,15 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Dialogs;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Glue;
-using Stravaig.ConnOfficer.ViewModels;
 using Stravaig.ConnOfficer.Views;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 

@@ -16,7 +16,7 @@ public class OpenKubeConfigCommand : AsyncCommandBase
     {
         _appState = appState;
         _filePickerService = filePickerService;
-        AsAsyncRelayCommand = CreateCommandWithWrapper(OpenKubeConfigFileAsync);
+        AsyncRelayCommand = CreateCommandWithWrapper(OpenKubeConfigFileAsync);
     }
 
     private async Task OpenKubeConfigFileAsync(CancellationToken ct)
@@ -28,6 +28,7 @@ public class OpenKubeConfigCommand : AsyncCommandBase
         }
 
         var filePath = file.Path.AbsolutePath;
+        Logger.LogInformation("Opening kube config file: {FilePath}", filePath);
         await _appState.GetConfigDataAsync(filePath, ct);
     }
 }

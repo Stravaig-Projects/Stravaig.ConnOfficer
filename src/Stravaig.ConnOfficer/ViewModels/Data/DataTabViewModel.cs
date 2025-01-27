@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Glue;
-using Stravaig.ConnOfficer.Models;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 using System;
 using System.Collections.ObjectModel;

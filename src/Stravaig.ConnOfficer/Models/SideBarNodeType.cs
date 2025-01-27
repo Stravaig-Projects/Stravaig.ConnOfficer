@@ -1,5 +1,4 @@
 using Stravaig.ConnOfficer.ViewModels.Data;
-using Stravaig.ConnOfficer.ViewModels.SideBar;
 using System;
 
 namespace Stravaig.ConnOfficer.Models;

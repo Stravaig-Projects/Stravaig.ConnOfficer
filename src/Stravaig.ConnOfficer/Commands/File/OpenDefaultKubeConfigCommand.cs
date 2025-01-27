@@ -13,12 +13,13 @@ public class OpenDefaultKubeConfigCommand : AsyncCommandBase
         : base(logger)
     {
         _appState = appState;
-        AsAsyncRelayCommand = CreateCommandWithWrapper(OpenDefaultKubeConfigFileAsync, CanExecuteOpenDefaultKubeConfigFile);
+        AsyncRelayCommand = CreateCommandWithWrapper(OpenDefaultKubeConfigFileAsync, CanExecuteOpenDefaultKubeConfigFile);
     }
 
     private async Task OpenDefaultKubeConfigFileAsync(CancellationToken ct)
     {
         var filePath = _appState.DefaultConfigFile;
+        Logger.LogInformation("Opening default kube config file: {FilePath}", filePath);
         await _appState.GetConfigDataAsync(filePath, ct);
     }
 

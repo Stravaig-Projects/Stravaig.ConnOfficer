@@ -6,20 +6,22 @@ using System.Threading.Tasks;
 
 namespace Stravaig.ConnOfficer.Commands;
 
-public abstract class AsyncCommandBase
+public abstract class AsyncCommandBase : IConvertToAsyncRelayCommand
 {
+    private static readonly AsyncRelayCommand NullCommand = new(static () => Task.CompletedTask, static () => false);
+
     protected readonly ILogger Logger;
 
-    public AsyncCommandBase(ILogger logger)
+    protected AsyncCommandBase(ILogger logger)
     {
         Logger = logger;
     }
 
-    public AsyncRelayCommand AsAsyncRelayCommand { get; protected init; }
+    public AsyncRelayCommand AsyncRelayCommand { get; protected init; } = NullCommand;
 
     public static implicit operator AsyncRelayCommand(AsyncCommandBase commandBase)
     {
-        return commandBase.AsAsyncRelayCommand;
+        return commandBase.AsyncRelayCommand;
     }
 
     protected AsyncRelayCommand CreateCommandWithWrapper(

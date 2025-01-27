@@ -69,7 +69,7 @@ public class SideBarNodeViewModel : ViewModelBase
         }
     }
 
-    private async void ExpandNode()
+    private void ExpandNode()
     {
         switch (Type)
         {

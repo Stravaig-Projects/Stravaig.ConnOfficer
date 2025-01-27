@@ -1,4 +1,3 @@
-using DynamicData;
 using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
@@ -6,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Reactive.PlatformServices;
 
 namespace Stravaig.ConnOfficer.ViewModels;
 

@@ -1,7 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
-using Avalonia.Markup.Xaml;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 
 namespace Stravaig.ConnOfficer.Views;
