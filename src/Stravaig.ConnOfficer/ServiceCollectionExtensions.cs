@@ -24,13 +24,19 @@ public static class ServiceCollectionExtensions
 
         // View Model
         services.AddSingleton<IViewModelFactory, ViewModelFactory>();
-        services.AddTransient<SideBarViewModel>();
+
+        // Main window view models
         services.AddTransient<BreadcrumbsViewModel>();
-        services.AddTransient<MainWindowViewModel>();
-        services.AddTransient<DataTabViewModel>();
-        services.AddTransient<SideBarNodeViewModel>();
-        services.AddTransient<WelcomeTabViewModel>();
         services.AddTransient<ConfigFileTabViewModel>();
+        services.AddTransient<LatestNotificationViewModel>();
+        services.AddTransient<MainWindowViewModel>();
+        services.AddTransient<NotificationItemViewModel>();
+        services.AddTransient<SideBarViewModel>();
+        services.AddTransient<SideBarNodeViewModel>();
+
+        // Tab view models
+        services.AddTransient<DataTabViewModel>();
+        services.AddTransient<WelcomeTabViewModel>();
 
         // Commands
         // File menu

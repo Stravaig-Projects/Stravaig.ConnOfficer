@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Domain;
+using Stravaig.ConnOfficer.Domain.Status;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,11 +17,17 @@ public class OpenDefaultKubeConfigCommand : AsyncCommandBase
         AsyncRelayCommand = CreateCommandWithWrapper(OpenDefaultKubeConfigFileAsync, CanExecuteOpenDefaultKubeConfigFile);
     }
 
-    private async Task OpenDefaultKubeConfigFileAsync(CancellationToken ct)
+    private async Task<StatusCode> OpenDefaultKubeConfigFileAsync(CancellationToken ct)
     {
         var filePath = _appState.DefaultConfigFile;
+        if (!System.IO.File.Exists(filePath))
+        {
+            return new KubeConfigFileNotFound(filePath);
+        }
+
         Logger.LogInformation("Opening default kube config file: {FilePath}", filePath);
         await _appState.GetConfigDataAsync(filePath, ct);
+        return new OpenKubeConfigSuccess(filePath);
     }
 
     private bool CanExecuteOpenDefaultKubeConfigFile()

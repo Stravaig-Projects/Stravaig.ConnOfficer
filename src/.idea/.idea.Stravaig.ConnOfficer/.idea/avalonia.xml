@@ -24,7 +24,9 @@
         <entry key="Stravaig.ConnOfficer/Views/Data/WelcomeTabView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/DataViews/RawTextView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/InfoPages/InfoPageView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/LatestNotification.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/MainWindow.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
+        <entry key="Stravaig.ConnOfficer/Views/NotificationItem.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/SideBar/SideBarNodeView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/SideBar/SideBarView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />
         <entry key="Stravaig.ConnOfficer/Views/SideBarNodeView.axaml" value="Stravaig.ConnOfficer/Stravaig.ConnOfficer.csproj" />

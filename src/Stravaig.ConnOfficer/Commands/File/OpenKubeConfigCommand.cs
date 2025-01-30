@@ -25,10 +25,15 @@ public class OpenKubeConfigCommand : AsyncCommandBase
         var file = await _filePickerService.OpenKubeConfigAsync();
         if (file == null)
         {
-            return;
+            return CommandCancelledStatusCode.Instance;
         }
 
         var filePath = file.Path.AbsolutePath;
+        if (!System.IO.File.Exists(filePath))
+        {
+            return new KubeConfigFileNotFound(filePath);
+        }
+
         Logger.LogInformation("Opening kube config file: {FilePath}", filePath);
         await _appState.GetConfigDataAsync(filePath, ct);
         return new OpenKubeConfigSuccess(filePath);

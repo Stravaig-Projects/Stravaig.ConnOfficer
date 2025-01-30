@@ -10,7 +10,7 @@
     <Border>
         <DockPanel>
             <views:LatestNotification DockPanel.Dock="Left"/>
-            <views:Zoom DockPanel.Dock="Right" />
+            <!-- <views:Zoom DockPanel.Dock="Right" /> -->
         </DockPanel>
 </Border>
 </UserControl>
