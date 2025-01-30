@@ -10,7 +10,7 @@ public class OpenDefaultKubeConfigCommand : AsyncCommandBase
     private readonly ApplicationState _appState;
 
     public OpenDefaultKubeConfigCommand(ApplicationState appState, ILogger<OpenDefaultKubeConfigCommand> logger)
-        : base(logger)
+        : base(logger, appState)
     {
         _appState = appState;
         AsyncRelayCommand = CreateCommandWithWrapper(OpenDefaultKubeConfigFileAsync, CanExecuteOpenDefaultKubeConfigFile);

@@ -1,7 +1,9 @@
 using DynamicData;
 using k8s;
 using MediatR;
+using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Domain.Queries;
+using Stravaig.ConnOfficer.Domain.Status;
 using System.Collections.ObjectModel;
 
 namespace Stravaig.ConnOfficer.Domain;
@@ -26,11 +28,28 @@ public class ApplicationState
 
     public ObservableCollection<KubernetesConfigData> ConfigurationFiles { get; } = [];
 
-    public async Task<KubernetesConfigData> GetConfigDataAsync(CancellationToken ct)
-        => await GetConfigDataAsync(null, ct);
+    public ObservableCollection<SystemNotification> SystemNotifications { get; } = [];
 
-    public async Task<KubernetesConfigData> GetConfigDataAsync(string? configFile, CancellationToken ct)
+    public void AddNotification(StatusCode statusCode, Type commandType)
     {
+        var notification = new SystemNotification(statusCode, commandType);
+        SystemNotifications.Add(notification);
+    }
+
+    public void AddNotification(StatusCodeException exception, Type commandType)
+    {
+        var notification = new SystemNotification(exception, commandType);
+        SystemNotifications.Add(notification);
+    }
+
+    public async Task<KubernetesConfigData> GetConfigDataAsync(string configFile, CancellationToken ct)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(configFile);
+        if (!File.Exists(configFile))
+        {
+            throw new FileNotFoundException("File not found", configFile);
+        }
+
         var result = await Mediator.Send(
             new GetKubernetesInfoQuery
             {
@@ -39,9 +58,10 @@ public class ApplicationState
             },
             ct);
 
-        ConfigurationFiles.Remove(
-            ConfigurationFiles
-                .Where(cf => cf.ConfigPath.Equals(configFile, StringComparison.Ordinal)));
+        var oldConfigFiles = ConfigurationFiles
+            .Where(cf => FileSystemHelper.AreFilePathsEqual(cf.ConfigPath, configFile));
+        
+        ConfigurationFiles.Remove(oldConfigFiles);
         ConfigurationFiles.Add(result);
         return result;
     }

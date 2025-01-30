@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Domain;
+using Stravaig.ConnOfficer.Domain.Status;
 using Stravaig.ConnOfficer.Glue;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,14 +13,14 @@ public class OpenKubeConfigCommand : AsyncCommandBase
     private readonly IFilePickerService _filePickerService;
 
     public OpenKubeConfigCommand(ApplicationState appState, ILogger<OpenKubeConfigCommand> logger, IFilePickerService filePickerService)
-        : base(logger)
+        : base(logger, appState)
     {
         _appState = appState;
         _filePickerService = filePickerService;
         AsyncRelayCommand = CreateCommandWithWrapper(OpenKubeConfigFileAsync);
     }
 
-    private async Task OpenKubeConfigFileAsync(CancellationToken ct)
+    private async Task<StatusCode> OpenKubeConfigFileAsync(CancellationToken ct)
     {
         var file = await _filePickerService.OpenKubeConfigAsync();
         if (file == null)
@@ -30,5 +31,6 @@ public class OpenKubeConfigCommand : AsyncCommandBase
         var filePath = file.Path.AbsolutePath;
         Logger.LogInformation("Opening kube config file: {FilePath}", filePath);
         await _appState.GetConfigDataAsync(filePath, ct);
+        return new OpenKubeConfigSuccess(filePath);
     }
 }
