@@ -10,13 +10,12 @@ using System.Linq;
 
 namespace Stravaig.ConnOfficer.ViewModels;
 
-public class LatestNotificationViewModel : ViewModelBase, IDisposable
+public class LatestNotificationViewModel : ViewModelBase
 {
     private readonly ApplicationState _appState;
     private SystemNotification? _latestNotification;
-    private NotificationItemViewModel? _toolTip;
+    private NotificationItemViewModel? _fullNotification;
     private bool _hasToolTip;
-    private SvgSource? _iconSource;
     private string _message;
     private string? _iconPath;
 
@@ -31,12 +30,12 @@ public class LatestNotificationViewModel : ViewModelBase, IDisposable
         _message = "Ready";
     }
 
-    public NotificationItemViewModel? ToolTip
+    public NotificationItemViewModel? FullNotification
     {
-        get => _toolTip;
+        get => _fullNotification;
         private set
         {
-            this.RaiseAndSetIfChanged(ref _toolTip, value);
+            this.RaiseAndSetIfChanged(ref _fullNotification, value);
             HasToolTip = value != null;
         }
     }
@@ -59,13 +58,6 @@ public class LatestNotificationViewModel : ViewModelBase, IDisposable
         private set => this.RaiseAndSetIfChanged(ref _message, value);
     }
 
-    public void Dispose()
-    {
-        _iconSource?.Dispose();
-        _appState.SystemNotifications.CollectionChanged -= SystemNotificationsOnCollectionChanged;
-        GC.SuppressFinalize(this);
-    }
-
     private SystemNotification? LatestNotification
     {
         get => _latestNotification;
@@ -79,7 +71,7 @@ public class LatestNotificationViewModel : ViewModelBase, IDisposable
             _latestNotification = value;
             IconPath = value?.StatusCode.NotificationIconPath();
             Message = value?.StatusCode.Message ?? "Ready";
-            ToolTip = value == null
+            FullNotification = value == null
                 ? null
                 : CreateViewModel<NotificationItemViewModel>(value);
         }

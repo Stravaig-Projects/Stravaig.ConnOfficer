@@ -7,21 +7,45 @@
              x:DataType="vm:NotificationItemViewModel"
              x:Class="Stravaig.ConnOfficer.Views.NotificationItem">
     <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-            <Image Margin="0 2 10 2"
-                   Width="24"
-                   Height="24">
-                <Image.Source>
-                    <SvgImage Source="{Binding IconSource}"/>
-                </Image.Source>
-            </Image>
-            <TextBlock Text="{Binding Code}"/>
-            <TextBlock Text="{Binding Time}"/>
-        </StackPanel>
-        
-        <Separator Margin="0,10,0,10" />
+        <DockPanel
+            HorizontalAlignment="Stretch">
+            <StackPanel
+                DockPanel.Dock="Left"
+                Orientation="Horizontal">
+                <Svg
+                    Margin="10 2 10 2"
+                    Width="24"
+                    Height="24"
+                    Path="{Binding IconPath}"/>
+                <TextBlock
+                    FontWeight="Bold"
+                    Text="{Binding Code}"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Svg
+                    Margin="10 2 10 2"
+                    Width="24"
+                    Height="24"
+                    Path="/Assets/Icons/Notifications/ic_fluent_clock_24_regular.svg"/>
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    FontWeight="Bold"
+                    Text="{Binding Time}"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+        </DockPanel>
 
-        <TextBlock Text="{Binding Message}"/>
-        <TextBlock IsVisible="{Binding HasException}" Text="{Binding ExceptionDetails}" />
+        <Separator
+            Margin="0,3,0,3" />
+
+        <TextBlock
+            Text="{Binding Message}"/>
+        <TextBlock
+            IsVisible="{Binding HasException}"
+            Text="{Binding ExceptionDetails}" />
     </StackPanel>
 </UserControl>

@@ -16,7 +16,7 @@ public class NotificationItemViewModel : ViewModelBase
         _notification = notification;
     }
 
-    public string? IconSource => _notification.StatusCode.NotificationIconPath();
+    public string? IconPath => _notification.StatusCode.NotificationIconPath();
 
     public string Code => _notification.StatusCode.Code;
 
