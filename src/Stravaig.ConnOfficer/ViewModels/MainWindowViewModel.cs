@@ -15,6 +15,7 @@ public class MainWindowViewModel : ViewModelBase
         SideBarViewModel sideBar,
         BreadcrumbsViewModel breadcrumbs,
         DataTabViewModel dataTabs,
+        StatusBarViewModel statusBar,
         OpenDefaultKubeConfigCommand openDefaultKubeConfigCommand,
         OpenKubeConfigCommand openKubeConfigCommand)
         : base(vmFactory, logger)
@@ -22,6 +23,7 @@ public class MainWindowViewModel : ViewModelBase
         SideBar = sideBar;
         Breadcrumbs = breadcrumbs;
         DataTabs = dataTabs;
+        StatusBar = statusBar;
         FileOpenDefaultKubeConfigCommand = openDefaultKubeConfigCommand;
         FileOpenKubeConfigCommand = openKubeConfigCommand;
         SideBar.SelectedSideBarNodeChanged += DataTabs.SideBarOnSelectedSideBarNodeChanged;
@@ -34,6 +36,8 @@ public class MainWindowViewModel : ViewModelBase
     public BreadcrumbsViewModel Breadcrumbs { get; init; }
 
     public DataTabViewModel DataTabs { get; init; }
+
+    public StatusBarViewModel StatusBar { get; init; }
 
     public AsyncRelayCommand FileOpenDefaultKubeConfigCommand { get; }
 

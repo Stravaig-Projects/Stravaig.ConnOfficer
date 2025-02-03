@@ -8,15 +8,13 @@
              x:DataType="vm:LatestNotificationViewModel"
              x:Class="Stravaig.ConnOfficer.Views.LatestNotification">
     <StackPanel Orientation="Horizontal">
-        <Image Margin="0 2 10 2"
-               Width="24"
-               Height="24">
-            <Image.Source>
-                <SvgImage Source="{Binding IconSource}"/>
-            </Image.Source>
-        </Image>
-        <TextBlock Text="{Binding Message}" />
-        <ToolTip IsEnabled="{Binding HasTooltip}" Placement="Top">
+        <Svg
+            Margin="10 2 10 2"
+            Width="24"
+            Height="24"
+            Path="{Binding IconPath}"/>
+        <TextBlock Text="{Binding Message}" VerticalAlignment="Center" />
+        <ToolTip IsEnabled="{Binding HasToolTip}" Placement="Top">
             <ToolTip.Tip>
                 <views:NotificationItem DataContext="{Binding ToolTip}"/>
             </ToolTip.Tip>

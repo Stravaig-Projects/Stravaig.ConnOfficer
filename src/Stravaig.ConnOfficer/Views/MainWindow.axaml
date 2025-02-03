@@ -55,7 +55,7 @@
             </MenuItem>
         </Menu>
         <Panel DockPanel.Dock="Bottom" Height="32">
-            <views:StatusBar HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <views:StatusBar HorizontalAlignment="Left" VerticalAlignment="Center" DataContext="{Binding StatusBar}"/>
         </Panel>
 
         <SplitView IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="300">

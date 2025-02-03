@@ -33,6 +33,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<NotificationItemViewModel>();
         services.AddTransient<SideBarViewModel>();
         services.AddTransient<SideBarNodeViewModel>();
+        services.AddTransient<StatusBarViewModel>();
 
         // Tab view models
         services.AddTransient<DataTabViewModel>();

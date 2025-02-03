@@ -1,3 +1,4 @@
+using Avalonia.Svg.Skia;
 using Microsoft.Extensions.Logging;
 using Stravaig.ConnOfficer.Domain;
 using Stravaig.ConnOfficer.Glue;
@@ -15,7 +16,7 @@ public class NotificationItemViewModel : ViewModelBase
         _notification = notification;
     }
 
-    public string IconSource => _notification.StatusCode.NotificationIconSource();
+    public string? IconSource => _notification.StatusCode.NotificationIconPath();
 
     public string Code => _notification.StatusCode.Code;
 
