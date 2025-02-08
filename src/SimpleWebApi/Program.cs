@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SimpleWebApi.Endpoints;
 using SimpleWebApi.Middleware;
-using System.Collections.Immutable;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace SimpleWebApi;
 

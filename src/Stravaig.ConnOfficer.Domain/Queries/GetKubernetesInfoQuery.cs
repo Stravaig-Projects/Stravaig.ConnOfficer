@@ -55,16 +55,16 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
             Application = app,
             RawData = new ResettableLazy<string>(rawContent),
         };
+        result.Clusters.AddRange(file.Clusters.Select(c => c.ToDomain()));
         result.Contexts.AddRange(
-            file.Contexts.Select(c => new KubernetesContext
+            file.Contexts.Select(ctx => new KubernetesContext
             {
                 Application = app,
                 Config = result,
-                Name = c.Name ?? "*** MISSING NAME ***",
-                Cluster = file.Clusters.First(cluster => cluster.Name == c.Context?.Cluster).ToDomain(),
-                User = c.Context?.User ?? "*** MISSING USER ***",
+                Name = ctx.Name ?? "*** MISSING NAME ***",
+                Cluster = result.Clusters.First(cluster => cluster.Name == ctx.Context?.Cluster),
+                User = ctx.Context?.User ?? "*** MISSING USER ***",
             }));
-
         return result;
     }
 

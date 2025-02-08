@@ -21,6 +21,8 @@ public class KubernetesConfigData : IRawData
 
     public ObservableCollection<KubernetesContext> Contexts { get; } = [];
 
+    public ObservableCollection<KubernetesCluster> Clusters { get; } = [];
+
     public required ResettableLazy<string> RawData { get; init; }
 
     public ResettableLazy<JsonDocument> JsonData { get; }

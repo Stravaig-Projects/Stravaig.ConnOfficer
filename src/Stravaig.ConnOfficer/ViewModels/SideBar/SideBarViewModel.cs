@@ -39,9 +39,20 @@ public class SideBarViewModel : ViewModelBase
         {
             foreach (var newItem in e.NewItems.Cast<KubernetesConfigData>())
             {
-                var node = CreateViewModel<SideBarNodeViewModel>(
+                var fileNode = CreateViewModel<SideBarNodeViewModel>(
                     new SideBarNodeViewModel.InitContext(newItem.ConfigPath, SideBarNodeType.Config, AppNode: newItem));
-                Nodes.Add(node);
+
+                foreach (var context in newItem.Contexts)
+                {
+                    var contextNode = CreateViewModel<SideBarNodeViewModel>(
+                        new SideBarNodeViewModel.InitContext(context.Name, SideBarNodeType.Context, AppNode: context));
+
+                    // var nodesNode = CreateViewModel<SideBarNodeViewModel>(
+                    //     new SideBarNodeViewModel.InitContext("Nodes", SideBarNodeType.Node, AppNode: context));
+                    fileNode.SubNodes.Add(contextNode);
+                }
+
+                Nodes.Add(fileNode);
             }
         }
     }
@@ -49,8 +60,6 @@ public class SideBarViewModel : ViewModelBase
     public delegate void SideBarNodeSelectedHandler(SideBarNodeViewModel? selectedNode);
 
     public event SideBarNodeSelectedHandler? SelectedSideBarNodeChanged;
-
-    //public MainWindowViewModel MainWindow { get; }
 
     public ObservableCollection<SideBarNodeViewModel> Nodes { get; } = [];
 

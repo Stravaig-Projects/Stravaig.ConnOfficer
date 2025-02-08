@@ -18,14 +18,15 @@
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
         <StyleInclude Source="avares://Stravaig.ConnOfficer/Styles/ConnOfficerStyles.axaml"/>
     </Application.Styles>
 
     <Application.Resources>
         <ResourceDictionary>
+            <FontFamily x:Key="FiraCode">avares://Stravaig.ConnOfficer/Assets/Fonts/FiraCode-Retina.ttf#Fira Code Retina</FontFamily>
             <SolidColorBrush x:Key="PrimaryBackground">#222222</SolidColorBrush>
             <SolidColorBrush x:Key="PrimaryText">#DDDDDD</SolidColorBrush>
-
         </ResourceDictionary>
     </Application.Resources>
 
