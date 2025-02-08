@@ -50,7 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Icons\Context\" />
     <Folder Include="Assets\Icons\Menu\" />
   </ItemGroup>
 

@@ -9,3 +9,9 @@ Let's start with Kubetnetes. The name “Kubernetes” comes from the Greek word
 The Conn officer is responsible for the overall navigation and safe manoeuvring of the ship. They give orders to the helmsman and other crew members to control the ship’s course, speed, and other navigational elements. They also make strategic decisions about where and how the ship should be navigated, based on a variety of factors such as navigation charts, radar, and other situational awareness tools. Finally, the Conn officer has a broader scope of responsibility, including situational awareness, adherence to navigation rules, and coordination with other ship operations.
 
 With that in mind, naming the application Conn Officer seems fitting as the application gives orders to the helmsman (or "kubernetes").
+
+## Third party licences
+
+* Vectors and icons
+  * by [Vmware](https://github.com/vmware/clarity-assets?ref=svgrepo.com) with MIT License via [SVG Repo](https://www.svgrepo.com/").
+  * by [Microsoft](https://github.com/microsoft/fluentui-system-icons) with MIT License.

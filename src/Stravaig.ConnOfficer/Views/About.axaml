@@ -6,7 +6,7 @@
         x:Class="Stravaig.ConnOfficer.Views.About"
         SizeToContent="WidthAndHeight"
         Title="About Stravaig Conn Officer">
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
 
         <Image
             Margin="10"
@@ -47,8 +47,6 @@
                 TextDecorations="Underline"
                 PointerPressed="Button_OnClick"
                 Text="https://github.com/Stravaig-Projects/Stravaig.ConnOfficer"/>
-
-       </StackPanel>
-
+        </StackPanel>
     </StackPanel>
 </Window>

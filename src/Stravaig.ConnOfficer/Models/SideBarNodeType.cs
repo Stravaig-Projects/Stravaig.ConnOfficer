@@ -22,7 +22,7 @@ public class SideBarNodeType
     public static readonly SideBarNodeType Context = new()
     {
         Name = nameof(Context),
-        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/cluster-icon.svg",
+        IconResourceName = "avares://Stravaig.ConnOfficer/Assets/Icons/Context/cluster-svgrepo-com.svg",
         TabItemViewModelType = typeof(ContextTabViewModel),
     };
 
