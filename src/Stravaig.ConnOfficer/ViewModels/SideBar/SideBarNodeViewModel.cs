@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Stravaig.ConnOfficer.Glue;
 using Stravaig.ConnOfficer.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -16,10 +17,23 @@ public class SideBarNodeViewModel : ViewModelBase
     public SideBarNodeViewModel(IViewModelFactory factory, ILogger<SideBarNodeViewModel> logger, InitContext context)
         : base(factory, logger)
     {
-        SubNodes.CollectionChanged += SubNodesOnCollectionChanged;
         Name = context.Name;
         NodeType = context.NodeType;
         AppNode = context.AppNode;
+
+        switch (context)
+        {
+            case InitTopLevel topLevel:
+                Container = topLevel.Container;
+                Parent = null;
+                break;
+            case InitSubNode subNode:
+                Parent = subNode.Parent;
+                Container = Parent.Container;
+                break;
+            default:
+                throw new InvalidOperationException("Unknown context type: {context.GetType()}");
+        }
     }
 
     public ObservableCollection<SideBarNodeViewModel> SubNodes { get; } = [];
@@ -38,7 +52,9 @@ public class SideBarNodeViewModel : ViewModelBase
 
     public bool IsPlaceholder { get; set; }
 
-    public SideBarNodeViewModel? Parent { get; private set; }
+    public SideBarNodeViewModel? Parent { get; }
+
+    public SideBarViewModel Container { get; }
 
     public bool IsExpanded
     {
@@ -56,19 +72,6 @@ public class SideBarNodeViewModel : ViewModelBase
         }
     }
 
-    private void SubNodesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        foreach (var oldItem in e.OldItems?.Cast<SideBarNodeViewModel>() ?? [])
-        {
-            oldItem.Parent = null;
-        }
-
-        foreach (var newItem in e.NewItems?.Cast<SideBarNodeViewModel>() ?? [])
-        {
-            newItem.Parent = this;
-        }
-    }
-
     private void ExpandNode()
     {
         switch (Type)
@@ -79,5 +82,36 @@ public class SideBarNodeViewModel : ViewModelBase
         }
     }
 
-    public record struct InitContext(string Name, SideBarNodeType NodeType, object? AppNode = null);
+    public SideBarNodeViewModel? FindNode(string name, SideBarNodeType type, object? appNode)
+    {
+        if (Name == name && NodeType == type && AppNode == appNode)
+        {
+            return this;
+        }
+
+        return FindSubNode(name, type, appNode);
+    }
+
+    public SideBarNodeViewModel? FindSubNode(string name, SideBarNodeType type, object? appNode)
+    {
+        foreach (var node in SubNodes)
+        {
+            var foundNode = node.FindNode(name, type, appNode);
+            if (foundNode != null)
+            {
+                return foundNode;
+            }
+        }
+
+        return null;
+    }
+
+    public abstract record InitContext(string Name, SideBarNodeType NodeType, object? AppNode);
+
+    public record InitTopLevel(string Name, SideBarNodeType NodeType, SideBarViewModel Container, object? AppNode = null)
+        : InitContext(Name, NodeType, AppNode);
+
+    public record InitSubNode(string Name, SideBarNodeType NodeType, SideBarNodeViewModel Parent, object? AppNode = null)
+        : InitContext(Name, NodeType, AppNode);
+
 }

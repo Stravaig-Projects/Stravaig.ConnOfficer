@@ -40,15 +40,13 @@ public class SideBarViewModel : ViewModelBase
             foreach (var newItem in e.NewItems.Cast<KubernetesConfigData>())
             {
                 var fileNode = CreateViewModel<SideBarNodeViewModel>(
-                    new SideBarNodeViewModel.InitContext(newItem.ConfigPath, SideBarNodeType.Config, AppNode: newItem));
+                    new SideBarNodeViewModel.InitTopLevel(newItem.ConfigPath, SideBarNodeType.Config, this, newItem));
 
                 foreach (var context in newItem.Contexts)
                 {
                     var contextNode = CreateViewModel<SideBarNodeViewModel>(
-                        new SideBarNodeViewModel.InitContext(context.Name, SideBarNodeType.Context, AppNode: context));
+                        new SideBarNodeViewModel.InitSubNode(context.Name, SideBarNodeType.Context, fileNode, context));
 
-                    // var nodesNode = CreateViewModel<SideBarNodeViewModel>(
-                    //     new SideBarNodeViewModel.InitContext("Nodes", SideBarNodeType.Node, AppNode: context));
                     fileNode.SubNodes.Add(contextNode);
                 }
 
@@ -83,7 +81,7 @@ public class SideBarViewModel : ViewModelBase
     {
         Nodes.Clear();
         var welcomeNode = CreateViewModel<SideBarNodeViewModel>(
-            new SideBarNodeViewModel.InitContext("Welcome", SideBarNodeType.Welcome));
+            new SideBarNodeViewModel.InitTopLevel("Welcome", SideBarNodeType.Welcome, this));
         Nodes.Add(welcomeNode);
 
     //     var info = await _appState.GetConfigDataAsync(CancellationToken.None);
@@ -123,5 +121,19 @@ public class SideBarViewModel : ViewModelBase
         {
             SelectedNode = tabContainer.SideBarNode;
         }
+    }
+
+    public SideBarNodeViewModel? FindNode(string name, SideBarNodeType type, object? appNode)
+    {
+        foreach (var node in Nodes)
+        {
+            var foundNode = node.FindNode(name, type, appNode);
+            if (foundNode != null)
+            {
+                return foundNode;
+            }
+        }
+
+        return null;
     }
 }

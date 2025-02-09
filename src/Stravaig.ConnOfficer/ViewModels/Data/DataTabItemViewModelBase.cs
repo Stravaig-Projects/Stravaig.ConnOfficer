@@ -1,8 +1,10 @@
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Stravaig.ConnOfficer.Glue;
+using Stravaig.ConnOfficer.Models;
 using Stravaig.ConnOfficer.ViewModels.SideBar;
 using System;
+using System.Diagnostics;
 using System.Reactive;
 
 namespace Stravaig.ConnOfficer.ViewModels.Data;
@@ -30,5 +32,12 @@ public class DataTabItemViewModelBase : ViewModelBase
     public void PerformCloseTabAsync()
     {
         TabClosing?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected SideBarNodeViewModel? FindSideBarNode(string name, SideBarNodeType type, object? appNode)
+    {
+        Debug.Assert(SideBarNode.Container != null, "Expected SideBarNode.Container to be set.");
+        var node = SideBarNode.Container?.FindNode(name, type, appNode);
+        return node;
     }
 }

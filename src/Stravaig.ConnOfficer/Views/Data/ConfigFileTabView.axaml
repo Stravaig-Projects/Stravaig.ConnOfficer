@@ -32,7 +32,8 @@
                   CanUserSortColumns="True"
                   GridLinesVisibility="All"
                   BorderThickness="1"
-                  BorderBrush="Gray">
+                  BorderBrush="Gray"
+                  DoubleTapped="ContextGrid_OnDoubleTapped">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Context" Binding="{Binding ContextName}" />
                 <DataGridTextColumn Header="Cluster" Binding="{Binding ClusterName}" />
