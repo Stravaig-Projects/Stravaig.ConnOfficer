@@ -7,5 +7,18 @@
              x:DataType="vm:ContextTabViewModel"
              x:Class="Stravaig.ConnOfficer.Views.Data.ContextTabView">
 
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10" VerticalAlignment="Center">Context:</TextBlock>
+            <TextBox Margin="10" Text="{Binding ContextName}" IsReadOnly="True"/>
+            <TextBlock Margin="10" VerticalAlignment="Center">Cluster:</TextBlock>
+            <TextBox Margin="10" Text="{Binding ClusterName}" IsReadOnly="True"/>
+            <TextBlock Margin="10" VerticalAlignment="Center">User:</TextBlock>
+            <TextBox Margin="10" Text="{Binding UserName}" IsReadOnly="True"/>
+            <TextBlock Margin="10" VerticalAlignment="Center">Server:</TextBlock>
+            <TextBox Margin="10" Text="{Binding Server}" IsReadOnly="True"/>
+        </StackPanel>
+    </StackPanel>
+
 
 </UserControl>
