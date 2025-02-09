@@ -8,9 +8,18 @@
              xmlns:views="clr-namespace:Stravaig.ConnOfficer.Views.Data"
              x:DataType="vm:ConfigFileTabViewModel">
 
-    <StackPanel Orientation="Vertical">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Fixed height rows for the top panels -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            
+            <!-- This row will expand to take up the remaining space -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <!-- Top Section: Contains the Config Path Panel -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
             <TextBlock
                 VerticalAlignment="Center"
                 Margin="10"
@@ -23,7 +32,9 @@
                 FontFamily="{StaticResource FiraCode}"/>
         </StackPanel>
 
-        <DataGrid Margin="10"
+        <!-- Middle Section: The DataGrid -->
+        <DataGrid Grid.Row="1"
+                  Margin="10"
                   ItemsSource="{Binding Contexts}"
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
@@ -36,15 +47,17 @@
                   DoubleTapped="ContextGrid_OnDoubleTapped">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Context" Binding="{Binding ContextName}" />
-                <DataGridTextColumn Header="Cluster" Binding="{Binding ClusterName}" />
                 <DataGridTextColumn Header="User" Binding="{Binding UserName}" />
+                <DataGridTextColumn Header="Cluster" Binding="{Binding ClusterName}" />
+                <DataGridTextColumn Header="Server" Binding="{Binding Server}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Border>
+        <!-- Bottom Section: Scrollable TextBox taking up remaining space -->
+        <Border Grid.Row="2">
             <ScrollViewer
-                HorizontalScrollBarVisibility="Visible"
-                VerticalScrollBarVisibility="Visible">
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto">
                 <TextBox
                     Margin="10"
                     FontFamily="{StaticResource FiraCode}"
@@ -53,5 +66,5 @@
                     Text="{Binding RawData}"/>
             </ScrollViewer>
         </Border>
-    </StackPanel>
+    </Grid>
 </UserControl>

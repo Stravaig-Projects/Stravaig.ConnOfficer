@@ -24,7 +24,7 @@ public class ConfigFileTabViewModel : DataTabItemViewModelBase
         _configData = (KubernetesConfigData)sideBarNode.AppNode;
 
         Contexts = _configData.Contexts
-            .Select(c => new ContextDetails(c.Name, c.Cluster.Name, c.User))
+            .Select(c => new ContextDetails(c.Name, c.Cluster.Name, c.Server, c.User))
             .ToObservableCollection();
     }
 
@@ -48,5 +48,5 @@ public class ConfigFileTabViewModel : DataTabItemViewModelBase
         }
     }
 
-    public record ContextDetails(string ContextName, string ClusterName, string UserName);
+    public record ContextDetails(string ContextName, string ClusterName, string Server, string UserName);
 }

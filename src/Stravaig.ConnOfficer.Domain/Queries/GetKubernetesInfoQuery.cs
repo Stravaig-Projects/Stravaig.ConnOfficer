@@ -64,6 +64,7 @@ public class GetKubernetesInfoQueryHandler : IRequestHandler<GetKubernetesInfoQu
                 Name = ctx.Name ?? "*** MISSING NAME ***",
                 Cluster = result.Clusters.First(cluster => cluster.Name == ctx.Context?.Cluster),
                 User = ctx.Context?.User ?? "*** MISSING USER ***",
+                Server = result.Clusters.First(cluster => cluster.Name == ctx.Context?.Cluster).Server,
             }));
         return result;
     }

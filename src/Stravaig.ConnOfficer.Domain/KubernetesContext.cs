@@ -23,6 +23,8 @@ public class KubernetesContext : IRawData
 
     public required string User { get; init; }
 
+    public required string Server { get; init; }
+
     public required KubernetesCluster Cluster { get; init; }
 
     public ResettableLazy<string> RawData { get; }
