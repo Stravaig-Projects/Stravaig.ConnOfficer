@@ -53,4 +53,10 @@
     <Folder Include="Assets\Icons\Menu\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Stravaig.ConnOfficer.Domain">
+      <HintPath>bin\Debug\net9.0\Stravaig.ConnOfficer.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -38,6 +38,7 @@ var podListResp = client.CoreV1.ListNamespacedPodWithHttpMessagesAsync(
     watch: true);
 
 using var watcher = podListResp.Watch<V1Pod, V1PodList>(OnEvent, OnError, OnClosed);
+
 Console.WriteLine("press ctrl + c to stop watching");
 
 var ctrlc = new ManualResetEventSlim(false);

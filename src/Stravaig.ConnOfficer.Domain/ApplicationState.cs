@@ -60,10 +60,9 @@ public class ApplicationState
 
         var oldConfigFiles = ConfigurationFiles
             .Where(cf => FileSystemHelper.AreFilePathsEqual(cf.ConfigPath, configFile));
-        
+
         ConfigurationFiles.Remove(oldConfigFiles);
         ConfigurationFiles.Add(result);
         return result;
     }
-
 }

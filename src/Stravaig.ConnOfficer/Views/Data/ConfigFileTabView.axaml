@@ -40,5 +40,18 @@
                 <DataGridTextColumn Header="User" Binding="{Binding UserName}" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <Border>
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Visible"
+                VerticalScrollBarVisibility="Visible">
+                <TextBox
+                    Margin="10"
+                    FontFamily="{StaticResource FiraCode}"
+                    TextWrapping="Wrap"
+                    IsReadOnly="True"
+                    Text="{Binding RawData}"/>
+            </ScrollViewer>
+        </Border>
     </StackPanel>
 </UserControl>

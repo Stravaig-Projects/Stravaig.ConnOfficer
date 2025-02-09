@@ -1,6 +1,7 @@
 using IdentityModel.Client;
 using Stravaig.ConnOfficer.Domain.Glue;
 using Stravaig.ConnOfficer.Domain.Queries;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -30,16 +31,12 @@ public class KubernetesContext : IRawData
 
     public required ApplicationState Application { get; init; }
 
+    public ObservableCollection<KubernetesNode> Nodes { get; } = [];
+
     public void Dispose()
     {
         RawData.Dispose();
         JsonData.Dispose();
-    }
-
-    private void NamespacesOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        RawData.Reset();
-        JsonData.Reset();
     }
 
     private ResettableLazy<string> BuildRawFragment()
@@ -115,4 +112,18 @@ public class KubernetesContext : IRawData
             });
         });
     }
+}
+
+
+public class KubernetesNode
+{
+    public KubernetesNode(KubernetesContext context)
+    {
+        Context = context;
+        Application = context.Application;
+    }
+
+    public KubernetesContext Context { get; }
+
+    public ApplicationState Application { get; }
 }

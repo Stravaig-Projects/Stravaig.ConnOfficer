@@ -55,7 +55,7 @@ public static class ServiceCollectionExtensions
             return mainWindow;
         });
 
-        services.AddSingleton<IKubernetestClientFactory, KubernetesClientFactory>();
+        services.AddSingleton<IKubernetesClientFactory, KubernetesClientFactory>();
         services.AddSingleton<IFilePickerService, FilePickerService>();
         services.AddSingleton<ApplicationState>();
         services.AddMediatR(cfg =>
