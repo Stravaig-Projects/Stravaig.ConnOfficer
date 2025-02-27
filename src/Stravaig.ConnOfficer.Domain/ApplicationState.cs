@@ -1,3 +1,4 @@
+using Avalonia.Threading;
 using DynamicData;
 using k8s;
 using MediatR;
@@ -8,7 +9,12 @@ using System.Collections.ObjectModel;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class ApplicationState
+public interface IAppNotification
+{
+    void AddNotification(SystemNotification notification);
+}
+
+public class ApplicationState : IAppNotification
 {
     private string _kubeConfigDefaultLocation;
 
@@ -33,16 +39,21 @@ public class ApplicationState
     public void AddNotification(StatusCode statusCode, Type commandType)
     {
         var notification = new SystemNotification(statusCode, commandType);
-        SystemNotifications.Add(notification);
+        AddNotification(notification);
     }
 
     public void AddNotification(StatusCodeException exception, Type commandType)
     {
         var notification = new SystemNotification(exception, commandType);
-        SystemNotifications.Add(notification);
+        AddNotification(notification);
     }
 
-    public async Task<KubernetesConfigData> GetConfigDataAsync(string configFile, CancellationToken ct)
+    public void AddNotification(SystemNotification notification)
+    {
+        Dispatcher.UIThread.InvokeAsync(() => SystemNotifications.Add(notification));
+    }
+
+    public async Task GetConfigDataAsync(string configFile, CancellationToken ct)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(configFile);
         if (!File.Exists(configFile))
@@ -59,10 +70,14 @@ public class ApplicationState
             ct);
 
         var oldConfigFiles = ConfigurationFiles
-            .Where(cf => FileSystemHelper.AreFilePathsEqual(cf.ConfigPath, configFile));
+            .Where(cf => FileSystemHelper.AreFilePathsEqual(cf.ConfigPath, configFile))
+            .ToArray();
 
-        ConfigurationFiles.Remove(oldConfigFiles);
-        ConfigurationFiles.Add(result);
-        return result;
+        await Dispatcher.UIThread.InvokeAsync(
+            () =>
+            {
+                ConfigurationFiles.Remove(oldConfigFiles);
+                ConfigurationFiles.Add(result);
+            });
     }
 }

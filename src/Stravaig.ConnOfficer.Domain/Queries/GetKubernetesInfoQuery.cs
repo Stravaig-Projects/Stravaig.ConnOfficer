@@ -1,11 +1,7 @@
 using DynamicData;
-using IdentityModel.Client;
 using k8s;
 using MediatR;
 using Stravaig.ConnOfficer.Domain.Glue;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using YamlDotNet.Serialization;
 
 namespace Stravaig.ConnOfficer.Domain.Queries;

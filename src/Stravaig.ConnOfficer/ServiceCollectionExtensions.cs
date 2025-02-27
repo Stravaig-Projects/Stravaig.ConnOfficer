@@ -58,6 +58,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IKubernetesClientFactory, KubernetesClientFactory>();
         services.AddSingleton<IFilePickerService, FilePickerService>();
         services.AddSingleton<ApplicationState>();
+        services.AddSingleton<IAppNotification>(p => p.GetRequiredService<ApplicationState>());
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblyContaining<GetKubernetesInfoQueryHandler>();

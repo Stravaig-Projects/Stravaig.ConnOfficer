@@ -4,21 +4,23 @@ namespace Stravaig.ConnOfficer.Domain;
 
 public class SystemNotification
 {
-    public SystemNotification(Exception exception, Type commandType)
+    public SystemNotification(Exception exception, Type? commandType = null)
+        : this(new UnexpectedError(exception), exception, commandType)
     {
-        StatusCode = new UnexpectedError(exception);
-        Exception = exception;
-        CommandType = commandType;
     }
 
-    public SystemNotification(StatusCodeException exception, Type commandType)
+    public SystemNotification(StatusCodeException exception, Type? commandType = null)
+        : this(exception.StatusCode, exception, commandType)
     {
-        Exception = exception;
-        StatusCode = exception.StatusCode;
-        CommandType = commandType;
     }
 
-    public SystemNotification(StatusCode statusCode, Type commandType)
+    public SystemNotification(StatusCode statusCode, Exception exception, Type? commandType = null)
+        : this(statusCode, commandType)
+    {
+        Exception = exception;
+    }
+
+    public SystemNotification(StatusCode statusCode, Type? commandType = null)
     {
         StatusCode = statusCode;
         CommandType = commandType;
@@ -30,5 +32,5 @@ public class SystemNotification
 
     public StatusCode StatusCode { get; }
 
-    public Type CommandType { get; init; }
+    public Type? CommandType { get; init; }
 }

@@ -1,20 +1,26 @@
+using Avalonia.Threading;
 using IdentityModel.Client;
+using k8s;
+using k8s.Models;
+using Stravaig.ConnOfficer.Domain.Commands;
 using Stravaig.ConnOfficer.Domain.Glue;
-using Stravaig.ConnOfficer.Domain.Queries;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace Stravaig.ConnOfficer.Domain;
 
-public class KubernetesContext : IRawData
+public class KubernetesContext// : IRawData
 {
+    private bool _isSettingUpNodeMonitor;
+    private Watcher<V1Node>? _nodeWatcher;
+
     public KubernetesContext()
     {
-        RawData = BuildRawFragment();
-        JsonData = BuildJsonFragment();
+        //RawData = BuildRawFragment();
+        //JsonData = BuildJsonFragment();
     }
 
     public required KubernetesConfigData Config { get; init; }
@@ -35,97 +41,134 @@ public class KubernetesContext : IRawData
 
     public ObservableCollection<KubernetesNode> Nodes { get; } = [];
 
+    public bool IsMonitoringNodes => _isSettingUpNodeMonitor || (_nodeWatcher?.Watching ?? false);
+
     public void Dispose()
     {
         RawData.Dispose();
         JsonData.Dispose();
     }
 
-    private ResettableLazy<string> BuildRawFragment()
+    public async Task StartMonitoringNodesAsync(CancellationToken ct)
     {
-        return new ResettableLazy<string>(() =>
+        if (IsMonitoringNodes)
         {
-            var initCapacity = Config.RawData.Value.Length;
-            var fullJsonDoc = Config.JsonData.Value;
-            fullJsonDoc.WriteTrace("Full JSON Object:");
-            var contextsArray = fullJsonDoc.RootElement.GetProperty("contexts");
-            var contextElement = contextsArray.EnumerateArray().First(c => c.GetProperty("name").ValueEquals(Name));
-            var clusterName = contextElement.GetProperty("context").TryGetString("cluster");
-            var userName = contextElement.GetProperty("context").TryGetString("user");
+            return;
+        }
 
-            var clustersArray = fullJsonDoc.RootElement.GetProperty("clusters");
-            var clusterElement = clustersArray.EnumerateArray().First(c => c.GetProperty("name")
-                .ValueEquals(clusterName))
-                .GetProperty("cluster");
-            clusterElement.WriteTrace("Cluster Element:");
-
-            var usersArray = fullJsonDoc.RootElement.GetProperty("users");
-            var userElement = usersArray.EnumerateArray()
-                .First(u => u.GetProperty("name").ValueEquals(userName))
-                .GetProperty("user");
-            userElement.WriteTrace("User Element:");
-
-            using MemoryStream ms = new MemoryStream(initCapacity);
-            using Utf8JsonWriter writer = new Utf8JsonWriter(
-                ms,
-                new JsonWriterOptions()
+        try
+        {
+            _isSettingUpNodeMonitor = true;
+            var command = new MonitorNodesCommand
+            {
+                ConfigPath = Config.ConfigPath,
+                ContextName = Name,
+                OnEvent = OnNodeEvent,
+                OnClosed = _ =>
                 {
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    Indented = true,
-                });
-            writer.WriteStartObject();
-            writer.WriteCommentValue($"This is a fragment extracted from the Kube Config file specific to the '{Name}' context.");
-            writer.WriteString("context", Name);
-            writer.WritePropertyName("cluster");
-            writer.WriteStartObject();
-            writer.WriteString("name", clusterName);
-            foreach (var jsonProperty in clusterElement.EnumerateObject())
-            {
-                jsonProperty.WriteTo(writer);
-            }
-
-            writer.WriteEndObject();
-            writer.WritePropertyName("user");
-            writer.WriteStartObject();
-            writer.WriteString("name", userName);
-            foreach (var jsonProperty in userElement.EnumerateObject())
-            {
-                jsonProperty.WriteTo(writer);
-            }
-
-            writer.WriteEndObject();
-            writer.WriteEndObject();
-            writer.Flush();
-            var json = Encoding.UTF8.GetString(ms.ToArray());
-            return json;
-        });
-    }
-
-    private ResettableLazy<JsonDocument> BuildJsonFragment()
-    {
-        return new ResettableLazy<JsonDocument>(() =>
+                    _nodeWatcher = null;
+                    return true;
+                },
+            };
+            _nodeWatcher = await Application.Mediator.Send(command, ct).NotifyErrorAsync(Application);
+        }
+        catch (Exception ex)
         {
-            var context = Config.Contexts.First(c => c.Name == Name);
-            var json = context.RawData.Value;
-            return JsonDocument.Parse(json, new JsonDocumentOptions()
-            {
-                CommentHandling = JsonCommentHandling.Skip,
-                AllowTrailingCommas = true,
-            });
-        });
+            Debug.WriteLine(ex);
+        }
+        finally
+        {
+            _isSettingUpNodeMonitor = false;
+        }
     }
-}
 
-
-public class KubernetesNode
-{
-    public KubernetesNode(KubernetesContext context)
+    private void OnNodeEvent(WatchEventType eventType, V1Node node, MonitorServices<V1Node> services)
     {
-        Context = context;
-        Application = context.Application;
+        switch (eventType)
+        {
+            case WatchEventType.Added:
+                var kNode = new KubernetesNode(this, node);
+                Dispatcher.UIThread.InvokeAsync(() => Nodes.Add(kNode));
+                break;
+            default:
+                Debug.WriteLine("");
+                Debug.WriteLine($"Unknown event type: {eventType}");
+                Debug.WriteLine(node.ToJson());
+                break;
+        }
     }
 
-    public KubernetesContext Context { get; }
-
-    public ApplicationState Application { get; }
+    // private ResettableLazy<string> BuildRawFragment()
+    // {
+    //     return new ResettableLazy<string>(() =>
+    //     {
+    //         var initCapacity = Config.RawData.Value.Length;
+    //         var fullJsonDoc = Config.JsonData.Value;
+    //         fullJsonDoc.WriteTrace("Full JSON Object:");
+    //         var contextsArray = fullJsonDoc.RootElement.GetProperty("contexts");
+    //         var contextElement = contextsArray.EnumerateArray().First(c => c.GetProperty("name").ValueEquals(Name));
+    //         var clusterName = contextElement.GetProperty("context").TryGetString("cluster");
+    //         var userName = contextElement.GetProperty("context").TryGetString("user");
+    //
+    //         var clustersArray = fullJsonDoc.RootElement.GetProperty("clusters");
+    //         var clusterElement = clustersArray.EnumerateArray().First(c => c.GetProperty("name")
+    //             .ValueEquals(clusterName))
+    //             .GetProperty("cluster");
+    //         clusterElement.WriteTrace("Cluster Element:");
+    //
+    //         var usersArray = fullJsonDoc.RootElement.GetProperty("users");
+    //         var userElement = usersArray.EnumerateArray()
+    //             .First(u => u.GetProperty("name").ValueEquals(userName))
+    //             .GetProperty("user");
+    //         userElement.WriteTrace("User Element:");
+    //
+    //         using MemoryStream ms = new MemoryStream(initCapacity);
+    //         using Utf8JsonWriter writer = new Utf8JsonWriter(
+    //             ms,
+    //             new JsonWriterOptions()
+    //             {
+    //                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    //                 Indented = true,
+    //             });
+    //         writer.WriteStartObject();
+    //         writer.WriteCommentValue($"This is a fragment extracted from the Kube Config file specific to the '{Name}' context.");
+    //         writer.WriteString("context", Name);
+    //         writer.WritePropertyName("cluster");
+    //         writer.WriteStartObject();
+    //         writer.WriteString("name", clusterName);
+    //         foreach (var jsonProperty in clusterElement.EnumerateObject())
+    //         {
+    //             jsonProperty.WriteTo(writer);
+    //         }
+    //
+    //         writer.WriteEndObject();
+    //         writer.WritePropertyName("user");
+    //         writer.WriteStartObject();
+    //         writer.WriteString("name", userName);
+    //         foreach (var jsonProperty in userElement.EnumerateObject())
+    //         {
+    //             jsonProperty.WriteTo(writer);
+    //         }
+    //
+    //         writer.WriteEndObject();
+    //         writer.WriteEndObject();
+    //         writer.Flush();
+    //         var json = Encoding.UTF8.GetString(ms.ToArray());
+    //         return json;
+    //     });
+    // }
+    //
+    // private ResettableLazy<JsonDocument> BuildJsonFragment()
+    // {
+    //     return new ResettableLazy<JsonDocument>(() =>
+    //     {
+    //         var context = Config.Contexts.First(c => c.Name == Name);
+    //         var json = context.RawData.Value;
+    //         return JsonDocument.Parse(json, new JsonDocumentOptions()
+    //         {
+    //             CommentHandling = JsonCommentHandling.Skip,
+    //             AllowTrailingCommas = true,
+    //         });
+    //     });
+    // }
 }

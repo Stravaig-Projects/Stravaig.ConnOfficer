@@ -4,9 +4,9 @@ namespace Stravaig.ConnOfficer.Domain.Services;
 
 public interface IKubernetesClientFactory
 {
-    Task<Kubernetes> GetClientAsync(string configFile, string context, CancellationToken ct);
+    Kubernetes GetClient(string configFile, string context);
 
-    Task DisposeClientAsync(Kubernetes client, CancellationToken ct);
+    void DisposeClient(Kubernetes client);
 
-    Task DisposeClientASync(string configFile, string context, CancellationToken ct);
+    void DisposeClientASync(string configFile, string context);
 }
