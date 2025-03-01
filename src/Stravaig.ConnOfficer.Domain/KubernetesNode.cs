@@ -9,8 +9,8 @@ public class KubernetesNode
     {
         Context = context;
         Application = context.Application;
+        UniqueId = node.Metadata.Uid;
         Name = node.Metadata.Name;
-        Uid = new Guid(node.Metadata.Uid);
         CreationTimestamp = node.Metadata.CreationTimestamp ?? DateTime.UnixEpoch;
         Labels = new ObservableCollection<KeyValuePair<string, string>>(
             node.Metadata.Labels.Select(l => new KeyValuePair<string, string>(l.Key, l.Value)));
@@ -22,9 +22,9 @@ public class KubernetesNode
 
     public ApplicationState Application { get; }
 
-    public string Name { get; init; }
+    public string UniqueId { get; }
 
-    public Guid Uid { get; init; }
+    public string Name { get; init; }
 
     public DateTime CreationTimestamp { get; init; }
 

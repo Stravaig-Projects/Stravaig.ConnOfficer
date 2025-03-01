@@ -1,4 +1,5 @@
 using Avalonia.Threading;
+using DynamicData;
 using IdentityModel.Client;
 using k8s;
 using k8s.Models;
@@ -84,16 +85,39 @@ public class KubernetesContext// : IRawData
 
     private void OnNodeEvent(WatchEventType eventType, V1Node node, MonitorServices<V1Node> services)
     {
+        Debug.WriteLine($"\nNode event type: {eventType}\n{node.ToJson()}");
+
         switch (eventType)
         {
             case WatchEventType.Added:
+            {
                 var kNode = new KubernetesNode(this, node);
                 Dispatcher.UIThread.InvokeAsync(() => Nodes.Add(kNode));
                 break;
+            }
+
+            case WatchEventType.Deleted:
+            {
+                Dispatcher.UIThread.InvokeAsync(() => Nodes.Remove(Nodes.Where(n => n.UniqueId == node.Metadata.Uid)));
+                break;
+            }
+
+            case WatchEventType.Modified:
+            {
+                var kNode = Nodes.FirstOrDefault(n => n.UniqueId == node.Metadata.Uid);
+                if (kNode == null)
+                {
+                    Dispatcher.UIThread.InvokeAsync(() => Nodes.Add(kNode));
+                }
+                else
+                {
+                    //Dispatcher.UIThread.InvokeAsync(() => kNode.UpdateFrom(node));
+                }
+
+                break;
+            }
+
             default:
-                Debug.WriteLine("");
-                Debug.WriteLine($"Unknown event type: {eventType}");
-                Debug.WriteLine(node.ToJson());
                 break;
         }
     }

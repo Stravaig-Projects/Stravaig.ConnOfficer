@@ -18,7 +18,57 @@
             <TextBlock Margin="10" VerticalAlignment="Center">Server:</TextBlock>
             <TextBox Margin="10" Text="{Binding Server}" IsReadOnly="True"/>
         </StackPanel>
+
+        <DataGrid Grid.Row="1"
+                  Margin="10"
+                  ItemsSource="{Binding Nodes}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="1"
+                  BorderBrush="Gray">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Creation" Binding="{Binding CreationTimestamp}" />
+                <DataGridTextColumn Header="Age" Binding="{Binding Age}" />
+                <DataGridTemplateColumn Header="Labels" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsRepeater ItemsSource="{Binding Labels}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="2" CornerRadius="2" BorderBrush="Purple" Padding="2">
+                                            <TextBlock Text="{Binding }"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Annotations" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsRepeater ItemsSource="{Binding Annotations}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="2" CornerRadius="2" BorderBrush="Purple" Padding="2">
+                                            <TextBlock Text="{Binding }"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
+
+
 
 
 </UserControl>
